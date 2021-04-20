@@ -1,0 +1,93 @@
+variables:
+  APP_MODULE: "app"
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+
+stages:
+  - check
+  - danger
+
+.default:
+  image: registry.redmadrobot.com:5005/devops/docker-android-builder:latest
+  tags:
+    - android
+
+.gradle:
+  extends: .default
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.unsafe.watch-fs=false"
+  after_script:
+    - ./prepare_cache.sh
+  cache: &android_cache
+    key: ${CI_PROJECT_ID}
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches/modules-2
+      - .gradle/caches/build-cache-1
+
+.ruby:
+  extends: .default
+  image: registry.redmadrobot.com:5005/devops/docker-android-builder:fastlane-firebase
+  cache: &ruby_cache
+    key: ${CI_PROJECT_ID}-fastlane
+    paths:
+      - vendor
+  before_script:
+    - bundle config set path 'vendor'
+    - bundle install -j $(nproc)
+  after_script:
+    - bundle clean
+
+.check:
+  extends: .gradle
+  stage: check
+  interruptible: true
+  cache:
+    policy: pull
+  allow_failure: true
+  only:
+    - merge_requests
+    - develop
+    - master
+    - /^rc_\d{1,3}\.\d{1,3}\/\d{1,3}$/
+  tags:
+    - android
+
+###############################################################################
+# Check
+###############################################################################
+check:
+  extends: .check
+  stage: check
+  script:
+    - ./gradlew detektDebug
+    - ./gradlew app:lintDebug
+#    - ./gradlew testDebug
+    - touch build/reports/success
+
+  cache:
+    policy: pull-push
+  artifacts:
+    when: always
+    expire_in: 1 hour
+    paths:
+      - build/reports/success
+      - build/reports/detekt.xml
+      - build/reports/android-lint.xml
+
+###############################################################################
+# Danger
+###############################################################################
+
+danger:
+  extends: .ruby
+  stage: danger
+  script:
+    - bundle exec danger
+    - ./check_success.sh
+  interruptible: true
+  only:
+    - merge_requests
+
