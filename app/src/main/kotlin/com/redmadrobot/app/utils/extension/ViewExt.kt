@@ -1,18 +1,14 @@
 package com.redmadrobot.app.utils.extension
 
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
-
-fun Int.dpToPx() = (this * Resources.getSystem().displayMetrics.density).toInt()
-fun Int.pxToDp() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 /**
  * Исправление проблемы с fitsSystemWindow.
  * По умолчанию информация об insets не передаётся дочерним view,
  * поэтому происходят ошибки при использование fitsSystemWindow с fragments.
- * Этот метод передаёт информацию об insets в дочернии view.
+ * Этот метод передаёт информацию об insets в дочерние view.
  *
  * Подробности тут: https://medium.com/androiddevelopers/windows-insets-fragment-transitions-9024b239a436
  */
@@ -27,6 +23,7 @@ fun View.dispatchApplyWindowInsetsToChild() {
 
         // If any of the children consumed the insets, return
         // an appropriate value
+        @Suppress("DEPRECATION")
         if (consumed) insets.consumeSystemWindowInsets() else insets
     }
 }

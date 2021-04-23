@@ -1,8 +1,7 @@
 package com.redmadrobot.app.ui.base.viewmodel
 
 import androidx.navigation.NavDirections
-
-interface Event
+import com.redmadrobot.extensions.lifecycle.Event
 
 sealed class NavigationEvent : Event
 
