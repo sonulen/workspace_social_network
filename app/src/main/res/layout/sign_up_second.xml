@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="76dp"
+            android:layout_marginTop="30dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                app:srcCompat="@drawable/ic_back_button"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:text="@string/sign_up_screen_name"
+                style="@style/TextAppearance.App.BodyL" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="100"
+            android:progressTint="@color/orange" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/editTextTextName"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/name_hint"
+                android:inputType="textPersonName"
+                android:layout_marginVertical="10dp"
+                style="@style/TextAppearance.App.BodyS"
+                android:autofillHints="name" />
+
+            <EditText
+                android:id="@+id/editTextTextSurname"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/surname_hint"
+                android:inputType="textPersonName"
+                android:layout_marginVertical="10dp"
+                style="@style/TextAppearance.App.BodyS"
+                android:autofillHints="surname" />
+
+            <EditText
+                android:id="@+id/editTextTextBirthDay"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/date_of_birth_hint"
+                android:inputType="date"
+                android:layout_marginVertical="10dp"
+                style="@style/TextAppearance.App.BodyS"
+                android:autofillHints="date" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="328dp"
+                android:layout_height="56dp"
+                android:enabled="true"
+                android:text="@string/btn_finish_register"
+                android:layout_marginVertical="4dp"
+                android:theme="@style/Widget.Auth.SolidButtonDisable" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

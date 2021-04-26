@@ -1,3 +1,39 @@
 <resources>
-    <string name="app_name">InternshipApp</string>
+    <string name="app_name">Social Network</string>
+
+    <!--    Экран Логина    -->
+    <string name="hello_msg">Workplaces</string>
+    <string name="hello_msg_second">Найди своё место</string>
+    <string name="btn_login">Войти</string>
+    <string name="btn_register_by_mail">Регистрация по почте</string>
+
+    <!--    Экран Sign In    -->
+    <string name="sign_in_screen_name">Вход</string>
+    <string name="e_mail_hint">E-mail</string>
+    <string name="pswd_hint">Пароль</string>
+    <string name="btn_go_to_register">Перейти к регистрации</string>
+    <string name="btn_go_next">Далее</string>
+
+    <!--    Экран Sign Up First    -->
+    <string name="sign_up_screen_name">Регистрация</string>
+    <string name="nickname_hint">Никнейм</string>
+    <string name="btn_already_register">Уже зарегистрирован</string>
+
+    <!--    Экран Sign Up Second    -->
+    <string name="name_hint">Имя</string>
+    <string name="surname_hint">Фамилия</string>
+    <string name="date_of_birth_hint">Дата рождения</string>
+    <string name="btn_finish_register">Зарегистрироваться</string>
+
+    <!--    Экран Done    -->
+    <string name="done_sign_msg">Nice to meet you</string>
+    <string name="done_sign_msg_second">Теперь ты можешь смотреть и делать публикации</string>
+    <string name="btn_go_to_feed">Перейти к ленте</string>
+
+    <!--    Экран Feed    -->
+    <string name="feed_is_empty_msg">Пустота</string>
+    <string name="feed_is_empty_msg_second">Вам нужны друзья, чтобы лента стала живой</string>
+    <string name="btn_find_friends">Найти друзей</string>
+
+
 </resources>

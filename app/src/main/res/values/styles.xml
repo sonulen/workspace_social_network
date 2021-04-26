@@ -1,11 +1,19 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Widget.Auth.BaseButton" parent="Widget.MaterialComponents.Button"></style>
+
+    <style name="Widget.Auth.Button" parent="Widget.Auth.BaseButton">
+        <item name="color">@color/orange</item>
+        <item name="backgroundColor">@color/orange</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Auth.SolidButtonEnable" parent="Widget.Auth.BaseButton">
+        <item name="android:backgroundTint">@color/orange</item>
+    </style>
+
+    <style name="Widget.Auth.SolidButtonDisable" parent="Widget.Auth.BaseButton">
+        <item name="android:backgroundTint">@color/light_grey_blue</item>
     </style>
 
 </resources>

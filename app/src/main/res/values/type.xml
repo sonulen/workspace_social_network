@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.App.H1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.App.H2" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyL" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/middle_grey</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyS" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/middle_grey</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

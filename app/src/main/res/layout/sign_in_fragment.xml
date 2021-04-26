@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="76dp"
+            android:layout_marginTop="30dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                app:srcCompat="@drawable/ic_back_button"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:text="@string/sign_in_screen_name"
+                style="@style/TextAppearance.App.BodyL" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/editTextTextEmailAddress"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/e_mail_hint"
+                android:inputType="textEmailAddress"
+                android:layout_marginVertical="10dp"
+                style="@style/TextAppearance.App.BodyS"
+                android:autofillHints="email" />
+
+            <EditText
+                android:id="@+id/editTextTextPassword"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/pswd_hint"
+                android:inputType="textPassword"
+                android:layout_marginVertical="10dp"
+                style="@style/TextAppearance.App.BodyS"
+                android:autofillHints="password" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="301dp" />
+
+            <Button
+                android:id="@+id/btn_go_to_register"
+                android:layout_width="328dp"
+                android:layout_height="56dp"
+                android:text="@string/btn_go_to_register"
+                android:layout_marginVertical="4dp"
+                android:theme="@style/Widget.Auth.Button" />
+
+            <Button
+                android:id="@+id/btn_go_next"
+                android:layout_width="328dp"
+                android:layout_height="56dp"
+                android:enabled="true"
+                android:text="@string/btn_go_next"
+                android:layout_marginVertical="4dp"
+                android:theme="@style/Widget.Auth.SolidButtonDisable" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
