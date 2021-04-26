@@ -34,6 +34,7 @@
     <string name="feed_is_empty_msg">Пустота</string>
     <string name="feed_is_empty_msg_second">Вам нужны друзья, чтобы лента стала живой</string>
     <string name="btn_find_friends">Найти друзей</string>
+    <string name="btn_deauth">Деавторизация</string>
 
 
 </resources>

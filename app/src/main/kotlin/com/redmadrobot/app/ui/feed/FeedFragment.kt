@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.navigation.fragment.NavHostFragment
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 
@@ -29,6 +30,11 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
     private fun registerButtonClickListeners(view: View) {
         view.findViewById<Button>(R.id.btn_find_friends).setOnClickListener {
             Toast.makeText(view.context, "Извини, но все разошлись!", Toast.LENGTH_SHORT).show()
+        }
+
+        val navController = NavHostFragment.findNavController(this)
+        view.findViewById<Button>(R.id.btn_deauth).setOnClickListener {
+            navController.navigate(R.id.action_feedFragment_to_loginFragment)
         }
     }
 }

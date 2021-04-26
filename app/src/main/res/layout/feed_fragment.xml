@@ -48,5 +48,14 @@
             android:layout_marginVertical="4dp"
             android:theme="@style/Widget.Auth.Button" />
 
+        <Button
+            android:id="@+id/btn_deauth"
+            android:layout_width="328dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/btn_deauth"
+            android:layout_marginVertical="4dp"
+            android:theme="@style/Widget.Auth.Button" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
