@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
-import java.util.regex.Pattern
+import com.redmadrobot.app.utils.validate.isValidEmail
+import com.redmadrobot.app.utils.validate.isValidPassword
 
 class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     override fun onCreateView(
@@ -79,18 +81,16 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
 
     private fun checkAccessibilityGoNextBtn(view: View) {
         val email = view.findViewById<EditText>(R.id.editTextTextEmailAddress).text.toString()
-        val isValidEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
         val password = view.findViewById<EditText>(R.id.editTextTextPassword).text.toString()
-        val isValidPassword = isValidPassword(password)
 
         val goNextBtn = view.findViewById<Button>(R.id.btn_go_next)
-        goNextBtn.isEnabled = isValidEmail && isValidPassword
-    }
+        goNextBtn.isEnabled = isValidEmail(email) && isValidPassword(password)
 
-    private fun isValidPassword(password: String): Boolean {
-        val pattern: Pattern
-        val passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{6,}$"
-        pattern = Pattern.compile(passwordPattern)
-        return pattern.matcher(password).matches()
+        // Костыль. Можно ли тут поменять тему у кнопки?
+        if (goNextBtn.isEnabled) {
+            goNextBtn.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.orange)
+        } else {
+            goNextBtn.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.light_grey_blue)
+        }
     }
 }
