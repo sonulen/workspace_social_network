@@ -36,7 +36,7 @@
             android:layout_width="273dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/done_sign_msg_second"
+            android:text="@string/feed_is_empty_msg_second"
             style="@style/TextAppearance.App.BodyL" />
 
         <Button
