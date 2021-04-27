@@ -14,21 +14,24 @@
     <string name="btn_go_to_register">Перейти к регистрации</string>
     <string name="btn_go_next">Далее</string>
     <string name="login_failed">Залогиниться не удалось!</string>
-    <string name="invalid_email">Не корректный email!</string>
-    <string name="invalid_password">Не корректный пароль!</string>
+    <string name="invalid_email">Некорректный email!</string>
+    <string name="invalid_password">Некорректный пароль!</string>
     <string name="action_sign_in_short">Вход</string>
 
     <!--    Экран Sign Up First    -->
     <string name="sign_up_screen_name">Регистрация</string>
     <string name="nickname_hint">Никнейм</string>
     <string name="btn_already_register">Уже зарегистрирован</string>
-    <string name="invalid_nickname">Не корректный nickname!</string>
+    <string name="invalid_nickname">Некорректный nickname!</string>
 
     <!--    Экран Sign Up Second    -->
     <string name="name_hint">Имя</string>
     <string name="surname_hint">Фамилия</string>
     <string name="date_of_birth_hint">Дата рождения</string>
     <string name="btn_finish_register">Зарегистрироваться</string>
+    <string name="invalid_name">Некорректное имя!</string>
+    <string name="invalid_surname">Некорректная фамилия!</string>
+    <string name="invalid_birthday">Некорректная дата рождения!</string>
 
     <!--    Экран Done    -->
     <string name="done_sign_msg">Nice to meet you</string>

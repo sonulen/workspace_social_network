@@ -19,6 +19,11 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 
 class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
+    private val signUpViewModel = SignUpSecondViewModel()
+    private lateinit var name: EditText
+    private lateinit var surname: EditText
+    private lateinit var birthDay: EditText
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,17 +35,39 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
             false
         )
 
+        name = view.findViewById<EditText>(R.id.editTextTextName)
+        surname = view.findViewById<EditText>(R.id.editTextTextSurname)
+        birthDay = view.findViewById<EditText>(R.id.editTextTextBirthDay)
+
+        observeLiveData(view)
         registerButtonClickListeners(view)
-        registerNameEditTextListener(view)
-        registerSurnameEditTexListener(view)
+        registerNameEditTextListener()
+        registerSurnameEditTexListener()
         registerBirthDayEditTexListener(view)
 
         return view
     }
 
+    private fun observeLiveData(view: View) {
+        signUpViewModel.registerFormState.observe(
+            viewLifecycleOwner,
+            { registerState ->
+                // Выставим доступность кнопки согласно валидности данных
+                setEnableNextBtn(view, registerState.isDataValid)
+                registerState.nameError?.let {
+                    name.error = getString(it)
+                }
+                registerState.surnameError?.let {
+                    surname.error = getString(it)
+                }
+            }
+        )
+    }
+
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
         view.findViewById<Button>(R.id.btn_register).setOnClickListener {
+            signUpViewModel.login(name.text.toString(), surname.text.toString(), birthDay.text.toString())
             navController.navigate(R.id.action_signUpSecondFragment_to_doneFragment)
         }
 
@@ -51,11 +78,9 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
 
     @SuppressLint("SetTextI18n")
     private fun registerBirthDayEditTexListener(view: View) {
-        val eText = view.findViewById<EditText>(R.id.editTextTextBirthDay)
+        birthDay.inputType = InputType.TYPE_NULL
 
-        eText.inputType = InputType.TYPE_NULL
-
-        eText.setOnClickListener {
+        birthDay.setOnClickListener {
             val calendar = Calendar.getInstance()
             val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH)
@@ -64,8 +89,8 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
             val picker = DatePickerDialog(
                 view.context,
                 { v, yearIn, monthOfYear, dayOfMonth ->
-                    eText.setText(dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + yearIn)
-                    checkAccessibilityGoNextBtn(view)
+                    birthDay.setText(dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + yearIn)
+                    registerDataChanged()
                 },
                 year,
                 month,
@@ -73,20 +98,16 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
             )
 
             picker.show()
+            registerDataChanged()
         }
     }
 
-    private fun registerSurnameEditTexListener(view: View) {
-        registerEditTextListener(view.findViewById<EditText>(R.id.editTextTextSurname), view)
-    }
+    private fun registerSurnameEditTexListener() {
+        surname.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                registerDataChanged()
+            }
 
-    private fun registerNameEditTextListener(view: View) {
-        registerEditTextListener(view.findViewById<EditText>(R.id.editTextTextName), view)
-    }
-
-    private fun registerEditTextListener(editText: EditText, view: View) {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) = Unit
             override fun beforeTextChanged(
                 s: CharSequence,
                 start: Int,
@@ -99,19 +120,43 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
                 start: Int,
                 before: Int,
                 count: Int,
-            ) {
-                checkAccessibilityGoNextBtn(view)
-            }
+            ) = Unit
         })
     }
 
-    private fun checkAccessibilityGoNextBtn(view: View) {
-        val name = view.findViewById<EditText>(R.id.editTextTextName).text.toString()
-        val surname = view.findViewById<EditText>(R.id.editTextTextSurname).text.toString()
-        val date = view.findViewById<EditText>(R.id.editTextTextBirthDay).text.toString()
+    private fun registerNameEditTextListener() {
+        name.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                registerDataChanged()
+            }
 
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int,
+            ) = Unit
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int,
+            ) = Unit
+        })
+    }
+
+    private fun registerDataChanged() {
+        signUpViewModel.registerDataChanged(
+            name.text.toString(),
+            surname.text.toString(),
+            birthDay.text.toString()
+        )
+    }
+
+    private fun setEnableNextBtn(view: View, state: Boolean) {
         val goNextBtn = view.findViewById<Button>(R.id.btn_register)
-        goNextBtn.isEnabled = name.isNotEmpty() && surname.isNotEmpty() && date.isNotEmpty()
+        goNextBtn.isEnabled = state
 
         // Костыль. Можно ли тут поменять тему у кнопки?
         if (goNextBtn.isEnabled) {
