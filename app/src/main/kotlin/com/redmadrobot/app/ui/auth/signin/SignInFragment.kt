@@ -17,6 +17,9 @@ import com.redmadrobot.app.utils.validate.isValidEmail
 import com.redmadrobot.app.utils.validate.isValidPassword
 
 class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
+
+    private lateinit var signInViewModel: SignInViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
