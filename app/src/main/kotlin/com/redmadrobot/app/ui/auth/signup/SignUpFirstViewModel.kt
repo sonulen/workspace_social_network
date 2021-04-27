@@ -1,4 +1,4 @@
-package com.redmadrobot.app.ui.auth.signin
+package com.redmadrobot.app.ui.auth.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,18 +9,16 @@ import com.redmadrobot.domain.entity.repository.Optional
 import com.redmadrobot.domain.entity.repository.login.LoginFormState
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 
-class SignInViewModel : BaseViewModel() {
+class SignUpFirstViewModel : BaseViewModel() {
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
-
-    // TODO: Сделать _loginResult через EventQueue.LoginSuccess LoginFailed
 
     // TODO: Inject
     private val loginRepository = LoginRepository()
     private val loginUseCase = LoginUseCase(loginRepository)
 
-    fun login(email: String, password: String) {
-        val result = loginUseCase.login(email, password)
+    fun login(username: String, password: String) {
+        val result = loginUseCase.login(username, password)
 
         if (result is Optional.Success<*>) {
             // TODO: здесь заэммитить в _loginResult EventQueue.LoginSuccess

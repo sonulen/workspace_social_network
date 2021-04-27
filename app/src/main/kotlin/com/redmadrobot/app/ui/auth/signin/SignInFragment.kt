@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -13,12 +14,12 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
-import com.redmadrobot.app.utils.validate.isValidEmail
-import com.redmadrobot.app.utils.validate.isValidPassword
 
 class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
 
-    private lateinit var signInViewModel: SignInViewModel
+    private val signInViewModel = SignInViewModel()
+    private lateinit var password: EditText
+    private lateinit var email: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +31,32 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
             container,
             false
         )
+        password = view.findViewById<EditText>(R.id.editTextTextPassword)
+        email = view.findViewById<EditText>(R.id.editTextTextEmailAddress)
 
+        observeLiveData(view)
         registerButtonClickListeners(view)
-        registerEmailEditTextListener(view)
-        registerPasswordEditTexListener(view)
+        registerEmailEditTextListener()
+        registerPasswordEditTexListener()
 
         return view
+    }
+
+    private fun observeLiveData(view: View) {
+        signInViewModel.loginFormState.observe(
+            viewLifecycleOwner,
+            {
+                val loginState = it
+                // Выставим доступность кнопки согласно валидности данных
+                setEnableNextBtn(view, loginState.isDataValid)
+                if (loginState.emailError != null) {
+                    email.error = "Некорректный email"
+                }
+                if (loginState.passwordError != null) {
+                    password.error = "Некорректный пароль: 6 символов, Одна большая, одна маленькая"
+                }
+            }
+        )
     }
 
     private fun registerButtonClickListeners(view: View) {
@@ -45,6 +66,8 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
         }
 
         view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
+            // TODO: login должен быть через observer на signInViewModel.loginResult
+            signInViewModel.login(email.text.toString(), password.text.toString())
             navController.navigate(R.id.action_signInFragment_to_doneFragment)
         }
 
@@ -53,17 +76,15 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
         }
     }
 
-    private fun registerEmailEditTextListener(view: View) {
-        registerEditTextListener(view.findViewById<EditText>(R.id.editTextTextEmailAddress), view)
-    }
+    private fun registerEmailEditTextListener() {
+        email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                signInViewModel.loginDataChanged(
+                    email.text.toString(),
+                    password.text.toString()
+                )
+            }
 
-    private fun registerPasswordEditTexListener(view: View) {
-        registerEditTextListener(view.findViewById<EditText>(R.id.editTextTextPassword), view)
-    }
-
-    private fun registerEditTextListener(editText: EditText, view: View) {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) = Unit
             override fun beforeTextChanged(
                 s: CharSequence,
                 start: Int,
@@ -76,18 +97,48 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
                 start: Int,
                 before: Int,
                 count: Int,
-            ) {
-                checkAccessibilityGoNextBtn(view)
-            }
+            ) = Unit
         })
     }
 
-    private fun checkAccessibilityGoNextBtn(view: View) {
-        val email = view.findViewById<EditText>(R.id.editTextTextEmailAddress).text.toString()
-        val password = view.findViewById<EditText>(R.id.editTextTextPassword).text.toString()
+    private fun registerPasswordEditTexListener() {
+        password.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE ->
+                    signInViewModel.login(
+                        email.text.toString(),
+                        password.text.toString()
+                    )
+            }
+            false
+        }
+        password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                signInViewModel.loginDataChanged(
+                    email.text.toString(),
+                    password.text.toString()
+                )
+            }
 
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int,
+            ) = Unit
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int,
+            ) = Unit
+        })
+    }
+
+    private fun setEnableNextBtn(view: View, state: Boolean) {
         val goNextBtn = view.findViewById<Button>(R.id.btn_go_next)
-        goNextBtn.isEnabled = isValidEmail(email) && isValidPassword(password)
+        goNextBtn.isEnabled = state
 
         // Костыль. Можно ли тут поменять тему у кнопки?
         if (goNextBtn.isEnabled) {

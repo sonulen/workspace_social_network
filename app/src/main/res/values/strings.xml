@@ -13,6 +13,10 @@
     <string name="pswd_hint">Пароль</string>
     <string name="btn_go_to_register">Перейти к регистрации</string>
     <string name="btn_go_next">Далее</string>
+    <string name="login_failed">Залогиниться не удалось!</string>
+    <string name="invalid_email">Не корректный email!</string>
+    <string name="invalid_password">Не корректный пароль!</string>
+    <string name="action_sign_in_short">Вход</string>
 
     <!--    Экран Sign Up First    -->
     <string name="sign_up_screen_name">Регистрация</string>
