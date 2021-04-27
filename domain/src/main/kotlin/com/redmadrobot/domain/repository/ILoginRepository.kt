@@ -8,5 +8,5 @@ import com.redmadrobot.domain.entity.repository.login.LoggedInUser
  */
 interface ILoginRepository {
     fun logout()
-    fun login(username: String, password: String): Optional<LoggedInUser>
+    fun login(email: String, password: String): Optional<LoggedInUser>
 }

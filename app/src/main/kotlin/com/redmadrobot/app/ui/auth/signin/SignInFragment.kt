@@ -16,7 +16,6 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 
 class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
-
     private val signInViewModel = SignInViewModel()
     private lateinit var password: EditText
     private lateinit var email: EditText

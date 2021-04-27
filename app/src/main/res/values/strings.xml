@@ -22,6 +22,7 @@
     <string name="sign_up_screen_name">Регистрация</string>
     <string name="nickname_hint">Никнейм</string>
     <string name="btn_already_register">Уже зарегистрирован</string>
+    <string name="invalid_nickname">Не корректный nickname!</string>
 
     <!--    Экран Sign Up Second    -->
     <string name="name_hint">Имя</string>
