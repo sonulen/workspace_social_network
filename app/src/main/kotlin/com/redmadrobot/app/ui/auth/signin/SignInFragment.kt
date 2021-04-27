@@ -61,17 +61,17 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
-        view.findViewById<Button>(R.id.btn_go_to_register).setOnClickListener {
+        view.findViewById<Button>(R.id.btn_go_to_register).setOnClickListener { _ ->
             navController.navigate(R.id.action_signInFragment_to_signUpFirstFragment)
         }
 
-        view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
+        view.findViewById<Button>(R.id.btn_go_next).setOnClickListener { _ ->
             // TODO: login должен быть через observer на signInViewModel.loginResult
             signInViewModel.login(email.text.toString(), password.text.toString())
             navController.navigate(R.id.action_signInFragment_to_doneFragment)
         }
 
-        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener { _ ->
             navController.navigate(R.id.action_signInFragment_pop)
         }
     }

@@ -66,12 +66,12 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
-        view.findViewById<Button>(R.id.btn_register).setOnClickListener {
+        view.findViewById<Button>(R.id.btn_register).setOnClickListener { _ ->
             signUpViewModel.login(name.text.toString(), surname.text.toString(), birthDay.text.toString())
             navController.navigate(R.id.action_signUpSecondFragment_to_doneFragment)
         }
 
-        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener { _ ->
             navController.navigate(R.id.action_signUpSecondFragment_pop)
         }
     }
