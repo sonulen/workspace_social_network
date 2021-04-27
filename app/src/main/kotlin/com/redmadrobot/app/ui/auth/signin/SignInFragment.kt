@@ -44,15 +44,16 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     private fun observeLiveData(view: View) {
         signInViewModel.loginFormState.observe(
             viewLifecycleOwner,
-            {
-                val loginState = it
+            { loginState ->
                 // Выставим доступность кнопки согласно валидности данных
                 setEnableNextBtn(view, loginState.isDataValid)
-                if (loginState.emailError != null) {
-                    email.error = "Некорректный email"
+
+                loginState.emailError?.let {
+                    email.error = getString(it)
                 }
-                if (loginState.passwordError != null) {
-                    password.error = "Некорректный пароль: 6 символов, Одна большая, одна маленькая"
+
+                loginState.passwordError?.let {
+                    password.error = getString(it)
                 }
             }
         )

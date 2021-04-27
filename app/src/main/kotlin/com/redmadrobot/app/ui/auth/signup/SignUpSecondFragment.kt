@@ -98,7 +98,6 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
             )
 
             picker.show()
-            registerDataChanged()
         }
     }
 

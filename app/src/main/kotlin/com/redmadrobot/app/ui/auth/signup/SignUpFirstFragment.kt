@@ -48,18 +48,18 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     private fun observeLiveData(view: View) {
         signUpViewModel.registerFormState.observe(
             viewLifecycleOwner,
-            {
-                val registerState = it
+            { registerState ->
                 // Выставим доступность кнопки согласно валидности данных
                 setEnableNextBtn(view, registerState.isDataValid)
-                if (registerState.emailError != null) {
-                    email.error = "Некорректный email"
+
+                registerState.emailError?.let {
+                    email.error = getString(it)
                 }
-                if (registerState.passwordError != null) {
-                    password.error = "Некорректный пароль: 6 символов, Одна большая, одна маленькая"
+                registerState.passwordError?.let {
+                    password.error = getString(it)
                 }
-                if (registerState.nicknameError != null) {
-                    nickname.error = "Некорректный никнейм"
+                registerState.nicknameError?.let {
+                    nickname.error = getString(it)
                 }
             }
         )
@@ -95,11 +95,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
         }
         password.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                signUpViewModel.loginDataChanged(
-                    nickname.text.toString(),
-                    email.text.toString(),
-                    password.text.toString()
-                )
+                registerDataChanged()
             }
 
             override fun beforeTextChanged(
@@ -121,11 +117,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     private fun registerEmailEditTexListener() {
         email.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                signUpViewModel.loginDataChanged(
-                    nickname.text.toString(),
-                    email.text.toString(),
-                    password.text.toString()
-                )
+                registerDataChanged()
             }
 
             override fun beforeTextChanged(
@@ -147,11 +139,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     private fun registerNickNameEditTextListener() {
         nickname.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                signUpViewModel.loginDataChanged(
-                    nickname.text.toString(),
-                    email.text.toString(),
-                    password.text.toString()
-                )
+                registerDataChanged()
             }
 
             override fun beforeTextChanged(
@@ -168,6 +156,14 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
                 count: Int,
             ) = Unit
         })
+    }
+
+    private fun registerDataChanged() {
+        signUpViewModel.registerDataChanged(
+            nickname.text.toString(),
+            email.text.toString(),
+            password.text.toString()
+        )
     }
 
     private fun setEnableNextBtn(view: View, state: Boolean) {
