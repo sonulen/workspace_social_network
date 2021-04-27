@@ -5,7 +5,10 @@ import java.util.regex.Pattern
 
 class RegisterUseCase(private val registerRepository: IRegisterRepository) {
 
-    fun update(nickname: String, email: String, password: String) = registerRepository.update(nickname, email, password)
+    fun update(nickname: String, email: String, password: String) {
+        registerRepository.update(nickname, email, password)
+    }
+
     fun login(name: String, surname: String, birthDay: String) = registerRepository.login(name, surname, birthDay)
 
     fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
