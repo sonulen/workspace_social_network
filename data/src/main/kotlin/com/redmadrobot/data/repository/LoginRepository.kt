@@ -1,6 +1,6 @@
 package com.redmadrobot.data.repository
 
-import com.redmadrobot.domain.entity.repository.Optional
+import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.entity.repository.login.LoggedInUser
 import com.redmadrobot.domain.repository.ILoginRepository
 import java.util.*
@@ -20,9 +20,9 @@ class LoginRepository : ILoginRepository {
         user = null
     }
 
-    override fun login(email: String, password: String): Optional<LoggedInUser> {
+    override fun login(email: String, password: String): Result<LoggedInUser> {
         // TODO: Поход в сеть на логин
-        val result = Optional.Success(LoggedInUser(UUID.randomUUID().toString(), email))
+        val result = Result.Success(LoggedInUser(UUID.randomUUID().toString(), email))
         setLoggedInUser(result.data)
         return result
     }

@@ -1,6 +1,6 @@
 package com.redmadrobot.domain.repository
 
-import com.redmadrobot.domain.entity.repository.Optional
+import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.entity.repository.login.LoggedInUser
 
 /**
@@ -8,5 +8,5 @@ import com.redmadrobot.domain.entity.repository.login.LoggedInUser
  */
 interface ILoginRepository {
     fun logout()
-    fun login(email: String, password: String): Optional<LoggedInUser>
+    fun login(email: String, password: String): Result<LoggedInUser>
 }

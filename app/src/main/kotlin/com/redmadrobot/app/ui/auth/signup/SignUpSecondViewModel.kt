@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.data.repository.RegisterRepository
-import com.redmadrobot.domain.entity.repository.Optional
+import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.entity.repository.signup.RegisterFormState
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 
@@ -42,7 +42,7 @@ class SignUpSecondViewModel : BaseViewModel() {
     fun login(name: String, surname: String, birthDay: String) {
         val result = registerUseCase.login(name, surname, birthDay)
 
-        if (result is Optional.Success<*>) {
+        if (result is Result.Success<*>) {
             // TODO: здесь заэммитить в _registerResult EventQueue.LoginSuccess
         } else {
             // TODO: здесь заэммитить в _registerResult EventQueue.LoginFailed

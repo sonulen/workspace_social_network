@@ -87,7 +87,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
 
             val picker = DatePickerDialog(
                 view.context,
-                { v, yearIn, monthOfYear, dayOfMonth ->
+                { _, yearIn, monthOfYear, dayOfMonth ->
                     birthDay.setText(dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + yearIn)
                     onRegisterDataChanged()
                 },
