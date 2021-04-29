@@ -46,7 +46,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/btn_find_friends"
             android:layout_marginVertical="4dp"
-            android:theme="@style/Widget.Auth.Button" />
+            android:theme="@style/Widget.Workplaces.Button" />
 
         <Button
             android:id="@+id/btn_deauth"
@@ -55,7 +55,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/btn_deauth"
             android:layout_marginVertical="4dp"
-            android:theme="@style/Widget.Auth.Button" />
+            android:theme="@style/Widget.Workplaces.Button" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

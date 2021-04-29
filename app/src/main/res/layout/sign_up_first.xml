@@ -105,7 +105,7 @@
                 android:layout_height="56dp"
                 android:text="@string/btn_already_register"
                 android:layout_marginVertical="4dp"
-                android:theme="@style/Widget.Auth.Button" />
+                android:theme="@style/Widget.Workplaces.Button" />
 
             <Button
                 android:id="@+id/btn_go_next"
