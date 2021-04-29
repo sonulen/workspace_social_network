@@ -1,9 +1,9 @@
-package com.redmadrobot.domain.entity.repository.signup
+package com.redmadrobot.app.ui.auth.signup
 
 /**
  * Data validation state of the login form.
  */
-data class RegisterFormState(
+data class SignUpFormState(
     val nicknameError: Int? = null,
     val emailError: Int? = null,
     val passwordError: Int? = null,

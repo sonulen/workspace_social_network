@@ -47,7 +47,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     }
 
     private fun observeLiveData(view: View) {
-        signUpViewModel.registerFormState.observe(
+        signUpViewModel.signUpFormState.observe(
             viewLifecycleOwner,
             { registerState ->
                 // Выставим доступность кнопки согласно валидности данных

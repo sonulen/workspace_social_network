@@ -1,9 +1,9 @@
 package com.redmadrobot.domain.usecases.signup
 
-import com.redmadrobot.domain.repository.IRegisterRepository
+import com.redmadrobot.domain.repository.RegisterRepository
 import java.util.regex.Pattern
 
-class RegisterUseCase(private val registerRepository: IRegisterRepository) {
+class RegisterUseCase(private val registerRepository: RegisterRepository) {
 
     fun update(nickname: String, email: String, password: String) {
         registerRepository.update(nickname, email, password)

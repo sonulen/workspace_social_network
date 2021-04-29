@@ -41,7 +41,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     }
 
     private fun observeLiveData(view: View) {
-        signInViewModel.loginFormState.observe(
+        signInViewModel.signInFormState.observe(
             viewLifecycleOwner,
             { loginState ->
                 // Выставим доступность кнопки согласно валидности данных

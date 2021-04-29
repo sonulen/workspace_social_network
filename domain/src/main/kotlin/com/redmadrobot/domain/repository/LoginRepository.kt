@@ -1,12 +1,12 @@
 package com.redmadrobot.domain.repository
 
 import com.redmadrobot.domain.entity.repository.Result
-import com.redmadrobot.domain.entity.repository.login.LoggedInUser
+import com.redmadrobot.domain.entity.repository.login.User
 
 /**
  * Интерфейс для управления логином
  */
-interface ILoginRepository {
+interface LoginRepository {
     fun logout()
-    fun login(email: String, password: String): Result<LoggedInUser>
+    fun login(email: String, password: String): Result<User>
 }

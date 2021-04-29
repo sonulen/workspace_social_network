@@ -1,9 +1,9 @@
 package com.redmadrobot.domain.usecases.login
 
-import com.redmadrobot.domain.repository.ILoginRepository
+import com.redmadrobot.domain.repository.LoginRepository
 import java.util.regex.Pattern
 
-class LoginUseCase(private val loginRepository: ILoginRepository) {
+class LoginUseCase(private val loginRepository: LoginRepository) {
 
     fun login(email: String, password: String) = loginRepository.login(email, password)
 
