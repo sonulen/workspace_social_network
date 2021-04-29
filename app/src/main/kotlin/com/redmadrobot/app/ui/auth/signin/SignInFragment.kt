@@ -1,8 +1,6 @@
 package com.redmadrobot.app.ui.auth.signin
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
@@ -77,28 +76,9 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     }
 
     private fun registerEmailEditTextListener() {
-        email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                signInViewModel.loginDataChanged(
-                    email.text.toString(),
-                    password.text.toString()
-                )
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+        email.doAfterTextChanged {
+            onLoginDataChanged()
+        }
     }
 
     private fun registerPasswordEditTexListener() {
@@ -112,28 +92,17 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
             }
             false
         }
-        password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                signInViewModel.loginDataChanged(
-                    email.text.toString(),
-                    password.text.toString()
-                )
-            }
 
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
+        password.doAfterTextChanged {
+            onLoginDataChanged()
+        }
+    }
 
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+    private fun onLoginDataChanged() {
+        signInViewModel.onLoginDataChanged(
+            email.text.toString(),
+            password.text.toString()
+        )
     }
 
     private fun setEnableNextBtn(view: View, state: Boolean) {

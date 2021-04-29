@@ -29,7 +29,7 @@ class SignInViewModel : BaseViewModel() {
         }
     }
 
-    fun loginDataChanged(email: String, password: String) {
+    fun onLoginDataChanged(email: String, password: String) {
         when {
             !loginUseCase.isEmailValid(email) -> {
                 _loginForm.value = LoginFormState(emailError = R.string.invalid_email)

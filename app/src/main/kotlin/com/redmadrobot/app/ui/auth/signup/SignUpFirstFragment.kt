@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
@@ -93,53 +94,21 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
             }
             false
         }
-        password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                registerDataChanged()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+        password.doAfterTextChanged {
+            onRegisterDataChanged()
+        }
     }
 
     private fun registerEmailEditTexListener() {
-        email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                registerDataChanged()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+        email.doAfterTextChanged {
+            onRegisterDataChanged()
+        }
     }
 
     private fun registerNickNameEditTextListener() {
         nickname.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                registerDataChanged()
+                onRegisterDataChanged()
             }
 
             override fun beforeTextChanged(
@@ -158,8 +127,8 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
         })
     }
 
-    private fun registerDataChanged() {
-        signUpViewModel.registerDataChanged(
+    private fun onRegisterDataChanged() {
+        signUpViewModel.onRegisterDataChanged(
             nickname.text.toString(),
             email.text.toString(),
             password.text.toString()

@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
@@ -90,7 +89,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
                 view.context,
                 { v, yearIn, monthOfYear, dayOfMonth ->
                     birthDay.setText(dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + yearIn)
-                    registerDataChanged()
+                    onRegisterDataChanged()
                 },
                 year,
                 month,
@@ -102,50 +101,18 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     }
 
     private fun registerSurnameEditTexListener() {
-        surname.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                registerDataChanged()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+        surname.doAfterTextChanged {
+            onRegisterDataChanged()
+        }
     }
 
     private fun registerNameEditTextListener() {
-        name.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                registerDataChanged()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
+        name.doAfterTextChanged {
+            onRegisterDataChanged()
+        }
     }
 
-    private fun registerDataChanged() {
+    private fun onRegisterDataChanged() {
         signUpViewModel.registerDataChanged(
             name.text.toString(),
             surname.text.toString(),

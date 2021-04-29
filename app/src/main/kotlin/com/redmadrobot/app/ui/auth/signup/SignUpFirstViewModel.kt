@@ -16,7 +16,7 @@ class SignUpFirstViewModel : BaseViewModel() {
     private val registerRepository = RegisterRepository()
     private val registerUseCase = RegisterUseCase(registerRepository)
 
-    fun registerDataChanged(nickname: String, email: String, password: String) {
+    fun onRegisterDataChanged(nickname: String, email: String, password: String) {
         when {
             !registerUseCase.isEmailValid(email) -> {
                 _registerForm.value = RegisterFormState(emailError = R.string.invalid_email)
