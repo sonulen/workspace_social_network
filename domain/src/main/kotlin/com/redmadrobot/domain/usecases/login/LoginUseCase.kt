@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 class LoginUseCase(private val loginRepository: LoginRepository) {
 
-    fun login(email: String, password: String) = loginRepository.login(email, password)
+    suspend fun login(email: String, password: String) = loginRepository.login(email, password)
 
     fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 

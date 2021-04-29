@@ -6,6 +6,7 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.data.repository.RegisterRepositoryImpl
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
+import kotlinx.coroutines.launch
 
 class SignUpSecondViewModel : BaseViewModel() {
     private val _registerForm = MutableLiveData<SignUpFormState>()
@@ -38,12 +39,14 @@ class SignUpSecondViewModel : BaseViewModel() {
     }
 
     fun login(name: String, surname: String, birthDay: String) {
-        val result = registerUseCase.login(name, surname, birthDay)
+        ioScope.launch {
+            val result = registerUseCase.login(name, surname, birthDay)
 
-        if (result.isSuccess) {
-            // TODO: здесь заэммитить в _registerResult EventQueue.LoginSuccess
-        } else {
-            // TODO: здесь заэммитить в _registerResult EventQueue.LoginFailed
+            if (result.isSuccess) {
+                // TODO: здесь заэммитить в _registerResult EventQueue.LoginSuccess
+            } else {
+                // TODO: здесь заэммитить в _registerResult EventQueue.LoginFailed
+            }
         }
     }
 }

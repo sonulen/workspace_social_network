@@ -67,4 +67,6 @@ dependencies {
     testImplementation(TestDependency.MOCKITO)
     testImplementation(TestDependency.ASSERTJ)
     kaptTest(DataDependency.MOSHI_COMPILER)
+
+    implementation(DataDependency.KOTLINX)
 }

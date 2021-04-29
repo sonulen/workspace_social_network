@@ -1,5 +1,6 @@
 package com.redmadrobot.domain.usecases.signup
 
+import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.repository.RegisterRepository
 import java.util.regex.Pattern
 
@@ -9,7 +10,9 @@ class RegisterUseCase(private val registerRepository: RegisterRepository) {
         registerRepository.update(nickname, email, password)
     }
 
-    fun login(name: String, surname: String, birthDay: String) = registerRepository.login(name, surname, birthDay)
+    suspend fun login(name: String, surname: String, birthDay: String): Result<*> {
+        return registerRepository.register(name, surname, birthDay)
+    }
 
     fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
