@@ -2,17 +2,17 @@
     <string name="app_name">Social Network</string>
 
     <!--    Экран Логина    -->
-    <string name="hello_msg">Workplaces</string>
-    <string name="hello_msg_second">Найди своё место</string>
-    <string name="btn_login">Войти</string>
-    <string name="btn_register_by_mail">Регистрация по почте</string>
+    <string name="hello_message">Workplaces</string>
+    <string name="hello_message_second">Найди своё место</string>
+    <string name="button_login">Войти</string>
+    <string name="button_register_by_mail">Регистрация по почте</string>
 
     <!--    Экран Sign In    -->
     <string name="sign_in_screen_name">Вход</string>
     <string name="e_mail_hint">E-mail</string>
-    <string name="pswd_hint">Пароль</string>
-    <string name="btn_go_to_register">Перейти к регистрации</string>
-    <string name="btn_go_next">Далее</string>
+    <string name="password_hint">Пароль</string>
+    <string name="button_go_to_register">Перейти к регистрации</string>
+    <string name="button_go_next">Далее</string>
     <string name="login_failed">Залогиниться не удалось!</string>
     <string name="invalid_email">Некорректный email</string>
     <string name="invalid_password">Некорректный пароль: 6 символов, Одна большая, одна маленькая</string>
@@ -21,28 +21,28 @@
     <!--    Экран Sign Up First    -->
     <string name="sign_up_screen_name">Регистрация</string>
     <string name="nickname_hint">Никнейм</string>
-    <string name="btn_already_register">Уже зарегистрирован</string>
+    <string name="button_already_register">Уже зарегистрирован</string>
     <string name="invalid_nickname">Некорректный nickname</string>
 
     <!--    Экран Sign Up Second    -->
     <string name="name_hint">Имя</string>
     <string name="surname_hint">Фамилия</string>
     <string name="date_of_birth_hint">Дата рождения</string>
-    <string name="btn_finish_register">Зарегистрироваться</string>
+    <string name="button_finish_register">Зарегистрироваться</string>
     <string name="invalid_name">Некорректное имя</string>
     <string name="invalid_surname">Некорректная фамилия</string>
     <string name="invalid_birthday">Некорректная дата рождения</string>
 
     <!--    Экран Done    -->
-    <string name="done_sign_msg">Nice to meet you</string>
-    <string name="done_sign_msg_second">Теперь ты можешь смотреть и делать публикации</string>
-    <string name="btn_go_to_feed">Перейти к ленте</string>
+    <string name="done_sign_message">Nice to meet you</string>
+    <string name="done_sign_message_second">Теперь ты можешь смотреть и делать публикации</string>
+    <string name="button_go_to_feed">Перейти к ленте</string>
 
     <!--    Экран Feed    -->
-    <string name="feed_is_empty_msg">Пустота</string>
-    <string name="feed_is_empty_msg_second">Вам нужны друзья, чтобы лента стала живой</string>
-    <string name="btn_find_friends">Найти друзей</string>
-    <string name="btn_deauth">Деавторизация</string>
+    <string name="feed_is_empty_message">Пустота</string>
+    <string name="feed_is_empty_message_second">Вам нужны друзья, чтобы лента стала живой</string>
+    <string name="button_find_friends">Найти друзей</string>
+    <string name="button_deauthorization">Деавторизация</string>
 
 
 </resources>
