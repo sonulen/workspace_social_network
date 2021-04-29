@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class UserCredentials(
-    @field:Json(name = "email") val email: String,
-    @field:Json(name = "password") val password: String,
+data class NetworkEntityError(
+    @Json(name = "code") val code: String,
+    @Json(name = "message") val message: String,
 )
