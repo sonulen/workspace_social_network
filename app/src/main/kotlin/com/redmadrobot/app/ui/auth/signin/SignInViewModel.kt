@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.data.repository.LoginRepository
-import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.entity.repository.login.LoginFormState
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 
@@ -22,7 +21,7 @@ class SignInViewModel : BaseViewModel() {
     fun login(email: String, password: String) {
         val result = loginUseCase.login(email, password)
 
-        if (result is Result.Success<*>) {
+        if (result.isSuccess) {
             // TODO: здесь заэммитить в _loginResult EventQueue.LoginSuccess
         } else {
             // TODO: здесь заэммитить в _loginResult EventQueue.LoginFailed
