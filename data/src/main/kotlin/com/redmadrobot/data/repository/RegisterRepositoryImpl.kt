@@ -25,7 +25,7 @@ class RegisterRepositoryImpl : RegisterRepository {
 
     override suspend fun register(name: String, surname: String, birthDay: String): Result<*> {
         // TODO: Поход в сеть на регистрацию
-        delay(5000)
+        delay(timeMillis = 5000)
         val result = Result.Success(User(UUID.randomUUID().toString(), email))
         setLoggedInUser(result.data)
         return result
