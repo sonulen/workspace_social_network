@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
@@ -108,12 +107,5 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     private fun setEnableNextBtn(view: View, state: Boolean) {
         val goNextBtn = view.findViewById<Button>(R.id.btn_go_next)
         goNextBtn.isEnabled = state
-
-        // Костыль. Можно ли тут поменять тему у кнопки?
-        if (goNextBtn.isEnabled) {
-            goNextBtn.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.orange)
-        } else {
-            goNextBtn.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.light_grey_blue)
-        }
     }
 }

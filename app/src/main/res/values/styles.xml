@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="Base.Widget.Workplaces.Button" parent="Widget.MaterialComponents.Button"></style>
+    <style name="Base.Widget.Workplaces.Button" parent="Widget.MaterialComponents.Button">
+        <!--  no-op -->
+    </style>
 
     <style name="Widget.Workplaces.Button" parent="Base.Widget.Workplaces.Button">
         <item name="color">@color/orange</item>
@@ -9,11 +11,7 @@
     </style>
 
     <style name="Widget.Workplaces.SolidButton" parent="Base.Widget.Workplaces.Button">
-        <item name="android:backgroundTint">@color/orange</item>
-    </style>
-
-    <style name="Widget.Auth.SolidButtonDisable" parent="Base.Widget.Workplaces.Button">
-        <item name="android:backgroundTint">@color/light_grey_blue</item>
+        <item name="android:backgroundTint">@color/solid_button_color_selector</item>
     </style>
 
 </resources>
