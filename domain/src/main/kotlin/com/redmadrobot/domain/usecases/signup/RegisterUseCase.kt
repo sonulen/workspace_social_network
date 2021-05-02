@@ -1,41 +1,14 @@
 package com.redmadrobot.domain.usecases.signup
 
 import com.redmadrobot.domain.entity.repository.Result
-import com.redmadrobot.domain.repository.RegisterRepository
-import java.util.regex.Pattern
+import com.redmadrobot.domain.repository.AuthRepository
+import com.redmadrobot.domain.util.AuthValidator
 
-class RegisterUseCase(private val registerRepository: RegisterRepository) {
-
-    fun update(nickname: String, email: String, password: String) {
-        registerRepository.update(nickname, email, password)
+class RegisterUseCase(private val authRepository: AuthRepository, private val validator: AuthValidator) {
+    suspend fun register(email: String, password: String): Result<*> {
+        return authRepository.register(email, password)
     }
 
-    suspend fun login(name: String, surname: String, birthDay: String): Result<*> {
-        return registerRepository.register(name, surname, birthDay)
-    }
-
-    fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-    fun isPasswordValid(password: String): Boolean {
-        val pattern: Pattern
-        val passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{6,}$"
-        pattern = Pattern.compile(passwordPattern)
-        return pattern.matcher(password).matches()
-    }
-
-    fun isNicknameValid(nickName: String): Boolean {
-        return nickName.isNotEmpty()
-    }
-
-    fun isNameValid(name: String): Boolean {
-        return name.isNotEmpty()
-    }
-
-    fun isSurNameValid(surname: String): Boolean {
-        return surname.isNotEmpty()
-    }
-
-    fun isBirthDayValid(birthDay: String): Boolean {
-        return birthDay.isNotEmpty()
-    }
+    fun isEmailValid(email: String): Boolean = validator.isEmailValid(email)
+    fun isPasswordValid(password: String): Boolean = validator.isPasswordValid(password)
 }

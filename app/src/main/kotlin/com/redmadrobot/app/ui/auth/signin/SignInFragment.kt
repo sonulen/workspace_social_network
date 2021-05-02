@@ -1,5 +1,6 @@
 package com.redmadrobot.app.ui.auth.signin
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,23 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
+import com.redmadrobot.data.repository.AuthRepositoryImpl
+import com.redmadrobot.domain.usecases.login.LoginUseCase
 
 class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
-    private val signInViewModel = SignInViewModel()
+    private lateinit var viewModel: SignInViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // TODO Решить это все через DI
+        val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
+        val authRepository = AuthRepositoryImpl(preferences)
+        val loginUseCase = LoginUseCase(authRepository)
+        viewModel = SignInViewModel(loginUseCase)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +53,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     }
 
     private fun observeLiveData(view: View) {
-        signInViewModel.signInFormState.observe(
+        viewModel.signInFormState.observe(
             viewLifecycleOwner,
             { loginState ->
                 // Выставим доступность кнопки согласно валидности данных
@@ -65,7 +78,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
 
         view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
             // TODO: login должен быть через observer на signInViewModel.loginResult
-            signInViewModel.login(email.text.toString(), password.text.toString())
+            viewModel.onLoginClicked(email.text.toString(), password.text.toString())
             navController.navigate(R.id.action_signInFragment_to_doneFragment)
         }
 
@@ -84,7 +97,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
         password.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE ->
-                    signInViewModel.login(
+                    viewModel.onLoginClicked(
                         email.text.toString(),
                         password.text.toString()
                     )
@@ -98,7 +111,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     }
 
     private fun onLoginDataChanged() {
-        signInViewModel.onLoginDataChanged(
+        viewModel.onLoginDataChanged(
             email.text.toString(),
             password.text.toString()
         )

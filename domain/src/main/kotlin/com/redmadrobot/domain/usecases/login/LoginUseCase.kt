@@ -1,11 +1,11 @@
 package com.redmadrobot.domain.usecases.login
 
-import com.redmadrobot.domain.repository.LoginRepository
+import com.redmadrobot.domain.repository.AuthRepository
 import java.util.regex.Pattern
 
-class LoginUseCase(private val loginRepository: LoginRepository) {
+class LoginUseCase(private val authRepository: AuthRepository) {
 
-    suspend fun login(email: String, password: String) = loginRepository.login(email, password)
+    suspend fun login(email: String, password: String) = authRepository.login(email, password)
 
     fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 

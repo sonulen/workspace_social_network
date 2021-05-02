@@ -1,7 +1,8 @@
-package com.redmadrobot.app.ui.auth.signup
+package com.redmadrobot.app.ui.auth.signup.updateProfile
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.InputType
@@ -16,12 +17,25 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
+import com.redmadrobot.data.repository.AuthRepositoryImpl
+import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
+import com.redmadrobot.domain.util.AuthValidatorImpl
 
 class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
-    private val signUpViewModel = SignUpSecondViewModel()
+    private lateinit var signUpSecondViewModel: SignUpSecondViewModel
     private lateinit var name: EditText
     private lateinit var surname: EditText
     private lateinit var birthDay: EditText
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // TODO Решить это все через DI
+        val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
+        val authRepository = AuthRepositoryImpl(preferences)
+        val profileUpdateUseCase = ProfileUpdateUseCase(authRepository, AuthValidatorImpl())
+        signUpSecondViewModel = SignUpSecondViewModel(profileUpdateUseCase)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +62,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     }
 
     private fun observeLiveData(view: View) {
-        signUpViewModel.signUpFormState.observe(
+        signUpSecondViewModel.signUpFormState.observe(
             viewLifecycleOwner,
             { registerState ->
                 // Выставим доступность кнопки согласно валидности данных
@@ -66,7 +80,12 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
         view.findViewById<Button>(R.id.btn_register).setOnClickListener {
-            signUpViewModel.login(name.text.toString(), surname.text.toString(), birthDay.text.toString())
+            signUpSecondViewModel.onUpdateProfileClicked(
+                "nickname",
+                name.text.toString(),
+                surname.text.toString(),
+                birthDay.text.toString()
+            )
             navController.navigate(R.id.action_signUpSecondFragment_to_doneFragment)
         }
 
@@ -113,7 +132,8 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     }
 
     private fun onRegisterDataChanged() {
-        signUpViewModel.registerDataChanged(
+        signUpSecondViewModel.registerDataChanged(
+            "nickname",
             name.text.toString(),
             surname.text.toString(),
             birthDay.text.toString()
