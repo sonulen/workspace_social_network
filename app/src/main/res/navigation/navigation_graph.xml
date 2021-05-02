@@ -2,74 +2,80 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_graph.xml"
-    app:startDestination="@id/loginFragment">
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.redmadrobot.app.ui.auth.LoginFragment"
-        android:label="LoginFragment">
-        <action
-            android:id="@+id/action_loginFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_signUpFirstFragment"
-            app:destination="@id/signUpFirstFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.redmadrobot.app.ui.auth.signin.LoginFragment"
-        android:label="SignInFragment">
-        <action
-            android:id="@+id/action_signInFragment_to_doneFragment"
-            app:destination="@id/doneFragment" />
-        <action
-            android:id="@+id/action_signInFragment_pop"
-            app:popUpTo="@id/signInFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_signInFragment_to_signUpFirstFragment"
-            app:destination="@id/signUpFirstFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/doneFragment"
-        android:name="com.redmadrobot.app.ui.auth.DoneFragment"
-        android:label="DoneFragment">
-        <action
-            android:id="@+id/action_doneFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
-    </fragment>
+    app:startDestination="@id/AuthGraph">
+
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.redmadrobot.app.ui.feed.FeedFragment"
         android:label="FeedFragment">
         <action
-            android:id="@+id/action_feedFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/toWelcomeFragment"
+            app:destination="@id/AuthGraph" />
     </fragment>
-    <fragment
-        android:id="@+id/signUpFirstFragment"
-        android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
-        android:label="SignUpFirstFragment">
-        <action
-            android:id="@+id/action_signUpFirstFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
-        <action
-            android:id="@+id/action_signUpFirstFragment_to_signUpSecondFragment"
-            app:destination="@id/signUpSecondFragment" />
-        <action
-            android:id="@+id/action_signUpFirstFragment_pop"
-            app:popUpTo="@id/signUpFirstFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUpSecondFragment"
-        android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment"
-        android:label="SignUpSecondFragment">
-        <action
-            android:id="@+id/action_signUpSecondFragment_to_doneFragment"
-            app:destination="@id/doneFragment" />
-        <action
-            android:id="@+id/action_signUpSecondFragment_pop"
-            app:popUpTo="@id/signUpSecondFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+
+    <navigation
+        android:id="@+id/AuthGraph"
+        app:startDestination="@id/welcomeFragment">
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
+            android:label="RegisterFragment">
+            <action
+                android:id="@+id/toUpdateProfileFragment"
+                app:destination="@id/updateProfileFragment" />
+            <action
+                android:id="@+id/toLoginFragment"
+                app:destination="@id/loginFragment" />
+            <action
+                android:id="@+id/registerFragmentPop"
+                app:popUpTo="@id/registerFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/welcomeFragment"
+            android:name="com.redmadrobot.app.ui.auth.WelcomeFragment"
+            android:label="WelcomeFragment">
+            <action
+                android:id="@+id/toLoginFragment"
+                app:destination="@id/loginFragment" />
+            <action
+                android:id="@+id/toRegisterFragment"
+                app:destination="@id/registerFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.redmadrobot.app.ui.auth.signin.LoginFragment"
+            android:label="LoginFragment">
+            <action
+                android:id="@+id/toDoneFragment"
+                app:destination="@id/doneFragment" />
+            <action
+                android:id="@+id/toRegisterFragment"
+                app:destination="@id/registerFragment" />
+            <action
+                android:id="@+id/loginFragmentPop"
+                app:popUpTo="@id/loginFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/doneFragment"
+            android:name="com.redmadrobot.app.ui.auth.DoneFragment"
+            android:label="DoneFragment">
+            <action
+                android:id="@+id/toFeedFragment"
+                app:destination="@id/feedFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/updateProfileFragment"
+            android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment"
+            android:label="UpdateProfileFragment">
+            <action
+                android:id="@+id/toDoneFragment"
+                app:destination="@id/doneFragment" />
+            <action
+                android:id="@+id/updateProfileFragmentPop"
+                app:popUpTo="@id/updateProfileFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+    </navigation>
 </navigation>

@@ -29,7 +29,7 @@ class DoneFragment : BaseFragment(R.layout.done_fragment) {
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
         view.findViewById<Button>(R.id.btn_go_to_feed).setOnClickListener {
-            navController.navigate(R.id.action_doneFragment_to_feedFragment)
+            navController.navigate(R.id.toFeedFragment)
         }
     }
 }

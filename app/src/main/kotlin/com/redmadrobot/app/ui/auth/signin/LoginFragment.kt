@@ -15,11 +15,14 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.domain.usecases.login.LoginUseCase
+import com.redmadrobot.extensions.lifecycle.Event
+import com.redmadrobot.extensions.lifecycle.observe
 
 class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
     private lateinit var viewModel: LoginViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
+    private lateinit var loginButton: Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,15 +39,14 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(
-            R.layout.sign_in_fragment,
-            container,
-            false
-        )
-        password = view.findViewById<EditText>(R.id.editTextTextPassword)
-        email = view.findViewById<EditText>(R.id.editTextTextEmailAddress)
+        val view = inflater.inflate(R.layout.sign_in_fragment, container, false)
 
-        observeLiveData(view)
+        password = view.findViewById(R.id.editTextTextPassword)
+        email = view.findViewById(R.id.editTextTextEmailAddress)
+        loginButton = view.findViewById(R.id.button_login)
+
+        observe(viewModel.eventsQueue, ::onEvent)
+
         registerButtonClickListeners(view)
         registerEmailEditTextListener()
         registerPasswordEditTexListener()
@@ -52,38 +54,44 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         return view
     }
 
-    private fun observeLiveData(view: View) {
-        viewModel.loginFormState.observe(
-            viewLifecycleOwner,
-            { loginState ->
-                // Выставим доступность кнопки согласно валидности данных
-                setEnableNextBtn(view, loginState.isDataValid)
+    private fun onEvent(event: Event) {
+        val navController = findNavController(this)
 
-                loginState.emailError?.let {
-                    email.error = getString(it)
-                }
+        when (event) {
+            is EventLoginSuccess -> navController.navigate(R.id.toDoneFragment)
 
-                loginState.passwordError?.let {
-                    password.error = getString(it)
-                }
+            is EventLoginFailed -> {
+                // no-op //
             }
-        )
+
+            is EventLoginFormStateChanged -> onLoginFormStateChange()
+        }
+    }
+
+    private fun onLoginFormStateChange() {
+        val loginState = viewModel.loginFormState
+        loginState.emailError?.let {
+            email.error = getString(it)
+        }
+        loginState.passwordError?.let {
+            password.error = getString(it)
+        }
+        // Выставим доступность кнопки согласно валидности данных
+        setEnableNextBtn(loginState.isDataValid)
     }
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
-        view.findViewById<Button>(R.id.btn_go_to_register).setOnClickListener {
-            navController.navigate(R.id.action_signInFragment_to_signUpFirstFragment)
+        view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
+            navController.navigate(R.id.toRegisterFragment)
         }
 
-        view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
-            // TODO: login должен быть через observer на signInViewModel.loginResult
+        loginButton.setOnClickListener {
             viewModel.onLoginClicked(email.text.toString(), password.text.toString())
-            navController.navigate(R.id.action_signInFragment_to_doneFragment)
         }
 
         view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
-            navController.navigate(R.id.action_signInFragment_pop)
+            navController.navigate(R.id.loginFragmentPop)
         }
     }
 
@@ -97,10 +105,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         password.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE ->
-                    viewModel.onLoginClicked(
-                        email.text.toString(),
-                        password.text.toString()
-                    )
+                    onLoginDataChanged()
             }
             false
         }
@@ -117,8 +122,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         )
     }
 
-    private fun setEnableNextBtn(view: View, state: Boolean) {
-        val goNextBtn = view.findViewById<Button>(R.id.btn_go_next)
-        goNextBtn.isEnabled = state
+    private fun setEnableNextBtn(state: Boolean) {
+        loginButton.isEnabled = state
     }
 }

@@ -84,7 +84,7 @@
                 android:layout_height="101dp" />
 
             <Button
-                android:id="@+id/btn_go_to_register"
+                android:id="@+id/button_go_to_register"
                 android:layout_width="328dp"
                 android:layout_height="56dp"
 
@@ -93,7 +93,7 @@
                 android:theme="@style/Widget.Workplaces.Button" />
 
             <Button
-                android:id="@+id/btn_go_next"
+                android:id="@+id/button_login"
                 android:layout_width="328dp"
                 android:layout_height="56dp"
                 android:enabled="false"

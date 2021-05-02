@@ -86,11 +86,11 @@ class UpdateProfileFragment : BaseFragment(R.layout.sign_up_second) {
                 surname.text.toString(),
                 birthDay.text.toString()
             )
-            navController.navigate(R.id.action_signUpSecondFragment_to_doneFragment)
+            navController.navigate(R.id.toDoneFragment)
         }
 
         view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
-            navController.navigate(R.id.action_signUpSecondFragment_pop)
+            navController.navigate(R.id.updateProfileFragmentPop)
         }
     }
 

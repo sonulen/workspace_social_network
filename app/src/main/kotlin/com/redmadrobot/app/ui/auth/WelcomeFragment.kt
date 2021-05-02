@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 
-class LoginFragment : BaseFragment(R.layout.login_fragment) {
+class WelcomeFragment : BaseFragment(R.layout.login_fragment) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,11 +29,11 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
         view.findViewById<Button>(R.id.btn_login).setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_signInFragment)
+            navController.navigate(R.id.toLoginFragment)
         }
 
         view.findViewById<Button>(R.id.btn_register_by_mail).setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_signUpFirstFragment)
+            navController.navigate(R.id.toRegisterFragment)
         }
     }
 }

@@ -34,7 +34,7 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
 
         val navController = NavHostFragment.findNavController(this)
         view.findViewById<Button>(R.id.btn_deauth).setOnClickListener {
-            navController.navigate(R.id.action_feedFragment_to_loginFragment)
+            navController.navigate(R.id.toWelcomeFragment)
         }
     }
 }
