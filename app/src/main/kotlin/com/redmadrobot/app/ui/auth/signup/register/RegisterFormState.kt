@@ -1,9 +1,9 @@
-package com.redmadrobot.app.ui.auth.signup
+package com.redmadrobot.app.ui.auth.signup.register
 
 /**
- * Data validation state of the login form.
+ * Состояние валидности данных на форме регистрации
  */
-data class SignUpFormState(
+data class RegisterFormState(
     val nicknameError: Int? = null,
     val emailError: Int? = null,
     val passwordError: Int? = null,

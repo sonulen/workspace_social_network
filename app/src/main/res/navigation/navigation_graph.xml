@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFirstFragment"
-        android:name="com.redmadrobot.app.ui.auth.signup.register.SignUpFirstFragment"
+        android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
         android:label="SignUpFirstFragment">
         <action
             android:id="@+id/action_signUpFirstFragment_to_signInFragment"
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpSecondFragment"
-        android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.SignUpSecondFragment"
+        android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment"
         android:label="SignUpSecondFragment">
         <action
             android:id="@+id/action_signUpSecondFragment_to_doneFragment"

@@ -19,8 +19,8 @@ import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import com.redmadrobot.domain.util.AuthValidatorImpl
 
-class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
-    private lateinit var signUpFirstViewModel: SignUpFirstViewModel
+class RegisterFragment : BaseFragment(R.layout.sign_up_first) {
+    private lateinit var registerViewModel: RegisterViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
     private lateinit var nickname: EditText
@@ -32,7 +32,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
         val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
         val authRepository = AuthRepositoryImpl(preferences)
         val registerUseCase = RegisterUseCase(authRepository, AuthValidatorImpl())
-        signUpFirstViewModel = SignUpFirstViewModel(registerUseCase)
+        registerViewModel = RegisterViewModel(registerUseCase)
     }
 
     override fun onCreateView(
@@ -60,7 +60,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     }
 
     private fun observeLiveData(view: View) {
-        signUpFirstViewModel.signUpFormState.observe(
+        registerViewModel.signUpFormState.observe(
             viewLifecycleOwner,
             { registerState ->
                 // Выставим доступность кнопки согласно валидности данных
@@ -86,7 +86,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
         }
 
         view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
-            signUpFirstViewModel.onRegisterClicked(email.text.toString(), password.text.toString())
+            registerViewModel.onRegisterClicked(email.text.toString(), password.text.toString())
             navController.navigate(R.id.action_signUpFirstFragment_to_signUpSecondFragment)
         }
 
@@ -137,7 +137,7 @@ class SignUpFirstFragment : BaseFragment(R.layout.sign_up_first) {
     }
 
     private fun onRegisterDataChanged() {
-        signUpFirstViewModel.onRegisterDataChanged(
+        registerViewModel.onRegisterDataChanged(
             email.text.toString(),
             password.text.toString()
         )

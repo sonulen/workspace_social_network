@@ -21,8 +21,8 @@ import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
 import com.redmadrobot.domain.util.AuthValidatorImpl
 
-class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
-    private lateinit var signUpSecondViewModel: SignUpSecondViewModel
+class UpdateProfileFragment : BaseFragment(R.layout.sign_up_second) {
+    private lateinit var updateProfileViewModel: UpdateProfileViewModel
     private lateinit var name: EditText
     private lateinit var surname: EditText
     private lateinit var birthDay: EditText
@@ -34,7 +34,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
         val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
         val authRepository = AuthRepositoryImpl(preferences)
         val profileUpdateUseCase = ProfileUpdateUseCase(authRepository, AuthValidatorImpl())
-        signUpSecondViewModel = SignUpSecondViewModel(profileUpdateUseCase)
+        updateProfileViewModel = UpdateProfileViewModel(profileUpdateUseCase)
     }
 
     override fun onCreateView(
@@ -62,7 +62,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     }
 
     private fun observeLiveData(view: View) {
-        signUpSecondViewModel.signUpFormState.observe(
+        updateProfileViewModel.signUpFormState.observe(
             viewLifecycleOwner,
             { registerState ->
                 // Выставим доступность кнопки согласно валидности данных
@@ -80,7 +80,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
         view.findViewById<Button>(R.id.btn_register).setOnClickListener {
-            signUpSecondViewModel.onUpdateProfileClicked(
+            updateProfileViewModel.onUpdateProfileClicked(
                 "nickname",
                 name.text.toString(),
                 surname.text.toString(),
@@ -132,7 +132,7 @@ class SignUpSecondFragment : BaseFragment(R.layout.sign_up_second) {
     }
 
     private fun onRegisterDataChanged() {
-        signUpSecondViewModel.registerDataChanged(
+        updateProfileViewModel.registerDataChanged(
             "nickname",
             name.text.toString(),
             surname.text.toString(),

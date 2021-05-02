@@ -1,7 +1,7 @@
 package com.redmadrobot.app.ui.auth.signin
 
 /**
- * Data validation state of the login form.
+ * Состояние валидности данных на форме логина
  */
 data class LoginFormState(
     val emailError: Int? = null,
