@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.redmadrobot.app.ui.auth.signin.SignInFragment"
+        android:name="com.redmadrobot.app.ui.auth.signin.LoginFragment"
         android:label="SignInFragment">
         <action
             android:id="@+id/action_signInFragment_to_doneFragment"

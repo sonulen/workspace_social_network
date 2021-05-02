@@ -7,10 +7,10 @@ import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 import kotlinx.coroutines.launch
 
-class SignInViewModel constructor(private val useCase: LoginUseCase) : BaseViewModel() {
+class LoginViewModel constructor(private val useCase: LoginUseCase) : BaseViewModel() {
 
-    private val _loginForm = MutableLiveData<SignInFormState>()
-    val signInFormState: LiveData<SignInFormState> = _loginForm
+    private val _loginForm = MutableLiveData<LoginFormState>()
+    val loginFormState: LiveData<LoginFormState> = _loginForm
 
     fun onLoginClicked(email: String, password: String) {
         ioScope.launch {
@@ -27,15 +27,15 @@ class SignInViewModel constructor(private val useCase: LoginUseCase) : BaseViewM
     fun onLoginDataChanged(email: String, password: String) {
         when {
             !useCase.isEmailValid(email) -> {
-                _loginForm.value = SignInFormState(emailError = R.string.invalid_email)
+                _loginForm.value = LoginFormState(emailError = R.string.invalid_email)
             }
 
             !useCase.isPasswordValid(password) -> {
-                _loginForm.value = SignInFormState(passwordError = R.string.invalid_password)
+                _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
             }
 
             else -> {
-                _loginForm.value = SignInFormState(isDataValid = true)
+                _loginForm.value = LoginFormState(isDataValid = true)
             }
         }
     }

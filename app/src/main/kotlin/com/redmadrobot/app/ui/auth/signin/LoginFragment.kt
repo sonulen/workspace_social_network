@@ -16,8 +16,8 @@ import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 
-class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
-    private lateinit var viewModel: SignInViewModel
+class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
+    private lateinit var viewModel: LoginViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
 
@@ -28,7 +28,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
         val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
         val authRepository = AuthRepositoryImpl(preferences)
         val loginUseCase = LoginUseCase(authRepository)
-        viewModel = SignInViewModel(loginUseCase)
+        viewModel = LoginViewModel(loginUseCase)
     }
 
     override fun onCreateView(
@@ -53,7 +53,7 @@ class SignInFragment : BaseFragment(R.layout.sign_in_fragment) {
     }
 
     private fun observeLiveData(view: View) {
-        viewModel.signInFormState.observe(
+        viewModel.loginFormState.observe(
             viewLifecycleOwner,
             { loginState ->
                 // Выставим доступность кнопки согласно валидности данных
