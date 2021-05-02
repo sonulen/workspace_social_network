@@ -18,7 +18,7 @@ import com.redmadrobot.domain.usecases.login.LoginUseCase
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 
-class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
+class LoginFragment : BaseFragment(R.layout.login_fragment) {
     private lateinit var viewModel: LoginViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
@@ -39,7 +39,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(R.layout.sign_in_fragment, container, false)
+        val view = inflater.inflate(R.layout.login_fragment, container, false)
 
         password = view.findViewById(R.id.editTextTextPassword)
         email = view.findViewById(R.id.editTextTextEmailAddress)
@@ -77,7 +77,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
             password.error = getString(it)
         }
         // Выставим доступность кнопки согласно валидности данных
-        setEnableNextBtn(loginState.isDataValid)
+        setEnableLoginButton(loginState.isDataValid)
     }
 
     private fun registerButtonClickListeners(view: View) {
@@ -90,7 +90,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
             viewModel.onLoginClicked(email.text.toString(), password.text.toString())
         }
 
-        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.button_back).setOnClickListener {
             navController.navigate(R.id.loginFragmentPop)
         }
     }
@@ -122,7 +122,7 @@ class LoginFragment : BaseFragment(R.layout.sign_in_fragment) {
         )
     }
 
-    private fun setEnableNextBtn(state: Boolean) {
+    private fun setEnableLoginButton(state: Boolean) {
         loginButton.isEnabled = state
     }
 }

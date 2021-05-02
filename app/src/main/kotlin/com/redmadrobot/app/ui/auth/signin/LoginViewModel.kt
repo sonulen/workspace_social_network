@@ -3,9 +3,7 @@ package com.redmadrobot.app.ui.auth.signin
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.login.LoginUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginViewModel constructor(private val useCase: LoginUseCase) : BaseViewModel() {
     var loginFormState = LoginFormState()
@@ -16,9 +14,7 @@ class LoginViewModel constructor(private val useCase: LoginUseCase) : BaseViewMo
             val result = useCase.login(email, password)
 
             if (result.isSuccess) {
-                withContext(Dispatchers.Main) {
-                    offerOnMain(EventLoginSuccess())
-                }
+                offerOnMain(EventLoginSuccess())
             } else {
                 offerOnMain(EventLoginFailed())
             }

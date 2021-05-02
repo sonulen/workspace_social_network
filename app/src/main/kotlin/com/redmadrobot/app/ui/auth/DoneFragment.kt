@@ -15,14 +15,8 @@ class DoneFragment : BaseFragment(R.layout.done_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(
-            R.layout.done_fragment,
-            container,
-            false
-        )
-
+        val view = inflater.inflate(R.layout.done_fragment, container, false)
         registerButtonClickListeners(view)
-
         return view
     }
 

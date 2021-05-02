@@ -9,20 +9,14 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 
-class WelcomeFragment : BaseFragment(R.layout.login_fragment) {
+class WelcomeFragment : BaseFragment(R.layout.welcome_fragment) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(
-            R.layout.login_fragment,
-            container,
-            false
-        )
-
+        val view = inflater.inflate(R.layout.welcome_fragment, container, false)
         registerButtonClickListeners(view)
-
         return view
     }
 

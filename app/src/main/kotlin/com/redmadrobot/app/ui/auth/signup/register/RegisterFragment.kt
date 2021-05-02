@@ -2,8 +2,6 @@ package com.redmadrobot.app.ui.auth.signup.register
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +16,14 @@ import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import com.redmadrobot.domain.util.AuthValidatorImpl
+import com.redmadrobot.extensions.lifecycle.Event
+import com.redmadrobot.extensions.lifecycle.observe
 
-class RegisterFragment : BaseFragment(R.layout.sign_up_first) {
-    private lateinit var registerViewModel: RegisterViewModel
+class RegisterFragment : BaseFragment(R.layout.register_fragment) {
+    private lateinit var viewModel: RegisterViewModel
     private lateinit var password: EditText
     private lateinit var email: EditText
-    private lateinit var nickname: EditText
+    private lateinit var buttonRegister: Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,7 +32,7 @@ class RegisterFragment : BaseFragment(R.layout.sign_up_first) {
         val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
         val authRepository = AuthRepositoryImpl(preferences)
         val registerUseCase = RegisterUseCase(authRepository, AuthValidatorImpl())
-        registerViewModel = RegisterViewModel(registerUseCase)
+        viewModel = RegisterViewModel(registerUseCase)
     }
 
     override fun onCreateView(
@@ -40,57 +40,59 @@ class RegisterFragment : BaseFragment(R.layout.sign_up_first) {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(
-            R.layout.sign_up_first,
-            container,
-            false
-        )
+        val view = inflater.inflate(R.layout.register_fragment, container, false)
 
-        password = view.findViewById<EditText>(R.id.editTextTextPassword)
-        email = view.findViewById<EditText>(R.id.editTextTextEmailAddress)
-        nickname = view.findViewById<EditText>(R.id.editTextTextNickName)
+        password = view.findViewById(R.id.editTextTextPassword)
+        email = view.findViewById(R.id.editTextTextEmailAddress)
+        buttonRegister = view.findViewById(R.id.button_register)
 
-        observeLiveData(view)
+        observe(viewModel.eventsQueue, ::onEvent)
         registerButtonClickListeners(view)
-        registerNickNameEditTextListener()
         registerEmailEditTexListener()
         registerPasswordEditTexListener()
 
         return view
     }
 
-    private fun observeLiveData(view: View) {
-        registerViewModel.signUpFormState.observe(
-            viewLifecycleOwner,
-            { registerState ->
-                // Выставим доступность кнопки согласно валидности данных
-                setEnableNextBtn(view, registerState.isDataValid)
+    private fun onEvent(event: Event) {
+        val navController = findNavController(this)
 
-                registerState.emailError?.let {
-                    email.error = getString(it)
-                }
-                registerState.passwordError?.let {
-                    password.error = getString(it)
-                }
-                registerState.nicknameError?.let {
-                    nickname.error = getString(it)
-                }
+        when (event) {
+            is EventRegisterSuccess -> navController.navigate(R.id.toUpdateProfileFragment)
+
+            is EventRegisterFailed -> {
+                // no-op //
             }
-        )
+
+            is EventRegisterFormStateChanged -> onRegisterFormStateChange()
+        }
+    }
+
+    private fun onRegisterFormStateChange() {
+        val registerFormState = viewModel.registerFormState
+
+        registerFormState.emailError?.let {
+            email.error = getString(it)
+        }
+        registerFormState.passwordError?.let {
+            password.error = getString(it)
+        }
+
+        // Выставим доступность кнопки согласно валидности данных
+        setEnableRegisterButton(registerFormState.isDataValid)
     }
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
-        view.findViewById<Button>(R.id.btn_go_to_sign_in).setOnClickListener {
+        view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
             navController.navigate(R.id.toLoginFragment)
         }
 
-        view.findViewById<Button>(R.id.btn_go_next).setOnClickListener {
-            registerViewModel.onRegisterClicked(email.text.toString(), password.text.toString())
-            navController.navigate(R.id.toUpdateProfileFragment)
+        view.findViewById<Button>(R.id.button_register).setOnClickListener {
+            viewModel.onRegisterClicked(email.text.toString(), password.text.toString())
         }
 
-        view.findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.button_back).setOnClickListener {
             navController.navigate(R.id.registerFragmentPop)
         }
     }
@@ -114,37 +116,14 @@ class RegisterFragment : BaseFragment(R.layout.sign_up_first) {
         }
     }
 
-    private fun registerNickNameEditTextListener() {
-        nickname.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                onRegisterDataChanged()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int,
-            ) = Unit
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int,
-            ) = Unit
-        })
-    }
-
     private fun onRegisterDataChanged() {
-        registerViewModel.onRegisterDataChanged(
+        viewModel.onRegisterDataChanged(
             email.text.toString(),
             password.text.toString()
         )
     }
 
-    private fun setEnableNextBtn(view: View, state: Boolean) {
-        val goNextBtn = view.findViewById<Button>(R.id.btn_go_next)
-        goNextBtn.isEnabled = state
+    private fun setEnableRegisterButton(state: Boolean) {
+        buttonRegister.isEnabled = state
     }
 }

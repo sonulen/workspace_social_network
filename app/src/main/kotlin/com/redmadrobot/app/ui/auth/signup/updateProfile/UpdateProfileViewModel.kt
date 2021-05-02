@@ -1,51 +1,47 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
 import kotlinx.coroutines.launch
 
 class UpdateProfileViewModel(private val useCase: ProfileUpdateUseCase) : BaseViewModel() {
-    private val _registerForm = MutableLiveData<UpdateProfileFormState>()
-    val signUpFormState: LiveData<UpdateProfileFormState> = _registerForm
+    var updateProfileFormState = UpdateProfileFormState()
+        private set
 
-    fun registerDataChanged(nickname: String, name: String, surname: String, birthDay: String) {
-        var isAllDataValid = true
+    fun onRegisterDataChanged(nickname: String, name: String, surname: String, birthDay: String) {
+        updateProfileFormState = UpdateProfileFormState()
 
         if (!useCase.isNicknameValid(nickname)) {
-            _registerForm.value = UpdateProfileFormState(nameError = R.string.invalid_name)
-            isAllDataValid = false
+            updateProfileFormState.nicknameError = R.string.invalid_nickname
+            updateProfileFormState.isDataValid = false
         }
 
         if (!useCase.isNameValid(name)) {
-            _registerForm.value = UpdateProfileFormState(nameError = R.string.invalid_name)
-            isAllDataValid = false
+            updateProfileFormState.nameError = R.string.invalid_name
+            updateProfileFormState.isDataValid = false
         }
 
         if (!useCase.isSurNameValid(surname)) {
-            _registerForm.value = UpdateProfileFormState(surnameError = R.string.invalid_surname)
-            isAllDataValid = false
+            updateProfileFormState.surnameError = R.string.invalid_surname
+            updateProfileFormState.isDataValid = false
         }
         if (!useCase.isBirthDayValid(birthDay)) {
-            _registerForm.value = UpdateProfileFormState(birthDayError = R.string.invalid_birthday)
-            isAllDataValid = false
+            updateProfileFormState.birthDayError = R.string.invalid_birthday
+            updateProfileFormState.isDataValid = false
         }
 
-        if (isAllDataValid) {
-            _registerForm.value = UpdateProfileFormState(isDataValid = true)
-        }
+        eventsQueue.offerEvent(EventUpdateProfileFormStateChanged())
     }
 
     fun onUpdateProfileClicked(nickname: String, name: String, surname: String, birthDay: String) {
         ioScope.launch {
-            val result = useCase.updateProfile("nickname", name, surname, birthDay)
+            val result = useCase.updateProfile(nickname, name, surname, birthDay)
 
             if (result.isSuccess) {
-                // TODO: здесь заэммитить в _registerResult EventQueue.LoginSuccess
+                offerOnMain(EventUpdateProfileSuccess())
             } else {
-                // TODO: здесь заэммитить в _registerResult EventQueue.LoginFailed
+                offerOnMain(EventUpdateProfileFailed())
             }
         }
     }

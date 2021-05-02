@@ -1,37 +1,37 @@
 package com.redmadrobot.app.ui.auth.signup.register
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val useCase: RegisterUseCase) : BaseViewModel() {
-    private val _registerForm = MutableLiveData<RegisterFormState>()
-    val signUpFormState: LiveData<RegisterFormState> = _registerForm
+    var registerFormState = RegisterFormState()
+        private set
 
     fun onRegisterDataChanged(email: String, password: String) {
-        var isAllDataValid = true
+        registerFormState = RegisterFormState()
 
         if (!useCase.isEmailValid(email)) {
-            _registerForm.value = RegisterFormState(emailError = R.string.invalid_email)
-            isAllDataValid = false
+            registerFormState.emailError = R.string.invalid_email
+            registerFormState.isDataValid = false
         }
-
         if (!useCase.isPasswordValid(password)) {
-            _registerForm.value = RegisterFormState(passwordError = R.string.invalid_password)
-            isAllDataValid = false
+            registerFormState.passwordError = R.string.invalid_password
+            registerFormState.isDataValid = false
         }
-
-        if (isAllDataValid) {
-            _registerForm.value = RegisterFormState(isDataValid = true)
-        }
+        eventsQueue.offerEvent(EventRegisterFormStateChanged())
     }
 
     fun onRegisterClicked(email: String, password: String) {
         ioScope.launch {
-            useCase.register(email, password)
+            val result = useCase.register(email, password)
+
+            if (result.isSuccess) {
+                offerOnMain(EventRegisterSuccess())
+            } else {
+                offerOnMain(EventRegisterFailed())
+            }
         }
     }
 }
