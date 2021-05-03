@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.data.repository.AuthRepositoryImpl
@@ -87,13 +87,11 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
         view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
             navController.navigate(R.id.toLoginFragment)
         }
-
         view.findViewById<Button>(R.id.button_register).setOnClickListener {
             viewModel.onRegisterClicked(email.text.toString(), password.text.toString())
         }
-
-        view.findViewById<ImageButton>(R.id.button_back).setOnClickListener {
-            navController.navigate(R.id.registerFragmentPop)
+        view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
+            navController.navigate(com.redmadrobot.app.R.id.registerFragmentPop)
         }
     }
 

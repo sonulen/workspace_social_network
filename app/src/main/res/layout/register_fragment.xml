@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,33 +14,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="76dp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/register_screen_name"
+            app:titleTextAppearance="@style/TextAppearance.App.BodyL"
+            app:navigationIcon="@drawable/icon_back_button"
             android:layout_marginTop="30dp"
-            android:gravity="start|center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp">
-
-            <ImageButton
-                android:id="@+id/button_back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:srcCompat="@drawable/icon_back_button"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:text="@string/sign_up_screen_name"
-                style="@style/TextAppearance.App.BodyL" />
-
-        </LinearLayout>
+            style="@style/Widget.MaterialComponents.Toolbar.Surface" />
 
         <ProgressBar
             android:id="@+id/progressBar"

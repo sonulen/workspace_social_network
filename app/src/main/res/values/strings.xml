@@ -9,7 +9,7 @@
     <!--    endregion-->
 
     <!--    region Экран Sign In    -->
-    <string name="sign_in_screen_name">Вход</string>
+    <string name="login_screen_name">Вход</string>
     <string name="e_mail_hint">E-mail</string>
     <string name="password_hint">Пароль</string>
     <string name="button_go_to_register">Перейти к регистрации</string>
@@ -21,7 +21,7 @@
     <!--    endregion-->
 
     <!--    region Экран Sign Up First    -->
-    <string name="sign_up_screen_name">Регистрация</string>
+    <string name="register_screen_name">Регистрация</string>
     <string name="nickname_hint">Никнейм</string>
     <string name="button_already_register">Уже зарегистрирован</string>
     <string name="invalid_nickname">Некорректный nickname</string>

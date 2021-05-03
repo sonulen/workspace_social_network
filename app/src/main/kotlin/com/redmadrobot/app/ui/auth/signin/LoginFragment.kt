@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.data.repository.AuthRepositoryImpl
@@ -82,16 +82,17 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
+
+        view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
+            navController.navigate(R.id.loginFragmentPop)
+        }
+
         view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
             navController.navigate(R.id.toRegisterFragment)
         }
 
         loginButton.setOnClickListener {
             viewModel.onLoginClicked(email.text.toString(), password.text.toString())
-        }
-
-        view.findViewById<ImageButton>(R.id.button_back).setOnClickListener {
-            navController.navigate(R.id.loginFragmentPop)
         }
     }
 

@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
@@ -104,13 +104,13 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         val navController = findNavController(this)
         updateProfileButton.setOnClickListener {
             viewModel.onUpdateProfileClicked(
-                nickname.text.toString(),
-                name.text.toString(),
-                surname.text.toString(),
-                birthDay.text.toString(),
+                nickname = nickname.text.toString(),
+                name = name.text.toString(),
+                surname = surname.text.toString(),
+                birthDay = birthDay.text.toString(),
             )
         }
-        view.findViewById<ImageButton>(R.id.button_back).setOnClickListener {
+        view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
             navController.navigate(R.id.updateProfileFragmentPop)
         }
     }
