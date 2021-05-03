@@ -32,12 +32,12 @@ class AuthRepositoryImpl constructor(
     override suspend fun login(email: String, password: String): Result<*> {
         delay(timeMillis = 5000)
         val result = Result.Success(NetworkEntityToken("1234", "56789"))
-
         if (result.isSuccess) {
             save(result.data)
-            return Result.Success(accessToken!!)
         }
-
+        accessToken?.let {
+            return Result.Success(it)
+        }
         Timber.d("Аутентификация провалена")
         return Result.Error(IOException("Аутентификация провалена"))
     }
@@ -51,10 +51,11 @@ class AuthRepositoryImpl constructor(
     ): Result<*> {
         delay(timeMillis = 5000)
         val result = Result.Success(NetworkEntityToken("1234", "56789"))
-
         if (result.isSuccess) {
             save(result.data)
-            return Result.Success(accessToken!!.token)
+        }
+        accessToken?.let {
+            return Result.Success(it)
         }
 
         Timber.d("Регистрация провалена")
