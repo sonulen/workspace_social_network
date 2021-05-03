@@ -36,7 +36,12 @@ class UpdateProfileViewModel(private val useCase: ProfileUpdateUseCase) : BaseVi
 
     fun onUpdateProfileClicked(nickname: String, name: String, surname: String, birthDay: String) {
         ioScope.launch {
-            val result = useCase.updateProfile(nickname, name, surname, birthDay)
+            val result = useCase.updateProfile(
+                nickname = nickname,
+                firstName = name,
+                lastName = surname,
+                birthDay = birthDay
+            )
 
             if (result.isSuccess) {
                 offerOnMain(EventUpdateProfileSuccess())

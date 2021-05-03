@@ -10,7 +10,12 @@ class ProfileUpdateUseCase(private val authRepository: AuthRepository, private v
         firstName: String,
         lastName: String,
         birthDay: String,
-    ): Result<*> = authRepository.updateProfile(nickname, firstName, lastName, birthDay)
+    ): Result<*> = authRepository.updateProfile(
+        nickname = nickname,
+        firstName = firstName,
+        lastName = lastName,
+        birthDay = birthDay
+    )
 
     fun isNicknameValid(nickName: String): Boolean = validator.isNicknameValid(nickName)
     fun isNameValid(name: String): Boolean = validator.isNameValid(name)
