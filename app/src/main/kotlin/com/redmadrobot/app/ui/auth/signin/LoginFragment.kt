@@ -41,8 +41,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     ): View {
         val view = inflater.inflate(R.layout.login_fragment, container, false)
 
-        password = view.findViewById(R.id.editTextTextPassword)
-        email = view.findViewById(R.id.editTextTextEmailAddress)
+        password = view.findViewById(R.id.edit_text_password)
+        email = view.findViewById(R.id.edit_text_email)
         loginButton = view.findViewById(R.id.button_login)
 
         observe(viewModel.eventsQueue, ::onEvent)

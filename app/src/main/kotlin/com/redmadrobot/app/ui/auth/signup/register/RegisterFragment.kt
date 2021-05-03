@@ -42,8 +42,8 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
     ): View {
         val view = inflater.inflate(R.layout.register_fragment, container, false)
 
-        password = view.findViewById(R.id.editTextTextPassword)
-        email = view.findViewById(R.id.editTextTextEmailAddress)
+        password = view.findViewById(R.id.edit_text_password)
+        email = view.findViewById(R.id.edit_text_email)
         buttonRegister = view.findViewById(R.id.button_register)
 
         observe(viewModel.eventsQueue, ::onEvent)
@@ -91,7 +91,7 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
             viewModel.onRegisterClicked(email.text.toString(), password.text.toString())
         }
         view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
-            navController.navigate(com.redmadrobot.app.R.id.registerFragmentPop)
+            navController.navigate(R.id.registerFragmentPop)
         }
     }
 
