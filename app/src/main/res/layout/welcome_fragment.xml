@@ -67,7 +67,6 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_height="wrap_content"
         android:text="@string/button_login"
         style="@style/Widget.Workplaces.SolidButton"
         app:layout_constraintBottom_toTopOf="@+id/btn_register_by_mail"
@@ -78,7 +77,6 @@
 
     <Button
         android:id="@+id/btn_register_by_mail"
-        android:layout_height="wrap_content"
         android:text="@string/button_register_by_mail"
         style="@style/Widget.Workplaces.Button"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
