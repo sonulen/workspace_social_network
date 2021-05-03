@@ -22,7 +22,7 @@ class WelcomeFragment : BaseFragment(R.layout.welcome_fragment) {
 
     private fun registerButtonClickListeners(view: View) {
         val navController = findNavController(this)
-        view.findViewById<Button>(R.id.btn_login).setOnClickListener {
+        view.findViewById<Button>(R.id.button_login).setOnClickListener {
             navController.navigate(R.id.toLoginFragment)
         }
 
