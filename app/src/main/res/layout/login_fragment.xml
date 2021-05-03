@@ -30,7 +30,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:background="@color/white"
-                app:srcCompat="@drawable/ic_back_button"
+                app:srcCompat="@drawable/icon_back_button"
                 tools:ignore="ContentDescription" />
 
             <TextView
