@@ -81,7 +81,7 @@
     <Button
         android:id="@+id/btn_deauth"
         android:text="@string/button_deauthorization"
-        style="@style/Widget.Workplaces.Button"
+        style="@style/Widget.Workplaces.SolidButton"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

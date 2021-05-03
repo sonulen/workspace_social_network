@@ -39,7 +39,7 @@
 
     <!--   region Экран Done    -->
     <string name="done_sign_message">Nice to meet you</string>
-    <string name="done_sign_message_second">Теперь ты можешь смотреть и делать публикации</string>
+    <string name="done_sign_message_second">Теперь ты можешь смотреть \n и делать публикации</string>
     <string name="button_go_to_feed">Перейти к ленте</string>
     <!--    endregion-->
 
