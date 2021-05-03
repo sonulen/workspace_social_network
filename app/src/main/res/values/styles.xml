@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Base.Widget.Workplaces.Button" parent="Widget.MaterialComponents.Button">
+    <style name="Base.Widget.Workplaces.Button" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_marginVertical">4dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingVertical">10dp</item>
@@ -22,9 +22,7 @@
     </style>
 
     <style name="Widget.Workplaces.Button" parent="Base.Widget.Workplaces.Button">
-        <item name="color">@color/orange</item>
-        <item name="backgroundColor">@color/orange</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/orange</item>
     </style>
 
     <style name="Widget.Workplaces.SolidButton" parent="Base.Widget.Workplaces.Button">

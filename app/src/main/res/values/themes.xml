@@ -2,7 +2,12 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/light_grey_blue</item>
+        <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/orange</item>
+        <item name="colorError">@color/orange</item>
+        <item name="colorOnError">@color/orange</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
 </resources>
