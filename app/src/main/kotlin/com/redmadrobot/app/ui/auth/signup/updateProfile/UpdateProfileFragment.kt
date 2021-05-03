@@ -123,7 +123,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
             val picker = MaterialDatePicker.Builder.datePicker().build()
             picker.show(parentFragmentManager, picker.toString())
 
-            picker.addOnPositiveButtonClickListener {
+            picker.addOnPositiveButtonClickListener { _ ->
                 birthDay.setText(picker.headerText)
                 onUpdateProfileDataChanged()
             }
@@ -150,10 +150,10 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
     private fun onUpdateProfileDataChanged() {
         viewModel.onRegisterDataChanged(
-            nickname.text.toString(),
-            name.text.toString(),
-            surname.text.toString(),
-            birthDay.text.toString(),
+            nickname = nickname.text.toString(),
+            name = name.text.toString(),
+            surname = surname.text.toString(),
+            birthDay = birthDay.text.toString(),
         )
     }
 
