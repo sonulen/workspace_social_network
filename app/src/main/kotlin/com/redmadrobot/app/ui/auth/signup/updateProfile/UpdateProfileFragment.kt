@@ -46,10 +46,10 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     ): View {
         val view = inflater.inflate(R.layout.profile_update_fragment, container, false)
 
-        nickname = view.findViewById(R.id.editTextTextNickName)
-        name = view.findViewById(R.id.editTextTextName)
-        surname = view.findViewById(R.id.editTextTextSurname)
-        birthDay = view.findViewById(R.id.editTextTextBirthDay)
+        nickname = view.findViewById(R.id.edit_text_nickname)
+        name = view.findViewById(R.id.edit_text_name)
+        surname = view.findViewById(R.id.edit_text_surname)
+        birthDay = view.findViewById(R.id.edit_text_birth_day)
         updateProfileButton = view.findViewById(R.id.button_update_profile)
 
         observe(viewModel.eventsQueue, ::onEvent)

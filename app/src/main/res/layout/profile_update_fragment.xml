@@ -1,107 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="0dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="48dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="14dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="14dp" />
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tool_bar"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/guideline_top"
+        app:navigationIcon="@drawable/icon_back_button"
+        app:title="@string/register_screen_name"
+        app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/register_screen_name"
-            app:titleTextAppearance="@style/TextAppearance.App.BodyL"
-            app:navigationIcon="@drawable/icon_back_button"
-            android:layout_marginTop="30dp"
-            style="@style/Widget.MaterialComponents.Toolbar.Surface" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="100"
+        android:progressTint="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progress="100"
-            android:progressTint="@color/orange" />
+    <EditText
+        android:id="@+id/edit_text_nickname"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        style="@style/Widget.Workplaces.EditText"
+        android:autofillHints="nickname"
+        android:ems="10"
+        android:hint="@string/nickname_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintHorizontal_bias="0.5" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <EditText
+        android:id="@+id/edit_text_name"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        style="@style/Widget.Workplaces.EditText"
+        android:autofillHints="name"
+        android:ems="10"
+        android:hint="@string/name_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_nickname"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        tools:layout_editor_absoluteX="41dp" />
 
-            <EditText
-                android:id="@+id/editTextTextNickName"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:hint="@string/nickname_hint"
-                android:inputType="textPersonName"
-                android:layout_marginVertical="10dp"
-                style="@style/TextAppearance.App.BodyS"
-                android:autofillHints="nickname" />
+    <EditText
+        android:id="@+id/edit_text_surname"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        style="@style/Widget.Workplaces.EditText"
+        android:autofillHints="surname"
+        android:ems="10"
+        android:hint="@string/surname_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_birth_day"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        tools:layout_editor_absoluteX="41dp" />
 
-            <EditText
-                android:id="@+id/editTextTextName"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:hint="@string/name_hint"
-                android:inputType="textPersonName"
-                android:layout_marginVertical="10dp"
-                style="@style/TextAppearance.App.BodyS"
-                android:autofillHints="name" />
+    <EditText
+        android:id="@+id/edit_text_birth_day"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        style="@style/Widget.Workplaces.EditText"
+        android:autofillHints="date"
+        android:ems="10"
+        android:hint="@string/date_of_birth_hint"
+        android:inputType="date"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_name"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        tools:layout_editor_absoluteX="41dp" />
 
-            <EditText
-                android:id="@+id/editTextTextSurname"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:hint="@string/surname_hint"
-                android:inputType="textPersonName"
-                android:layout_marginVertical="10dp"
-                style="@style/TextAppearance.App.BodyS"
-                android:autofillHints="surname" />
+    <Button
+        android:id="@+id/button_update_profile"
+        style="@style/Widget.Workplaces.SolidButton"
+        android:enabled="false"
+        android:text="@string/button_finish_register"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
 
-            <EditText
-                android:id="@+id/editTextTextBirthDay"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:hint="@string/date_of_birth_hint"
-                android:inputType="date"
-                android:layout_marginVertical="10dp"
-                style="@style/TextAppearance.App.BodyS"
-                android:autofillHints="date" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="60dp" />
-
-            <Button
-                android:id="@+id/button_update_profile"
-                android:layout_width="328dp"
-                android:layout_height="56dp"
-                android:enabled="false"
-                android:text="@string/button_finish_register"
-                android:layout_marginVertical="4dp"
-                android:theme="@style/Widget.Workplaces.SolidButton" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

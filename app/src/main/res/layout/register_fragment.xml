@@ -60,10 +60,7 @@
 
     <EditText
         android:id="@+id/edit_text_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="32dp"
-        android:paddingVertical="14dp"
+        style="@style/Widget.Workplaces.EditText"
         android:autofillHints="email"
         android:ems="10"
         android:hint="@string/e_mail_hint"
@@ -75,15 +72,12 @@
 
     <EditText
         android:id="@+id/edit_text_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:paddingVertical="14dp"
         android:autofillHints="password"
         android:ems="10"
         android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:textAppearance="@style/TextAppearance.App.BodyS"
+        style="@style/Widget.Workplaces.EditText"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintHorizontal_bias="0.5"
@@ -91,11 +85,6 @@
 
     <Button
         android:id="@+id/button_go_to_register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        android:layout_marginBottom="8dp"
-        android:paddingVertical="10dp"
         android:text="@string/button_already_register"
         style="@style/Widget.Workplaces.Button"
         app:layout_constraintBottom_toTopOf="@+id/button_register"
@@ -107,13 +96,7 @@
     <Button
         android:id="@+id/button_register"
         style="@style/Widget.Workplaces.SolidButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        android:layout_marginBottom="8dp"
         android:enabled="false"
-        android:paddingHorizontal="110dp"
-        android:paddingVertical="10dp"
         android:text="@string/button_go_next"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="parent"
