@@ -7,4 +7,5 @@ object DataDependency {
 
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${CoreVersions.DAGGER}"
     const val MOSHI_COMPILER = "com.squareup.moshi:moshi-kotlin-codegen:${CoreVersions.MOSHI}"
+    const val KOTLINX = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${CoreVersions.KOTLINX}"
 }
