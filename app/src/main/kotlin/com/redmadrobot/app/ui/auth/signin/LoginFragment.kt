@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.google.android.material.appbar.MaterialToolbar
 import com.redmadrobot.app.R
+import com.redmadrobot.app.databinding.LoginFragmentBinding
 import com.redmadrobot.app.di.auth.login.LoginComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.extensions.lifecycle.Event
@@ -25,9 +23,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: LoginViewModel by viewModels { viewModelFactory }
 
-    private lateinit var password: EditText
-    private lateinit var email: EditText
-    private lateinit var loginButton: Button
+    private var _binding: LoginFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,19 +40,15 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val view = inflater.inflate(R.layout.login_fragment, container, false)
-
-        password = view.findViewById(R.id.edit_text_password)
-        email = view.findViewById(R.id.edit_text_email)
-        loginButton = view.findViewById(R.id.button_login)
+        _binding = LoginFragmentBinding.inflate(inflater, container, false)
 
         observe(viewModel.eventsQueue, ::onEvent)
 
-        registerButtonClickListeners(view)
+        registerButtonClickListeners()
         registerEmailEditTextListener()
         registerPasswordEditTexListener()
 
-        return view
+        return binding.root
     }
 
     private fun onEvent(event: Event) {
@@ -75,39 +68,39 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     private fun onLoginFormStateChange() {
         val loginState = viewModel.loginFormState
         loginState.emailError?.let {
-            email.error = getString(it)
+            binding.editTextEmail.error = getString(it)
         }
         loginState.passwordError?.let {
-            password.error = getString(it)
+            binding.editTextPassword.error = getString(it)
         }
         // Выставим доступность кнопки согласно валидности данных
         setEnableLoginButton(loginState.isDataValid)
     }
 
-    private fun registerButtonClickListeners(view: View) {
+    private fun registerButtonClickListeners() {
         val navController = findNavController(this)
 
-        view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
+        binding.toolBar.setNavigationOnClickListener {
             navController.navigate(R.id.loginFragmentPop)
         }
 
-        view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
+        binding.buttonGoToRegister.setOnClickListener {
             navController.navigate(R.id.toRegisterFragment)
         }
 
-        loginButton.setOnClickListener {
-            viewModel.onLoginClicked(email.text.toString(), password.text.toString())
+        binding.buttonLogin.setOnClickListener {
+            viewModel.onLoginClicked(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
         }
     }
 
     private fun registerEmailEditTextListener() {
-        email.doAfterTextChanged {
+        binding.editTextEmail.doAfterTextChanged {
             onLoginDataChanged()
         }
     }
 
     private fun registerPasswordEditTexListener() {
-        password.setOnEditorActionListener { _, actionId, _ ->
+        binding.editTextPassword.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE ->
                     onLoginDataChanged()
@@ -115,19 +108,24 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
             false
         }
 
-        password.doAfterTextChanged {
+        binding.editTextPassword.doAfterTextChanged {
             onLoginDataChanged()
         }
     }
 
     private fun onLoginDataChanged() {
         viewModel.onLoginDataChanged(
-            email.text.toString(),
-            password.text.toString()
+            binding.editTextEmail.text.toString(),
+            binding.editTextPassword.text.toString()
         )
     }
 
     private fun setEnableLoginButton(state: Boolean) {
-        loginButton.isEnabled = state
+        binding.buttonLogin.isEnabled = state
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
