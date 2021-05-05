@@ -45,7 +45,7 @@
         app:navigationIcon="@drawable/icon_back_button"
         app:title="@string/login_screen_name"
         app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
-    
+
     <EditText
         android:id="@+id/edit_text_email"
         style="@style/Widget.Workplaces.EditText"

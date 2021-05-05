@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
 
     <Button
-        android:id="@+id/button_go_to_register"
+        android:id="@+id/button_go_to_login"
         android:text="@string/button_already_register"
         style="@style/Widget.Workplaces.Button"
         app:layout_constraintBottom_toTopOf="@+id/button_register"
