@@ -112,7 +112,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         binding.editTextBirthDay.inputType = InputType.TYPE_NULL
 
         binding.editTextBirthDay.setOnClickListener {
-            val picker = MaterialDatePicker.Builder.datePicker().build()
+            val picker = MaterialDatePicker.Builder.datePicker().setTheme(R.style.Widget_Workplaces_DatePicker).build()
             picker.show(parentFragmentManager, picker.toString())
 
             picker.addOnPositiveButtonClickListener { _ ->
