@@ -23,7 +23,7 @@ class WelcomeFragment : BaseFragment(R.layout.welcome_fragment) {
                 navController.navigate(R.id.toLoginFragment)
             }
 
-            btnRegisterByMail.setOnClickListener {
+            buttonRegisterByMail.setOnClickListener {
                 navController.navigate(R.id.toRegisterFragment)
             }
         }

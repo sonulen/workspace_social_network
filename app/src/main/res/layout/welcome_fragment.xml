@@ -69,14 +69,14 @@
         android:id="@+id/button_login"
         android:text="@string/button_login"
         style="@style/Widget.Workplaces.SolidButton"
-        app:layout_constraintBottom_toTopOf="@+id/btn_register_by_mail"
+        app:layout_constraintBottom_toTopOf="@+id/button_register_by_mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left" />
 
     <Button
-        android:id="@+id/btn_register_by_mail"
+        android:id="@+id/button_register_by_mail"
         android:text="@string/button_register_by_mail"
         style="@style/Widget.Workplaces.Button"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
