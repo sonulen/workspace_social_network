@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +16,7 @@ import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
+import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
 
 class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
@@ -25,8 +24,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: UpdateProfileViewModel by viewModels { viewModelFactory }
 
-    private var _binding: ProfileUpdateFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding: ProfileUpdateFragmentBinding by viewBinding()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,21 +35,14 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         UpdateProfileComponent.init(appComponent).inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = ProfileUpdateFragmentBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         observe(viewModel.eventsQueue, ::onEvent)
         registerButtonClickListeners()
         registerNicknameEditTextListener()
         registerNameEditTextListener()
         registerSurnameEditTexListener()
         registerBirthDayEditTexListener()
-
-        return binding.root
     }
 
     private fun onEvent(event: Event) {
@@ -69,55 +60,62 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     }
 
     private fun onLoginFormStateChange() {
-        val updateProfileFormState = viewModel.updateProfileFormState
+        with(binding) {
+            val updateProfileFormState = viewModel.updateProfileFormState
 
-        updateProfileFormState.nicknameError?.let {
-            binding.editTextNickname.error = getString(it)
-        }
+            updateProfileFormState.nicknameError?.let {
+                editTextNickname.error = getString(it)
+            }
 
-        updateProfileFormState.nameError?.let {
-            binding.editTextName.error = getString(it)
-        }
-        updateProfileFormState.surnameError?.let {
-            binding.editTextSurname.error = getString(it)
-        }
+            updateProfileFormState.nameError?.let {
+                editTextName.error = getString(it)
+            }
+            updateProfileFormState.surnameError?.let {
+                editTextSurname.error = getString(it)
+            }
 
-        updateProfileFormState.birthDayError?.let {
-            binding.editTextBirthDay.error = getString(it)
-        } ?: run {
-            binding.editTextBirthDay.error = null
-        }
+            updateProfileFormState.birthDayError?.let {
+                editTextBirthDay.error = getString(it)
+            } ?: run {
+                editTextBirthDay.error = null
+            }
 
-        // Выставим доступность кнопки согласно валидности данных
-        setEnableUpdateProfileButton(updateProfileFormState.isDataValid)
+            // Выставим доступность кнопки согласно валидности данных
+            setEnableUpdateProfileButton(updateProfileFormState.isDataValid)
+        }
     }
 
     private fun registerButtonClickListeners() {
         val navController = findNavController(this)
-        binding.buttonUpdateProfile.setOnClickListener {
-            viewModel.onUpdateProfileClicked(
-                nickname = binding.editTextNickname.text.toString(),
-                name = binding.editTextName.text.toString(),
-                surname = binding.editTextSurname.text.toString(),
-                birthDay = binding.editTextBirthDay.text.toString(),
-            )
-        }
-        binding.toolBar.setNavigationOnClickListener {
-            navController.navigate(R.id.updateProfileFragmentPop)
+        with(binding) {
+            buttonUpdateProfile.setOnClickListener {
+                viewModel.onUpdateProfileClicked(
+                    nickname = editTextNickname.text.toString(),
+                    name = editTextName.text.toString(),
+                    surname = editTextSurname.text.toString(),
+                    birthDay = editTextBirthDay.text.toString(),
+                )
+            }
+            toolBar.setNavigationOnClickListener {
+                navController.navigate(R.id.updateProfileFragmentPop)
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun registerBirthDayEditTexListener() {
-        binding.editTextBirthDay.inputType = InputType.TYPE_NULL
+        with(binding) {
+            editTextBirthDay.inputType = InputType.TYPE_NULL
 
-        binding.editTextBirthDay.setOnClickListener {
-            val picker = MaterialDatePicker.Builder.datePicker().setTheme(R.style.Widget_Workplaces_DatePicker).build()
-            picker.show(parentFragmentManager, picker.toString())
+            editTextBirthDay.setOnClickListener {
+                val picker =
+                    MaterialDatePicker.Builder.datePicker().setTheme(R.style.Widget_Workplaces_DatePicker).build()
+                picker.show(parentFragmentManager, picker.toString())
 
-            picker.addOnPositiveButtonClickListener { _ ->
-                binding.editTextBirthDay.setText(picker.headerText)
-                onUpdateProfileDataChanged()
+                picker.addOnPositiveButtonClickListener { _ ->
+                    editTextBirthDay.setText(picker.headerText)
+                    onUpdateProfileDataChanged()
+                }
             }
         }
     }
@@ -141,20 +139,17 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     }
 
     private fun onUpdateProfileDataChanged() {
-        viewModel.onRegisterDataChanged(
-            nickname = binding.editTextNickname.text.toString(),
-            name = binding.editTextName.text.toString(),
-            surname = binding.editTextSurname.text.toString(),
-            birthDay = binding.editTextBirthDay.text.toString(),
-        )
+        with(binding) {
+            viewModel.onRegisterDataChanged(
+                nickname = editTextNickname.text.toString(),
+                name = editTextName.text.toString(),
+                surname = editTextSurname.text.toString(),
+                birthDay = editTextBirthDay.text.toString(),
+            )
+        }
     }
 
     private fun setEnableUpdateProfileButton(state: Boolean) {
         binding.buttonUpdateProfile.isEnabled = state
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
