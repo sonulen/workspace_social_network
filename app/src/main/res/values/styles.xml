@@ -29,4 +29,9 @@
         <item name="android:backgroundTint">@color/solid_button_color_selector</item>
     </style>
 
+    <style name="Widget.Workplaces.BottomNavigationMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/light_grey</item>
+        <item name="itemTextColor">@color/dark_grey</item>
+    </style>
+
 </resources>

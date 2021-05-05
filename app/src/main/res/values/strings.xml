@@ -50,4 +50,19 @@
     <string name="button_deauthorization">Деавторизация</string>
     <!--    endregion-->
 
+    <!--   region Экран Profile    -->
+    <string name="profile_screen_name">Профиль</string>
+    <string name="profile_posts">Посты</string>
+    <string name="profile_likes">Лайки</string>
+    <string name="profile_friends">Друзья</string>
+    <string name="profile_name_surname">Имя Фамилия</string>
+    <string name="profile_age">Возраст</string>
+    <!--    endregion-->
+
+    <!--   region Bottom Menu    -->
+    <string name="bottom_menu_home">Домой</string>
+    <string name="bottom_menu_add">Добавить</string>
+    <string name="bottom_menu_profile">Профиль</string>
+    <!--    endregion-->
+
 </resources>

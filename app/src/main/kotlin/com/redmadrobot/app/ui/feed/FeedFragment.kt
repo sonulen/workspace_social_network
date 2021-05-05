@@ -33,7 +33,7 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
 
         val navController = NavHostFragment.findNavController(this)
         binding.btnDeauth.setOnClickListener {
-            navController.navigate(R.id.toWelcomeFragment)
+            navController.navigate(R.id.AuthGraph)
         }
     }
 

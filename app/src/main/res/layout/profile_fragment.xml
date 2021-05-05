@@ -33,59 +33,66 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="14dp" />
 
-    <ImageView
-        android:id="@+id/welcome_image"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tool_bar"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_top"
-        app:srcCompat="@drawable/image_welcome_illustration"
+        app:title="@string/profile_screen_name"
+        app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+        app:srcCompat="@drawable/icon_profile_image_strub"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/hello_text_view"
-        android:textAppearance="@style/TextAppearance.App.H1"
+        android:id="@+id/name_text_view"
         style="@style/Widget.Workplaces.TextView"
-        android:text="@string/feed_is_empty_message"
+        android:layout_marginTop="24dp"
+        android:text="@string/profile_name_surname"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_image" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/profile_image"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/secondary_hello_text_view"
-        android:gravity="center"
-        android:text="@string/feed_is_empty_message_second"
-        android:textAppearance="@style/TextAppearance.App.BodyL"
+        android:id="@+id/age_text_view"
         style="@style/Widget.Workplaces.TextView"
+        android:layout_marginTop="20dp"
+        android:text="@string/profile_age"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/hello_text_view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_text_view" />
 
-    <Button
-        android:id="@+id/btn_find_friends"
-        android:text="@string/button_find_friends"
-        style="@style/Widget.Workplaces.Button"
-        app:layout_constraintBottom_toTopOf="@+id/btn_deauth"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <ImageButton
+        android:id="@+id/edit_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
+        app:layout_constraintTop_toTopOf="@+id/profile_image"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        tools:ignore="ContentDescription" />
 
-    <Button
-        android:id="@+id/btn_deauth"
-        android:text="@string/button_deauthorization"
-        style="@style/Widget.Workplaces.SolidButton"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

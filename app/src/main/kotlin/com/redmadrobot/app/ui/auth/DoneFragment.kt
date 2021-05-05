@@ -26,7 +26,7 @@ class DoneFragment : BaseFragment(R.layout.done_fragment) {
     private fun registerButtonClickListeners() {
         val navController = findNavController(this)
         binding.btnGoToFeed.setOnClickListener {
-            navController.navigate(R.id.toFeedFragment)
+            navController.navigate(R.id.WorkspaceGraph)
         }
     }
 

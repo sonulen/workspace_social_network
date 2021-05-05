@@ -4,15 +4,6 @@
     android:id="@+id/navigation_graph.xml"
     app:startDestination="@id/AuthGraph">
 
-    <fragment
-        android:id="@+id/feedFragment"
-        android:name="com.redmadrobot.app.ui.feed.FeedFragment"
-        android:label="FeedFragment">
-        <action
-            android:id="@+id/toWelcomeFragment"
-            app:destination="@id/AuthGraph" />
-    </fragment>
-
     <navigation
         android:id="@+id/AuthGraph"
         app:startDestination="@id/welcomeFragment">
@@ -63,7 +54,7 @@
             android:label="DoneFragment">
             <action
                 android:id="@+id/toFeedFragment"
-                app:destination="@id/feedFragment" />
+                app:destination="@id/WorkspaceGraph" />
         </fragment>
         <fragment
             android:id="@+id/updateProfileFragment"
@@ -77,5 +68,21 @@
                 app:popUpTo="@id/updateProfileFragment"
                 app:popUpToInclusive="true" />
         </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/WorkspaceGraph"
+        app:startDestination="@id/feedFragment">
+        <fragment
+            android:id="@+id/feedFragment"
+            android:name="com.redmadrobot.app.ui.feed.FeedFragment"
+            android:label="FeedFragment">
+            <action
+                android:id="@+id/toWelcomeFragment"
+                app:destination="@id/AuthGraph" />
+        </fragment>
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.redmadrobot.app.ui.feed.ProfileFragment"
+            android:label="ProfileFragment" />
     </navigation>
 </navigation>
