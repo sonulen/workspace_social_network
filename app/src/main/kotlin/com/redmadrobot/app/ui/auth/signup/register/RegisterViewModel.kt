@@ -4,8 +4,9 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel(private val useCase: RegisterUseCase) : BaseViewModel() {
+class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase) : BaseViewModel() {
     var registerFormState = RegisterFormState()
         private set
 

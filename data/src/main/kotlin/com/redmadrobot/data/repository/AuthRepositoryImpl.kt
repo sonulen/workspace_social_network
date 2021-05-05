@@ -8,8 +8,9 @@ import com.redmadrobot.domain.repository.AuthRepository
 import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
 
-class AuthRepositoryImpl constructor(
+class AuthRepositoryImpl @Inject constructor(
     private val sharedPrefs: SharedPreferences,
 ) : AuthRepository {
     var accessToken: AccessTokenEntity? = null

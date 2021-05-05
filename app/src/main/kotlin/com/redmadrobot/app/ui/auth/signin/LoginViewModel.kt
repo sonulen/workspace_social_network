@@ -4,8 +4,9 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel constructor(private val useCase: LoginUseCase) : BaseViewModel() {
+class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : BaseViewModel() {
     var loginFormState = LoginFormState()
         private set
 

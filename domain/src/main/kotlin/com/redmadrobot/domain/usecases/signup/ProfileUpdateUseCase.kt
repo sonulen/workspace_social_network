@@ -3,8 +3,12 @@ package com.redmadrobot.domain.usecases.signup
 import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
+import javax.inject.Inject
 
-class ProfileUpdateUseCase(private val authRepository: AuthRepository, private val validator: AuthValidator) {
+class ProfileUpdateUseCase @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val validator: AuthValidator,
+) {
     suspend fun updateProfile(
         nickname: String,
         firstName: String,

@@ -9,29 +9,33 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.redmadrobot.app.R
+import com.redmadrobot.app.di.auth.login.LoginComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
-import com.redmadrobot.data.repository.AuthRepositoryImpl
-import com.redmadrobot.domain.usecases.login.LoginUseCase
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
+import javax.inject.Inject
 
 class LoginFragment : BaseFragment(R.layout.login_fragment) {
-    private lateinit var viewModel: LoginViewModel
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+
     private lateinit var password: EditText
     private lateinit var email: EditText
     private lateinit var loginButton: Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        initDagger()
+    }
 
-        // TODO Решить это все через DI
-        val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
-        val authRepository = AuthRepositoryImpl(preferences)
-        val loginUseCase = LoginUseCase(authRepository)
-        viewModel = LoginViewModel(loginUseCase)
+    private fun initDagger() {
+        LoginComponent.init(appComponent).inject(this)
     }
 
     override fun onCreateView(

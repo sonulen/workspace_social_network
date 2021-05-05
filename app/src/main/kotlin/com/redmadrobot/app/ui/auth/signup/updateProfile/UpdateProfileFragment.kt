@@ -10,19 +10,23 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.app.R
+import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
-import com.redmadrobot.data.repository.AuthRepositoryImpl
-import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
-import com.redmadrobot.domain.util.AuthValidatorImpl
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
+import javax.inject.Inject
 
 class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
-    private lateinit var viewModel: UpdateProfileViewModel
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: UpdateProfileViewModel by viewModels { viewModelFactory }
+
     private lateinit var nickname: EditText
     private lateinit var name: EditText
     private lateinit var surname: EditText
@@ -31,12 +35,11 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        initDagger()
+    }
 
-        // TODO Решить это все через DI
-        val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
-        val authRepository = AuthRepositoryImpl(preferences)
-        val profileUpdateUseCase = ProfileUpdateUseCase(authRepository, AuthValidatorImpl())
-        viewModel = UpdateProfileViewModel(profileUpdateUseCase)
+    private fun initDagger() {
+        UpdateProfileComponent.init(appComponent).inject(this)
     }
 
     override fun onCreateView(

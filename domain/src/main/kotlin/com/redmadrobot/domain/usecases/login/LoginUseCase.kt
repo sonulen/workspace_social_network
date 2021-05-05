@@ -2,8 +2,9 @@ package com.redmadrobot.domain.usecases.login
 
 import com.redmadrobot.domain.repository.AuthRepository
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class LoginUseCase(private val authRepository: AuthRepository) {
+class LoginUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
     suspend fun login(email: String, password: String) = authRepository.login(email, password)
 

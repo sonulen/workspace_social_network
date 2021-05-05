@@ -4,8 +4,9 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UpdateProfileViewModel(private val useCase: ProfileUpdateUseCase) : BaseViewModel() {
+class UpdateProfileViewModel @Inject constructor(private val useCase: ProfileUpdateUseCase) : BaseViewModel() {
     var updateProfileFormState = UpdateProfileFormState()
         private set
 
