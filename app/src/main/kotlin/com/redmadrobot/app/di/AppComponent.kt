@@ -14,6 +14,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     dependencies = [NetworkProvider::class, AndroidToolsProvider::class, AuthClientProvider::class],
+    modules = [
+        MainViewModelModule::class,
+    ]
 )
 interface AppComponent : AppProvider {
 
