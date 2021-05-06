@@ -12,7 +12,7 @@ class ViewModelFactory @Inject constructor(
     private val providers: Map<Class<out ViewModel>,
         @JvmSuppressWildcards Provider<ViewModel>>,
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val provider = providers[modelClass]
             ?: providers.asIterable().find { modelClass.isAssignableFrom(it.key) }?.value
         requireNotNull(provider) { "Unknown ViewModel ${modelClass.canonicalName}" }
