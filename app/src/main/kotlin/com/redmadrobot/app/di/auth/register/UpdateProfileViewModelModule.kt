@@ -13,5 +13,5 @@ abstract class UpdateProfileViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(UpdateProfileViewModel::class)
-    internal abstract fun bindLoginViewModel(viewModel: UpdateProfileViewModel): ViewModel
+    internal abstract fun bindUpdateProfileViewModel(viewModel: UpdateProfileViewModel): ViewModel
 }

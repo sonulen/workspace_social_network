@@ -44,7 +44,7 @@ class UpdateProfileViewModel @Inject constructor(private val useCase: ProfileUpd
                 birthDay = birthDay
             )
 
-            if (result.isSuccess) {
+            if (result) {
                 offerOnMain(EventUpdateProfileSuccess())
             } else {
                 offerOnMain(EventUpdateProfileFailed())

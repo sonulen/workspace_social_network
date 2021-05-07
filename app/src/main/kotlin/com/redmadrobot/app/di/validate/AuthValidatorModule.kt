@@ -1,4 +1,4 @@
-package com.redmadrobot.app.di.auth.register
+package com.redmadrobot.app.di.validate
 
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.domain.util.AuthValidatorImpl

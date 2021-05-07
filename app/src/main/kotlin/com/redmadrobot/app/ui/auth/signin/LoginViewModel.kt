@@ -14,7 +14,7 @@ class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : Ba
         ioScope.launch {
             val result = useCase.login(email, password)
 
-            if (result.isSuccess) {
+            if (result) {
                 offerOnMain(EventLoginSuccess())
             } else {
                 offerOnMain(EventLoginFailed())

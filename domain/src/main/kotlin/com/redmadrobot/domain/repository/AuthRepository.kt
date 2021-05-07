@@ -1,22 +1,22 @@
 package com.redmadrobot.domain.repository
 
-import com.redmadrobot.domain.entity.repository.Result
+import com.redmadrobot.domain.entity.repository.Tokens
 
 interface AuthRepository {
+
     /**
      * Завершение сессии
-     *
      */
-    suspend fun logout(): Result<*>
+    suspend fun logout()
 
     /**
      * Аутентификация пользователя
      *
      * @param email E-mail
      * @param password Пароль
-     * @return Результат запроса
+     * @return Пара access и refresh токен
      */
-    suspend fun login(email: String, password: String): Result<*>
+    suspend fun login(email: String, password: String): Tokens
 
     /**
      * Регистрация пользователя
@@ -25,10 +25,7 @@ interface AuthRepository {
      * @param password Пароль
      * @return Результат запроса
      */
-    suspend fun register(
-        email: String,
-        password: String,
-    ): Result<*>
+    suspend fun register(email: String, password: String): Tokens
 
     /**
      * Обновление данных профиля пользователя
@@ -46,14 +43,5 @@ interface AuthRepository {
         lastName: String,
         birthDay: String,
         avatarUrl: String? = null,
-    ): Result<*>
-
-    /**
-     * Запрос на действующий access token
-     * Если пользователь удачно логинился и есть refresh токен, в этом методе
-     * Должен выполнять перезапрос access токена
-     *
-     * @return Результат с токеном. Токена может не сущетствовать.
-     */
-    suspend fun getCurrentAccessToken(): Result<*>
+    ): Boolean
 }

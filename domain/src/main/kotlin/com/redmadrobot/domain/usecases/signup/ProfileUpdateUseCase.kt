@@ -1,6 +1,5 @@
 package com.redmadrobot.domain.usecases.signup
 
-import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import javax.inject.Inject
@@ -14,7 +13,7 @@ class ProfileUpdateUseCase @Inject constructor(
         firstName: String,
         lastName: String,
         birthDay: String,
-    ): Result<*> = authRepository.updateProfile(
+    ): Boolean = authRepository.updateProfile(
         nickname = nickname,
         firstName = firstName,
         lastName = lastName,

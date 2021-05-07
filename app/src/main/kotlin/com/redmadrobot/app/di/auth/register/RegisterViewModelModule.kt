@@ -13,5 +13,5 @@ abstract class RegisterViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(RegisterViewModel::class)
-    internal abstract fun bindLoginViewModel(viewModel: RegisterViewModel): ViewModel
+    internal abstract fun bindRegisterViewModel(viewModel: RegisterViewModel): ViewModel
 }

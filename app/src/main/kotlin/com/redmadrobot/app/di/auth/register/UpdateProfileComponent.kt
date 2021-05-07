@@ -1,17 +1,20 @@
 package com.redmadrobot.app.di.auth.register
 
 import com.redmadrobot.app.di.AppProvider
-import com.redmadrobot.app.di.authClient.AuthClientProvider
+import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
+import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
+import com.redmadrobot.app.di.validate.AuthValidatorModule
 import com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment
 import dagger.Component
 
 @Component(
     dependencies = [
-        AuthClientProvider::class,
+        SessionRepositoryProvider::class,
     ],
     modules = [
         UpdateProfileViewModelModule::class,
-        AuthValidatorModule::class
+        AuthValidatorModule::class,
+        AuthRepositoryModule::class
     ]
 )
 interface UpdateProfileComponent {
@@ -20,7 +23,7 @@ interface UpdateProfileComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            authClient: AuthClientProvider,
+            sessionRepository: SessionRepositoryProvider,
         ): UpdateProfileComponent
     }
 

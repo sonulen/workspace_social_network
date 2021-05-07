@@ -28,7 +28,7 @@ class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase
         ioScope.launch {
             val result = useCase.register(email, password)
 
-            if (result.isSuccess) {
+            if (result) {
                 offerOnMain(EventRegisterSuccess())
             } else {
                 offerOnMain(EventRegisterFailed())

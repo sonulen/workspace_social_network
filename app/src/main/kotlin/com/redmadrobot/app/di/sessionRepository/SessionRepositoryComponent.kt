@@ -1,4 +1,4 @@
-package com.redmadrobot.app.di.authClient
+package com.redmadrobot.app.di.sessionRepository
 
 import com.redmadrobot.app.di.android.AndroidToolsProvider
 import dagger.Component
@@ -7,13 +7,13 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     dependencies = [AndroidToolsProvider::class],
-    modules = [AuthClientModule::class]
+    modules = [SessionRepositoryModule::class]
 )
-interface AuthClientComponent : AuthClientProvider {
+interface SessionRepositoryComponent : SessionRepositoryProvider {
     class Builder private constructor() {
         companion object {
-            fun build(androidToolsProvider: AndroidToolsProvider): AuthClientProvider {
-                return DaggerAuthClientComponent.builder()
+            fun build(androidToolsProvider: AndroidToolsProvider): SessionRepositoryProvider {
+                return DaggerSessionRepositoryComponent.builder()
                     .androidToolsProvider(androidToolsProvider)
                     .build()
             }
