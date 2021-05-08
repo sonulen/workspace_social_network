@@ -1,8 +1,8 @@
 package com.redmadrobot.app.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -53,16 +53,13 @@ class MainActivity : BaseActivity() {
     private fun setupBottomNavigationBarVisibility(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.welcomeFragment,
-                R.id.doneFragment,
-                R.id.loginFragment,
-                R.id.registerFragment,
-                R.id.updateProfileFragment,
+                R.id.feedFragment,
+                R.id.profileFragment,
                 -> {
-                    binding.menuNavigation.visibility = View.GONE
+                    binding.menuNavigation.isVisible = true
                 }
 
-                else -> binding.menuNavigation.visibility = View.VISIBLE
+                else -> binding.menuNavigation.isVisible = false
             }
         }
     }
