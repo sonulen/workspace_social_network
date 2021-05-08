@@ -25,7 +25,8 @@
             app:destination="@id/updateProfileFragment" />
         <action
             android:id="@+id/toLoginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/welcomeFragment" />
         <action
             android:id="@+id/registerFragmentPop"
             app:popUpTo="@id/registerFragment"
@@ -53,7 +54,8 @@
             app:destination="@id/doneFragment" />
         <action
             android:id="@+id/toRegisterFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/welcomeFragment" />
         <action
             android:id="@+id/loginFragmentPop"
             app:popUpTo="@id/loginFragment"
