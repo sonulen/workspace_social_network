@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top"
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:srcCompat="@drawable/image_welcome_illustration"
         tools:ignore="ContentDescription" />
 
@@ -52,9 +52,9 @@
         android:text="@string/done_sign_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_image" />
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/welcome_image" />
 
     <TextView
         android:id="@+id/secondary_hello_text_view"
@@ -64,18 +64,18 @@
         style="@style/Widget.Workplaces.TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/hello_text_view" />
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/hello_text_view" />
 
     <Button
         android:id="@+id/button_go_to_feed"
         style="@style/Widget.Workplaces.Button"
         android:text="@string/button_go_to_feed"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+        app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
+        app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

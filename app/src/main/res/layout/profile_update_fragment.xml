@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top"
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:navigationIcon="@drawable/icon_back_button"
         app:title="@string/register_screen_name"
         app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
+        app:layout_constraintTop_toBottomOf="@id/tool_bar" />
 
     <EditText
         android:id="@+id/edit_text_nickname"
@@ -68,9 +68,9 @@
         android:ems="10"
         android:hint="@string/nickname_hint"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintHorizontal_bias="0.5" />
 
     <EditText
@@ -81,9 +81,9 @@
         android:ems="10"
         android:hint="@string/name_hint"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_nickname"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
         tools:layout_editor_absoluteX="41dp" />
 
     <EditText
@@ -94,9 +94,9 @@
         android:ems="10"
         android:hint="@string/surname_hint"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_birth_day"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_birth_day"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
         tools:layout_editor_absoluteX="41dp" />
 
     <EditText
@@ -107,9 +107,9 @@
         android:ems="10"
         android:hint="@string/date_of_birth_hint"
         android:inputType="date"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_name"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
         tools:layout_editor_absoluteX="41dp" />
 
     <Button
@@ -117,9 +117,9 @@
         style="@style/Widget.Workplaces.SolidButton"
         android:enabled="false"
         android:text="@string/button_finish_register"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
+        app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
