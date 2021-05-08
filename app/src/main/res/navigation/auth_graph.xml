@@ -4,6 +4,16 @@
     android:id="@+id/AuthGraph"
     app:startDestination="@id/welcomeFragment">
 
+    <action
+        android:id="@+id/startAuthGraph"
+        app:destination="@id/welcomeFragment"
+        app:launchSingleTop="true" />
+
+    <action
+        android:id="@+id/toWorkspaceGraph"
+        app:destination="@id/WorkspaceGraph"
+        app:launchSingleTop="true" />
+
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
@@ -50,7 +60,7 @@
         android:name="com.redmadrobot.app.ui.auth.DoneFragment"
         android:label="DoneFragment">
         <action
-            android:id="@+id/toFeedFragment"
+            android:id="@+id/toWorkspaceGraph"
             app:destination="@id/WorkspaceGraph" />
     </fragment>
     <fragment

@@ -34,7 +34,7 @@ class SessionRepositoryImpl @Inject constructor(
     /**
      * /see [SessionRepository.getRefreshToken]
      */
-    override fun getRefreshToken(): String? = sharedPrefs.getString("key_name", null)
+    override fun getRefreshToken(): String? = sharedPrefs.getString(AUTH_REFRESH_TOKEN, null)
 
     /**
      * /see [SessionRepository.sessionExists]
