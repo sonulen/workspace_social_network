@@ -1,5 +1,6 @@
 package com.redmadrobot.app.ui.auth.signin
 
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.login.LoginUseCase
@@ -11,7 +12,7 @@ class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : Ba
         private set
 
     fun onLoginClicked(email: String, password: String) {
-        ioScope.launch {
+        viewModelScope.launch {
             val result = useCase.login(email, password)
 
             if (result) {

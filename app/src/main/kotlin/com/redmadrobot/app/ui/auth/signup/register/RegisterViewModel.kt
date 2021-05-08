@@ -1,5 +1,6 @@
 package com.redmadrobot.app.ui.auth.signup.register
 
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
@@ -25,7 +26,7 @@ class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase
     }
 
     fun onRegisterClicked(email: String, password: String) {
-        ioScope.launch {
+        viewModelScope.launch {
             val result = useCase.register(email, password)
 
             if (result) {

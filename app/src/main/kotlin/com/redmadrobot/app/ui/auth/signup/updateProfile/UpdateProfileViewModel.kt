@@ -1,5 +1,6 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
@@ -36,7 +37,7 @@ class UpdateProfileViewModel @Inject constructor(private val useCase: ProfileUpd
     }
 
     fun onUpdateProfileClicked(nickname: String, name: String, surname: String, birthDay: String) {
-        ioScope.launch {
+        viewModelScope.launch {
             val result = useCase.updateProfile(
                 nickname = nickname,
                 firstName = name,
