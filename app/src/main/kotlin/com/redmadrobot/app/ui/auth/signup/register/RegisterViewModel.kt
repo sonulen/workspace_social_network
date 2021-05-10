@@ -1,39 +1,49 @@
 package com.redmadrobot.app.ui.auth.signup.register
 
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.redmadrobot.app.R
+import com.redmadrobot.app.ui.base.delegate
+import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
-import kotlinx.coroutines.launch
+import com.redmadrobot.extensions.lifecycle.mapDistinct
 import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase) : BaseViewModel() {
-    var registerFormState = RegisterFormState()
-        private set
+    private val liveState = MutableLiveData<RegisterViewState>(RegisterViewState())
+    private var state: RegisterViewState by liveState.delegate()
 
-    fun onRegisterDataChanged(email: String, password: String) {
-        registerFormState = RegisterFormState()
+    val screenState = liveState.mapDistinct { it.screenState }
+    val emailError = liveState.map { it.emailError }
+    val passwordError = liveState.map { it.passwordError }
+    val isGoNextButtonEnabled = liveState.mapDistinct { it.isEmailValid && it.isPasswordValid }
 
-        if (!useCase.isEmailValid(email)) {
-            registerFormState.emailError = R.string.invalid_email
-            registerFormState.isDataValid = false
-        }
-        if (!useCase.isPasswordValid(password)) {
-            registerFormState.passwordError = R.string.invalid_password
-            registerFormState.isDataValid = false
-        }
-        eventsQueue.offerEvent(EventRegisterFormStateChanged())
+    fun onPasswordEntered(password: String) {
+        state = state.copy(
+            isPasswordValid = useCase.isPasswordValid(password),
+            passwordError = if (useCase.isPasswordValid(password)) null else R.string.invalid_password
+        )
     }
 
-    fun onRegisterClicked(email: String, password: String) {
-        viewModelScope.launch {
-            val result = useCase.register(email, password)
+    fun onEmailEntered(email: String) {
+        state = state.copy(
+            isEmailValid = useCase.isEmailValid(email),
+            emailError = if (useCase.isEmailValid(email)) null else R.string.invalid_email
+        )
+    }
 
-            if (result) {
-                offerOnMain(EventRegisterSuccess())
-            } else {
-                offerOnMain(EventRegisterFailed())
-            }
-        }
+    fun onGoToLoginClicked() {
+        eventsQueue.offerEvent(EventNavigateTo(RegisterFragmentDirections.toLoginFragment()))
+    }
+
+    fun onBackClicked() {
+        eventsQueue.offerEvent(EventNavigateTo(RegisterFragmentDirections.registerFragmentPop()))
+    }
+
+    fun onGoNextClicked(email: String, password: String) {
+        eventsQueue.offerEvent(
+            EventNavigateTo(RegisterFragmentDirections.toUpdateProfileFragment(email, password))
+        )
     }
 }

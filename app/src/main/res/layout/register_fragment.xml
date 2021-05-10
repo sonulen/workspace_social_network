@@ -87,14 +87,14 @@
         android:id="@+id/button_go_to_login"
         android:text="@string/button_already_register"
         style="@style/Widget.Workplaces.Button"
-        app:layout_constraintBottom_toTopOf="@id/button_register"
+        app:layout_constraintBottom_toTopOf="@id/button_go_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/button_go_next"
         style="@style/Widget.Workplaces.SolidButton"
         android:enabled="false"
         android:text="@string/button_go_next"

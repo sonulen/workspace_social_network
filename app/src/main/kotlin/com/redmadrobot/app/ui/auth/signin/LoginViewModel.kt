@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : BaseViewModel() {
     private val liveState = MutableLiveData<LoginViewState>(LoginViewState())
-    var state: LoginViewState by liveState.delegate()
+    private var state: LoginViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
     val emailError = liveState.map { it.emailError }

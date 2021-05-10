@@ -75,6 +75,12 @@
         android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment"
         tools:layout="@layout/profile_update_fragment"
         android:label="UpdateProfileFragment">
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
         <action
             android:id="@+id/toDoneFragment"
             app:destination="@id/doneFragment" />
