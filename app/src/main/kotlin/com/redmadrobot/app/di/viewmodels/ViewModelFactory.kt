@@ -15,7 +15,7 @@ class ViewModelFactory @Inject constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val provider = providers[modelClass]
             ?: providers.asIterable().find { modelClass.isAssignableFrom(it.key) }?.value
-        requireNotNull(provider) { "Unknown ViewModel ${modelClass.canonicalName}" }
+        requireNotNull(provider) { "Unknown ViewModel ${modelClass.canonicalName ?: ""}" }
         return provider.get() as T
     }
 }

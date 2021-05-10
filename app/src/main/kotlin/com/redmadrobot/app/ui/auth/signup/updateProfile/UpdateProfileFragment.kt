@@ -67,25 +67,25 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     }
 
     private fun renderNicknameError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextNickname.error = getString(stringId)
         }
     }
 
     private fun renderNameError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextName.error = getString(stringId)
         }
     }
 
     private fun renderSurnameError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextSurname.error = getString(stringId)
         }
     }
 
     private fun renderBirthDayError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextBirthDay.error = getString(stringId)
         }
     }

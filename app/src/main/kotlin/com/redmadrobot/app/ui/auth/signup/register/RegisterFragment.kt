@@ -57,13 +57,13 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
     }
 
     private fun renderEmailError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextEmail.error = getString(stringId)
         }
     }
 
     private fun renderPasswordError(@StringRes stringId: Int?) {
-        stringId?.let {
+        if (stringId != null) {
             binding.editTextPassword.error = getString(stringId)
         }
     }
