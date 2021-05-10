@@ -94,7 +94,7 @@
         android:ems="10"
         android:hint="@string/surname_hint"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_birth_day"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_name"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         tools:layout_editor_absoluteX="41dp" />
@@ -107,13 +107,13 @@
         android:ems="10"
         android:hint="@string/date_of_birth_hint"
         android:inputType="date"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_surname"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         tools:layout_editor_absoluteX="41dp" />
 
     <Button
-        android:id="@+id/button_update_profile"
+        android:id="@+id/button_register"
         style="@style/Widget.Workplaces.SolidButton"
         android:enabled="false"
         android:text="@string/button_finish_register"
