@@ -41,7 +41,8 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
         registerPasswordEditTexListener()
     }
 
-    private fun onEvent(event: Event) {
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
         val navController = findNavController(this)
 
         when (event) {

@@ -45,7 +45,8 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         registerBirthDayEditTexListener()
     }
 
-    private fun onEvent(event: Event) {
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
         val navController = findNavController(this)
 
         when (event) {
