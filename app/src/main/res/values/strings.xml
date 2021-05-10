@@ -15,8 +15,8 @@
     <string name="button_go_to_register">Перейти к регистрации</string>
     <string name="button_go_next">Далее</string>
     <string name="login_failed">Залогиниться не удалось!</string>
-    <string name="invalid_email">Некорректный email</string>
-    <string name="invalid_password">Некорректный пароль: 6 символов, Одна большая, одна маленькая</string>
+    <string name="invalid_email">Проверьте правильность e-mail</string>
+    <string name="invalid_password">Пароль должен быть не короче 8 символов и должен содержать хотя бы одну цифру, большую и маленькую букву</string>
     <string name="action_sign_in_short">Вход</string>
     <!--    endregion-->
 
@@ -24,7 +24,6 @@
     <string name="register_screen_name">Регистрация</string>
     <string name="nickname_hint">Никнейм</string>
     <string name="button_already_register">Уже зарегистрирован</string>
-    <string name="invalid_nickname">Некорректный nickname</string>
     <!--    endregion-->
 
     <!--   region Экран Sign Up Second    -->
@@ -32,8 +31,9 @@
     <string name="surname_hint">Фамилия</string>
     <string name="date_of_birth_hint">Дата рождения</string>
     <string name="button_finish_register">Зарегистрироваться</string>
-    <string name="invalid_name">Некорректное имя</string>
-    <string name="invalid_surname">Некорректная фамилия</string>
+    <string name="invalid_nickname">Проверьте, что используются только латинские символы и цифры</string>
+    <string name="invalid_name">Проверьте, что используются только латинские символы</string>
+    <string name="invalid_surname">Проверьте, что используются только латинские символы</string>
     <string name="invalid_birthday">Некорректная дата рождения</string>
     <!--    endregion-->
 
