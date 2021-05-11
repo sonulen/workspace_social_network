@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.redmadrobot.app.ui.auth.WelcomeFragment"
+        android:name="com.redmadrobot.app.ui.auth.welcome.WelcomeFragment"
         tools:layout="@layout/welcome_fragment"
         android:label="WelcomeFragment">
         <action
