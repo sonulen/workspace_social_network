@@ -7,13 +7,14 @@ import com.redmadrobot.domain.repository.SessionRepository
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val sessionRepository: SessionRepository) : BaseViewModel() {
-    private val authLocation = WelcomeFragmentDirections.startAuthGraph()
-    private val workspaceLocation = WelcomeFragmentDirections.toWorkspaceGraph()
-
     fun requestDirections() {
         eventsQueue.offerEvent(
             EventNavigateTo(
-                if (sessionRepository.sessionExists()) workspaceLocation else authLocation
+                if (sessionRepository.sessionExists()) {
+                    WelcomeFragmentDirections.toWorkspaceGraph()
+                } else {
+                    WelcomeFragmentDirections.startAuthGraph()
+                }
             )
         )
     }
