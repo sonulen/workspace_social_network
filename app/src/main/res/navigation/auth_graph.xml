@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/doneFragment"
-        android:name="com.redmadrobot.app.ui.auth.DoneFragment"
+        android:name="com.redmadrobot.app.ui.auth.done.DoneFragment"
         tools:layout="@layout/done_fragment"
         android:label="DoneFragment">
         <action
