@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:title="@string/profile_screen_name"
-        app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
+        app:titleTextAppearance="@style/TextAppearance.App.H3" />
 
     <ImageView
         android:id="@+id/profile_image"

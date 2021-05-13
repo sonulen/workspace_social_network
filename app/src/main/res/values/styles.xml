@@ -27,15 +27,14 @@
 
     <style name="Widget.Workplaces.SolidButton" parent="Base.Widget.Workplaces.Button">
         <item name="android:backgroundTint">@color/solid_button_color_selector</item>
+        <item name="android:textColor">@color/solid_button_text_selector</item>
     </style>
 
     <style name="Widget.Workplaces.BottomNavigationMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconTint">@color/light_grey</item>
-        <item name="itemTextColor">@color/dark_grey</item>
     </style>
 
     <style name="Widget.Workplaces.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="colorPrimary">@color/orange</item>
+        <item name="colorOnSurface">@color/black</item>
     </style>
 
 </resources>
