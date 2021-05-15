@@ -13,7 +13,7 @@ import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
 
-class ProfileFragment : BaseFragment(R.layout.feed_fragment) {
+class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
@@ -37,7 +37,7 @@ class ProfileFragment : BaseFragment(R.layout.feed_fragment) {
 
     private fun registerButtonClickListeners() {
         with(binding) {
-            editProfileButton.setOnClickListener {
+            buttonEditProfile.setOnClickListener {
                 viewModel.onProfileEditClicked()
             }
         }
