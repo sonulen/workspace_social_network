@@ -4,6 +4,7 @@
     android:id="@+id/rootGraph"
     app:startDestination="@id/AuthGraph">
 
+
     <include app:graph="@navigation/auth_graph" />
     <include app:graph="@navigation/workspace_graph" />
 

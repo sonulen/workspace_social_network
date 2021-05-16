@@ -6,7 +6,7 @@
     app:startDestination="@id/welcomeFragment">
 
     <action
-        android:id="@+id/startAuthGraph"
+        android:id="@+id/toAuthGraph"
         app:destination="@id/welcomeFragment"
         app:launchSingleTop="true" />
 

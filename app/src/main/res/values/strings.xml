@@ -39,22 +39,22 @@
 
     <!--   region Экран Done    -->
     <string name="done_sign_message">Nice to meet you</string>
-    <string name="done_sign_message_second">Теперь ты можешь смотреть \n и делать публикации</string>
+    <string name="done_sign_message_second">Теперь ты можешь смотреть\n и делать публикации</string>
     <string name="button_go_to_feed">Перейти к ленте</string>
     <!--    endregion-->
 
     <!--   region Экран Feed    -->
     <string name="feed_is_empty_message">Пустота</string>
-    <string name="feed_is_empty_message_second">Вам нужны друзья, чтобы лента стала живой</string>
+    <string name="feed_is_empty_message_second">Вам нужны друзья,\n чтобы лента стала живой</string>
     <string name="button_find_friends">Найти друзей</string>
     <string name="button_deauthorization">Деавторизация</string>
     <!--    endregion-->
 
     <!--   region Экран Profile    -->
     <string name="profile_screen_name">Профиль</string>
-    <string name="profile_posts">Посты</string>
-    <string name="profile_likes">Лайки</string>
-    <string name="profile_friends">Друзья</string>
+    <string name="profile_tab_name_posts">Посты</string>
+    <string name="profile_tab_name_likes">Лайки</string>
+    <string name="profile_tab_name_friends">Друзья</string>
     <string name="profile_name_surname">Имя Фамилия</string>
     <string name="profile_age">Возраст</string>
     <!--    endregion-->
@@ -63,6 +63,14 @@
     <string name="bottom_menu_home">Домой</string>
     <string name="bottom_menu_add">Добавить</string>
     <string name="bottom_menu_profile">Профиль</string>
+    <!--    endregion-->
+
+
+    <!--   region Экран Profile    -->
+    <string name="nickname_stub">Nickname</string>
+    <string name="logout">Выйти</string>
+    <string name="profile_mine_empty_message">Пустота</string>
+    <string name="profile_mine_empty_message_second">Вы пока одиноки в сервисе,\n но это можно исправить</string>
     <!--    endregion-->
 
 </resources>

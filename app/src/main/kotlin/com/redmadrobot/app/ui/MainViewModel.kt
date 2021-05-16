@@ -13,7 +13,7 @@ class MainViewModel @Inject constructor(private val sessionRepository: SessionRe
                 if (sessionRepository.sessionExists()) {
                     WelcomeFragmentDirections.toWorkspaceGraph()
                 } else {
-                    WelcomeFragmentDirections.startAuthGraph()
+                    WelcomeFragmentDirections.toAuthGraph()
                 }
             )
         )
