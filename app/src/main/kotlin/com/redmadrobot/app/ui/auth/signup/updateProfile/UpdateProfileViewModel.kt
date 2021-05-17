@@ -9,15 +9,15 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
-import com.redmadrobot.domain.usecases.signup.ProfileUpdateUseCase
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
+import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
-    private val useCaseRegister: RegisterUseCase,
-    private val useCaseProfileUpdate: ProfileUpdateUseCase,
+    private val useCase: RegisterUseCase,
+    private val validator: AuthValidator,
 ) : BaseViewModel() {
     private val liveState = MutableLiveData<UpdateProfileViewState>(UpdateProfileViewState())
     private var state: UpdateProfileViewState by liveState.delegate()
@@ -42,8 +42,8 @@ class UpdateProfileViewModel @Inject constructor(
     fun onNicknameEntered(nickname: String) {
         state = state.copy(
             nickname = ValidAndError(
-                isValid = useCaseProfileUpdate.isNicknameValid(nickname),
-                error = if (useCaseProfileUpdate.isNicknameValid(nickname)) null else R.string.invalid_nickname
+                isValid = validator.isNicknameValid(nickname),
+                error = if (validator.isNicknameValid(nickname)) null else R.string.invalid_nickname
             )
         )
     }
@@ -51,8 +51,8 @@ class UpdateProfileViewModel @Inject constructor(
     fun onNameEntered(name: String) {
         state = state.copy(
             name = ValidAndError(
-                isValid = useCaseProfileUpdate.isNameValid(name),
-                error = if (useCaseProfileUpdate.isNameValid(name)) null else R.string.invalid_name
+                isValid = validator.isNameValid(name),
+                error = if (validator.isNameValid(name)) null else R.string.invalid_name
             )
         )
     }
@@ -60,8 +60,8 @@ class UpdateProfileViewModel @Inject constructor(
     fun onSurnameEntered(surname: String) {
         state = state.copy(
             surname = ValidAndError(
-                isValid = useCaseProfileUpdate.isSurNameValid(surname),
-                error = if (useCaseProfileUpdate.isSurNameValid(surname)) null else R.string.invalid_surname
+                isValid = validator.isSurNameValid(surname),
+                error = if (validator.isSurNameValid(surname)) null else R.string.invalid_surname
             )
         )
     }
@@ -69,8 +69,8 @@ class UpdateProfileViewModel @Inject constructor(
     fun onBirthDayEntered(birthDay: String) {
         state = state.copy(
             birthDay = ValidAndError(
-                isValid = useCaseProfileUpdate.isBirthDayValid(birthDay),
-                error = if (useCaseProfileUpdate.isBirthDayValid(birthDay)) null else R.string.invalid_birthday
+                isValid = validator.isBirthDayValid(birthDay),
+                error = if (validator.isBirthDayValid(birthDay)) null else R.string.invalid_birthday
             )
         )
     }
@@ -108,7 +108,7 @@ class UpdateProfileViewModel @Inject constructor(
     private suspend fun register(): Boolean {
         with(state) {
             if (email != null && password != null) {
-                val result = useCaseRegister.register(email, password)
+                val result = useCase.register(email, password)
 
                 if (!result) {
                     offerOnMain(EventError("Зарегестрироваться не удалось"))
@@ -120,7 +120,7 @@ class UpdateProfileViewModel @Inject constructor(
     }
 
     private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String): Boolean {
-        val result = useCaseProfileUpdate.updateProfile(
+        val result = useCase.updateProfile(
             nickname = nickname,
             firstName = name,
             lastName = surname,

@@ -6,11 +6,11 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.delegate
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
-import com.redmadrobot.domain.usecases.signup.RegisterUseCase
+import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import javax.inject.Inject
 
-class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase) : BaseViewModel() {
+class RegisterViewModel @Inject constructor(private val validator: AuthValidator) : BaseViewModel() {
     private val liveState = MutableLiveData<RegisterViewState>(RegisterViewState())
     private var state: RegisterViewState by liveState.delegate()
 
@@ -21,15 +21,15 @@ class RegisterViewModel @Inject constructor(private val useCase: RegisterUseCase
 
     fun onPasswordEntered(password: String) {
         state = state.copy(
-            isPasswordValid = useCase.isPasswordValid(password),
-            passwordError = if (useCase.isPasswordValid(password)) null else R.string.invalid_password
+            isPasswordValid = validator.isPasswordValid(password),
+            passwordError = if (validator.isPasswordValid(password)) null else R.string.invalid_password
         )
     }
 
     fun onEmailEntered(email: String) {
         state = state.copy(
-            isEmailValid = useCase.isEmailValid(email),
-            emailError = if (useCase.isEmailValid(email)) null else R.string.invalid_email
+            isEmailValid = validator.isEmailValid(email),
+            emailError = if (validator.isEmailValid(email)) null else R.string.invalid_email
         )
     }
 
