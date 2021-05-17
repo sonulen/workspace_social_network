@@ -2,10 +2,12 @@ package com.redmadrobot.app.di.network
 
 import com.redmadrobot.app.di.qualifiers.UnauthorizedZone
 import com.redmadrobot.data.network.AuthApi
+import com.redmadrobot.data.network.NetworkErrorInterceptor
 import com.redmadrobot.data.network.NetworkRouter
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -43,12 +45,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideErrorInterceptor(moshi: Moshi): Interceptor = NetworkErrorInterceptor(moshi)
+
+    @Provides
+    @Singleton
     @UnauthorizedZone
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
+        errorInterceptor: Interceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(errorInterceptor)
             .callTimeout(HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)

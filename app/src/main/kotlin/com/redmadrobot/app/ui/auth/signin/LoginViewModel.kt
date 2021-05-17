@@ -9,6 +9,7 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.data.network.NetworkException
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
@@ -36,9 +37,9 @@ class LoginViewModel @Inject constructor(
                 useCase.login(email, password)
                 state = state.copy(screenState = ScreenState.CONTENT)
                 offerOnMain(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
-            } catch (e: Exception) {
+            } catch (e: NetworkException) {
                 state = state.copy(screenState = ScreenState.ERROR)
-                offerOnMain(EventError(e.message ?: "Что то пошло не так"))
+                offerOnMain(EventError(e.message))
             }
         }
     }
