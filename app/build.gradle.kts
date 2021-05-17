@@ -154,4 +154,6 @@ dependencies {
     testImplementation(TestDependency.MOCKITO)
     testImplementation(TestDependency.ASSERTJ)
     testImplementation(TestDependency.ANDROIDX)
+
+    implementation(AppDependency.OK_HTTP_LOGGING)
 }

@@ -10,6 +10,8 @@ internal object AppVersions {
     const val RMR_LIVEDATA = "2.3.0-0"
 
     const val NAVIGATION = "2.3.5"
+
+    const val OK_HTTP_LOGGING = "4.9.1"
 }
 
 object AppDependency {
@@ -33,4 +35,5 @@ object AppDependency {
 
     // DAGGER
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${CoreVersions.DAGGER}"
+    const val OK_HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${AppVersions.OK_HTTP_LOGGING}"
 }
