@@ -10,11 +10,15 @@ import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.domain.usecases.login.LoginUseCase
+import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : BaseViewModel() {
+class LoginViewModel @Inject constructor(
+    private val useCase: LoginUseCase,
+    private val validator: AuthValidator,
+) : BaseViewModel() {
     private val liveState = MutableLiveData<LoginViewState>(LoginViewState())
     private var state: LoginViewState by liveState.delegate()
 
@@ -54,15 +58,15 @@ class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : Ba
 
     fun onPasswordEntered(password: String) {
         state = state.copy(
-            isPasswordValid = useCase.isPasswordValid(password),
-            passwordError = if (useCase.isPasswordValid(password)) null else R.string.invalid_password
+            isPasswordValid = validator.isPasswordValid(password),
+            passwordError = if (validator.isPasswordValid(password)) null else R.string.invalid_password
         )
     }
 
     fun onEmailEntered(email: String) {
         state = state.copy(
-            isEmailValid = useCase.isEmailValid(email),
-            emailError = if (useCase.isEmailValid(email)) null else R.string.invalid_email
+            isEmailValid = validator.isEmailValid(email),
+            emailError = if (validator.isEmailValid(email)) null else R.string.invalid_email
         )
     }
 }
