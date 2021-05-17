@@ -75,7 +75,7 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
     private fun registerButtonClickListeners() {
         with(binding) {
             buttonGoToLogin.setOnClickListener {
-                viewModel.onBackClicked()
+                viewModel.onGoToLoginClicked()
             }
             buttonGoNext.setOnClickListener {
                 viewModel.onGoNextClicked(

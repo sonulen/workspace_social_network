@@ -8,12 +8,16 @@
     <action
         android:id="@+id/toAuthGraph"
         app:destination="@id/welcomeFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@id/toAuthGraph"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/toWorkspaceGraph"
         app:destination="@id/WorkspaceGraph"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@id/WorkspaceGraph"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/registerFragment"
@@ -68,7 +72,9 @@
         android:label="DoneFragment">
         <action
             android:id="@+id/toWorkspaceGraph"
-            app:destination="@id/WorkspaceGraph" />
+            app:destination="@id/WorkspaceGraph"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/updateProfileFragment"
@@ -83,7 +89,8 @@
             app:argType="string" />
         <action
             android:id="@+id/toDoneFragment"
-            app:destination="@id/doneFragment" />
+            app:destination="@id/doneFragment"
+            app:popUpTo="@id/welcomeFragment" />
         <action
             android:id="@+id/updateProfileFragmentPop"
             app:popUpTo="@id/updateProfileFragment"

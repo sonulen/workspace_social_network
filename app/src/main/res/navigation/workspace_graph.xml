@@ -24,7 +24,8 @@
         android:label="ProfileFragment">
         <action
             android:id="@+id/toWelcomeFragment"
-            app:destination="@id/AuthGraph" />
+            app:destination="@id/AuthGraph"
+            app:popUpTo="@id/AuthGraph" />
     </fragment>
 
 </navigation>
