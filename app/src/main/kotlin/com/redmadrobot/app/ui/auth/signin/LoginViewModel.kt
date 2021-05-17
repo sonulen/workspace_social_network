@@ -32,18 +32,13 @@ class LoginViewModel @Inject constructor(
             screenState = ScreenState.LOADING
         )
         viewModelScope.launch {
-            val result = useCase.login(email, password)
-
-            if (result) {
-                state = state.copy(
-                    screenState = ScreenState.CONTENT
-                )
+            try {
+                useCase.login(email, password)
+                state = state.copy(screenState = ScreenState.CONTENT)
                 offerOnMain(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
-            } else {
-                state = state.copy(
-                    screenState = ScreenState.ERROR
-                )
-                offerOnMain(EventError("Что-то пошло не так"))
+            } catch (e: Exception) {
+                state = state.copy(screenState = ScreenState.ERROR)
+                offerOnMain(EventError(e.message ?: "Что то пошло не так"))
             }
         }
     }

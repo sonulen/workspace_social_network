@@ -1,40 +1,31 @@
 package com.redmadrobot.data.repository
 
-import com.redmadrobot.data.entity.api.NetworkEntityUserCredentials
-import com.redmadrobot.data.network.AuthApi
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.repository.AuthRepository
-import com.redmadrobot.domain.repository.SessionRepository
 import kotlinx.coroutines.delay
-import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
-    private val api: AuthApi,
-    private val session: SessionRepository,
-) : AuthRepository {
+class AuthRepositoryMockImpl : AuthRepository {
     /**
      * /see [AuthRepository.logout]
      */
     override suspend fun logout() {
-        api.logout(
-            session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
-        )
+        delay(timeMillis = 5_000)
     }
 
     /**
      * /see [AuthRepository.login]
      */
     override suspend fun login(email: String, password: String): Tokens {
-        val tokens = api.login(NetworkEntityUserCredentials(email, password))
-        return Tokens(tokens.accessToken, tokens.refreshToken)
+        delay(timeMillis = 5_000)
+        return Tokens("access", "refresh")
     }
 
     /**
      * /see [AuthRepository.register]
      */
     override suspend fun register(email: String, password: String): Tokens {
-        val tokens = api.registration(NetworkEntityUserCredentials(email, password))
-        return Tokens(tokens.accessToken, tokens.refreshToken)
+        delay(timeMillis = 5_000)
+        return Tokens("access", "refresh")
     }
 
     /**

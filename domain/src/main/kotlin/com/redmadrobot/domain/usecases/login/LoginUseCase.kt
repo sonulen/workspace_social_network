@@ -8,9 +8,8 @@ class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val sessionRepository: SessionRepository,
 ) {
-    suspend fun login(email: String, password: String): Boolean {
+    suspend fun login(email: String, password: String) {
         val tokens = authRepository.login(email, password)
         sessionRepository.saveSession(tokens)
-        return true
     }
 }
