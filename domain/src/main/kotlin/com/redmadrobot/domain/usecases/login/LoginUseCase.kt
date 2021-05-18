@@ -1,18 +1,16 @@
 package com.redmadrobot.domain.usecases.login
 
 import com.redmadrobot.domain.repository.AuthRepository
-import java.util.regex.Pattern
+import com.redmadrobot.domain.repository.SessionRepository
+import javax.inject.Inject
 
-class LoginUseCase(private val authRepository: AuthRepository) {
-
-    suspend fun login(email: String, password: String) = authRepository.login(email, password)
-
-    fun isEmailValid(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-    fun isPasswordValid(password: String): Boolean {
-        val pattern: Pattern
-        val passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{6,}$"
-        pattern = Pattern.compile(passwordPattern)
-        return pattern.matcher(password).matches()
+class LoginUseCase @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val sessionRepository: SessionRepository,
+) {
+    suspend fun login(email: String, password: String): Boolean {
+        val tokens = authRepository.login(email, password)
+        sessionRepository.saveSession(tokens)
+        return true
     }
 }

@@ -2,128 +2,115 @@ package com.redmadrobot.app.ui.auth.signin
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
+import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.google.android.material.appbar.MaterialToolbar
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.redmadrobot.app.R
+import com.redmadrobot.app.databinding.LoginFragmentBinding
+import com.redmadrobot.app.di.auth.login.LoginComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
-import com.redmadrobot.data.repository.AuthRepositoryImpl
-import com.redmadrobot.domain.usecases.login.LoginUseCase
-import com.redmadrobot.extensions.lifecycle.Event
+import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.observe
+import com.redmadrobot.extensions.viewbinding.viewBinding
+import javax.inject.Inject
 
 class LoginFragment : BaseFragment(R.layout.login_fragment) {
-    private lateinit var viewModel: LoginViewModel
-    private lateinit var password: EditText
-    private lateinit var email: EditText
-    private lateinit var loginButton: Button
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+
+    private val binding: LoginFragmentBinding by viewBinding()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        // TODO Решить это все через DI
-        val preferences = this.requireActivity().getSharedPreferences("pref", Context.MODE_PRIVATE)
-        val authRepository = AuthRepositoryImpl(preferences)
-        val loginUseCase = LoginUseCase(authRepository)
-        viewModel = LoginViewModel(loginUseCase)
+        initDagger()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        val view = inflater.inflate(R.layout.login_fragment, container, false)
+    private fun initDagger() {
+        LoginComponent.init(appComponent).inject(this)
+    }
 
-        password = view.findViewById(R.id.edit_text_password)
-        email = view.findViewById(R.id.edit_text_email)
-        loginButton = view.findViewById(R.id.button_login)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         observe(viewModel.eventsQueue, ::onEvent)
+        observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.emailError, ::renderEmailError)
+        observe(viewModel.passwordError, ::renderPasswordError)
+        observe(viewModel.isLoginButtonEnabled, ::renderLoginButton)
 
-        registerButtonClickListeners(view)
+        registerButtonClickListeners()
         registerEmailEditTextListener()
         registerPasswordEditTexListener()
-
-        return view
     }
 
-    private fun onEvent(event: Event) {
-        val navController = findNavController(this)
+    private fun onScreenStateChange(state: ScreenState) {
+        when (state) {
+            ScreenState.CONTENT,
+            ScreenState.ERROR,
+            -> binding.buttonLogin.isClickable = true
+            ScreenState.LOADING -> binding.buttonLogin.isClickable = false
+        }
+    }
 
-        when (event) {
-            is EventLoginSuccess -> navController.navigate(R.id.toDoneFragment)
+    private fun renderEmailError(@StringRes stringId: Int?) {
+        if (stringId != null) {
+            binding.editTextEmail.error = getString(stringId)
+        }
+    }
 
-            is EventLoginFailed -> {
-                // no-op //
+    private fun renderPasswordError(@StringRes stringId: Int?) {
+        if (stringId != null) {
+            binding.editTextPassword.error = getString(stringId)
+        }
+    }
+
+    private fun renderLoginButton(isEnabled: Boolean) {
+        binding.buttonLogin.isEnabled = isEnabled
+    }
+
+    private fun registerButtonClickListeners() {
+        with(binding) {
+            toolBar.setNavigationOnClickListener {
+                viewModel.onBackClicked()
             }
-
-            is EventLoginFormStateChanged -> onLoginFormStateChange()
-        }
-    }
-
-    private fun onLoginFormStateChange() {
-        val loginState = viewModel.loginFormState
-        loginState.emailError?.let {
-            email.error = getString(it)
-        }
-        loginState.passwordError?.let {
-            password.error = getString(it)
-        }
-        // Выставим доступность кнопки согласно валидности данных
-        setEnableLoginButton(loginState.isDataValid)
-    }
-
-    private fun registerButtonClickListeners(view: View) {
-        val navController = findNavController(this)
-
-        view.findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener {
-            navController.navigate(R.id.loginFragmentPop)
-        }
-
-        view.findViewById<Button>(R.id.button_go_to_register).setOnClickListener {
-            navController.navigate(R.id.toRegisterFragment)
-        }
-
-        loginButton.setOnClickListener {
-            viewModel.onLoginClicked(email.text.toString(), password.text.toString())
+            buttonGoToRegister.setOnClickListener {
+                viewModel.onGoToRegisterClicked()
+            }
+            buttonLogin.setOnClickListener {
+                viewModel.onLoginClicked(
+                    editTextEmail.text.toString(),
+                    editTextPassword.text.toString()
+                )
+            }
         }
     }
 
     private fun registerEmailEditTextListener() {
-        email.doAfterTextChanged {
-            onLoginDataChanged()
+        binding.editTextEmail.doAfterTextChanged {
+            it?.let {
+                viewModel.onEmailEntered(it.toString())
+            }
         }
     }
 
     private fun registerPasswordEditTexListener() {
-        password.setOnEditorActionListener { _, actionId, _ ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE ->
-                    onLoginDataChanged()
+        with(binding) {
+            editTextPassword.setOnEditorActionListener { textView, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE ->
+                        viewModel.onPasswordEntered(textView.text.toString())
+                }
+                false
             }
-            false
+            editTextPassword.doAfterTextChanged {
+                it?.let {
+                    viewModel.onPasswordEntered(it.toString())
+                }
+            }
         }
-
-        password.doAfterTextChanged {
-            onLoginDataChanged()
-        }
-    }
-
-    private fun onLoginDataChanged() {
-        viewModel.onLoginDataChanged(
-            email.text.toString(),
-            password.text.toString()
-        )
-    }
-
-    private fun setEnableLoginButton(state: Boolean) {
-        loginButton.isEnabled = state
     }
 }

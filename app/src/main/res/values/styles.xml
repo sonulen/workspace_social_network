@@ -1,18 +1,17 @@
 <resources>
 
     <style name="Base.Widget.Workplaces.Button" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:paddingVertical">10dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="shapeAppearanceOverlay">@style/button_shape_style</item>
     </style>
 
     <style name="Widget.Workplaces.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginVertical">20dp</item>
-        <item name="android:paddingVertical">14dp</item>
     </style>
 
     <style name="Widget.Workplaces.TextView" parent="Widget.AppCompat.TextView">
@@ -23,10 +22,24 @@
 
     <style name="Widget.Workplaces.Button" parent="Base.Widget.Workplaces.Button">
         <item name="android:textColor">@color/orange</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
 
     <style name="Widget.Workplaces.SolidButton" parent="Base.Widget.Workplaces.Button">
         <item name="android:backgroundTint">@color/solid_button_color_selector</item>
+        <item name="android:textColor">@color/solid_button_text_selector</item>
+    </style>
+
+    <style name="Widget.Workplaces.BottomNavigationMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <!-- no-op -->
+    </style>
+
+    <style name="Widget.Workplaces.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorOnSurface">@color/black</item>
+    </style>
+
+    <style name="Widget.Workplaces.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
     </style>
 
 </resources>

@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="button_shape_style">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25%</item>
+    </style>
+</resources>

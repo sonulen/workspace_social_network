@@ -5,43 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="76dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="48dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="14dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="14dp" />
-
     <ImageView
         android:id="@+id/welcome_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:srcCompat="@drawable/image_welcome_illustration"
         tools:ignore="ContentDescription" />
 
@@ -53,37 +25,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_image" />
+        app:layout_constraintTop_toBottomOf="@id/welcome_image" />
 
     <TextView
         android:id="@+id/secondary_hello_text_view"
         android:textAppearance="@style/TextAppearance.App.BodyL"
         style="@style/Widget.Workplaces.TextView"
         android:text="@string/hello_message_second"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hello_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/hello_text_view" />
 
     <Button
         android:id="@+id/button_login"
         android:text="@string/button_login"
         style="@style/Widget.Workplaces.SolidButton"
-        app:layout_constraintBottom_toTopOf="@+id/btn_register_by_mail"
+        android:layout_marginTop="88dp"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/secondary_hello_text_view"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <Button
-        android:id="@+id/btn_register_by_mail"
+        android:id="@+id/button_register_by_mail"
         android:text="@string/button_register_by_mail"
         style="@style/Widget.Workplaces.Button"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/button_login"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left" />
+        app:layout_constraintHorizontal_bias="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

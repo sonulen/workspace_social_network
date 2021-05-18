@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/AuthGraph"
+    app:startDestination="@id/welcomeFragment">
+
+    <action
+        android:id="@+id/toAuthGraph"
+        app:destination="@id/welcomeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/toAuthGraph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/toWorkspaceGraph"
+        app:destination="@id/WorkspaceGraph"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/WorkspaceGraph"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
+        tools:layout="@layout/register_fragment"
+        android:label="RegisterFragment">
+        <action
+            android:id="@+id/toUpdateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/welcomeFragment" />
+        <action
+            android:id="@+id/registerFragmentPop"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.redmadrobot.app.ui.auth.welcome.WelcomeFragment"
+        tools:layout="@layout/welcome_fragment"
+        android:label="WelcomeFragment">
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/toRegisterFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.redmadrobot.app.ui.auth.signin.LoginFragment"
+        tools:layout="@layout/login_fragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/toDoneFragment"
+            app:destination="@id/doneFragment" />
+        <action
+            android:id="@+id/toRegisterFragment"
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/welcomeFragment" />
+        <action
+            android:id="@+id/loginFragmentPop"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneFragment"
+        android:name="com.redmadrobot.app.ui.auth.done.DoneFragment"
+        tools:layout="@layout/done_fragment"
+        android:label="DoneFragment">
+        <action
+            android:id="@+id/toWorkspaceGraph"
+            app:destination="@id/WorkspaceGraph"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment"
+        tools:layout="@layout/profile_update_fragment"
+        android:label="UpdateProfileFragment">
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/toDoneFragment"
+            app:destination="@id/doneFragment"
+            app:popUpTo="@id/welcomeFragment" />
+        <action
+            android:id="@+id/updateProfileFragmentPop"
+            app:popUpTo="@id/updateProfileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

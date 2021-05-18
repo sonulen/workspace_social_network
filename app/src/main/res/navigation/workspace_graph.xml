@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/WorkspaceGraph"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.redmadrobot.app.ui.workspace.feed.FeedFragment"
+        tools:layout="@layout/feed_fragment"
+        android:label="FeedFragment">
+        <action
+            android:id="@+id/toWelcomeFragment"
+            app:destination="@id/AuthGraph" />
+        <action
+            android:id="@+id/toProfileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/profile_fragment"
+        android:name="com.redmadrobot.app.ui.workspace.profile.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/toWelcomeFragment"
+            app:destination="@id/AuthGraph"
+            app:popUpTo="@id/AuthGraph" />
+    </fragment>
+
+</navigation>

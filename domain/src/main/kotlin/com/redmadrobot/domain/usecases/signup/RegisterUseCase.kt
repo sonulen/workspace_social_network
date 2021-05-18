@@ -1,14 +1,28 @@
 package com.redmadrobot.domain.usecases.signup
 
-import com.redmadrobot.domain.entity.repository.Result
 import com.redmadrobot.domain.repository.AuthRepository
-import com.redmadrobot.domain.util.AuthValidator
+import com.redmadrobot.domain.repository.SessionRepository
+import javax.inject.Inject
 
-class RegisterUseCase(private val authRepository: AuthRepository, private val validator: AuthValidator) {
-    suspend fun register(email: String, password: String): Result<*> {
-        return authRepository.register(email, password)
+class RegisterUseCase @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val sessionRepository: SessionRepository,
+) {
+    suspend fun register(email: String, password: String): Boolean {
+        val tokens = authRepository.register(email, password)
+        sessionRepository.saveSession(tokens)
+        return true
     }
 
-    fun isEmailValid(email: String): Boolean = validator.isEmailValid(email)
-    fun isPasswordValid(password: String): Boolean = validator.isPasswordValid(password)
+    suspend fun updateProfile(
+        nickname: String,
+        firstName: String,
+        lastName: String,
+        birthDay: String,
+    ): Boolean = authRepository.updateProfile(
+        nickname = nickname,
+        firstName = firstName,
+        lastName = lastName,
+        birthDay = birthDay
+    )
 }
