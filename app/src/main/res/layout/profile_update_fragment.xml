@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:navigationIcon="@drawable/icon_back_button"
         app:title="@string/register_screen_name"
-        app:titleTextColor="?android:attr/textColorPrimary"
-        app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
+        app:titleTextAppearance="@style/TextAppearance.App.BodyL"
+        app:titleTextColor="?android:attr/textColorPrimary" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -33,66 +33,77 @@
 
     <EditText
         android:id="@+id/edit_text_nickname"
-        android:textAppearance="@style/TextAppearance.App.BodyS"
         style="@style/Widget.Workplaces.EditText"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
         android:autofillHints="nickname"
         android:ems="10"
         android:hint="@string/nickname_hint"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
-        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/progress_bar"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@id/progress_bar" />
 
     <EditText
         android:id="@+id/edit_text_name"
-        android:textAppearance="@style/TextAppearance.App.BodyS"
         style="@style/Widget.Workplaces.EditText"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
         android:autofillHints="name"
         android:ems="10"
         android:hint="@string/name_hint"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
-        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname" />
 
     <EditText
         android:id="@+id/edit_text_surname"
-        android:textAppearance="@style/TextAppearance.App.BodyS"
         style="@style/Widget.Workplaces.EditText"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
         android:autofillHints="surname"
         android:ems="10"
         android:hint="@string/surname_hint"
         android:inputType="textPersonName"
-        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_name" />
 
     <EditText
         android:id="@+id/edit_text_birth_day"
-        android:textAppearance="@style/TextAppearance.App.BodyS"
         style="@style/Widget.Workplaces.EditText"
+        android:layout_marginStart="@dimen/default_margin_horizontal"
         android:autofillHints="date"
         android:ems="10"
         android:hint="@string/date_of_birth_hint"
         android:inputType="date"
-        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_surname"
+        android:textAppearance="@style/TextAppearance.App.BodyS"
+        app:layout_constraintEnd_toStartOf="@id/button_show_datepicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_surname" />
+
+    <Button
+        android:id="@+id/button_show_datepicker"
+        style="@style/Widget.Workplaces.IconButton"
+        android:layout_marginVertical="20dp"
+        android:layout_marginEnd="@dimen/default_margin_horizontal"
+        app:icon="@drawable/icon_calendar"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_birth_day"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/edit_text_birth_day"
+        app:layout_constraintTop_toTopOf="@+id/edit_text_birth_day" />
 
     <Button
         android:id="@+id/button_register"
         style="@style/Widget.Workplaces.SolidButton"
+        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
+        android:layout_marginTop="144dp"
         android:enabled="false"
         android:text="@string/button_finish_register"
-        android:layout_marginTop="144dp"
-        android:layout_marginHorizontal="@dimen/default_margin_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_birth_day" />
