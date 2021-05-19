@@ -7,7 +7,7 @@ class AuthValidatorImpl : AuthValidator {
     override fun isEmailValid(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     override fun isPasswordValid(password: String): Boolean {
-        val passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{6,}$"
+        val passwordPattern = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}\$"
         return Pattern.compile(passwordPattern).matcher(password).matches()
     }
 
