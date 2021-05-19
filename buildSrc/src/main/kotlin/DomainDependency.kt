@@ -2,6 +2,7 @@ private object DomainVersions {
     const val RETROFIT = "2.9.0"
     const val TIMBER = "4.7.1"
     const val LOGGER = "2.2.0"
+    const val COROUTINES = "1.5.0"
 }
 
 object DomainDependency {
@@ -14,4 +15,6 @@ object DomainDependency {
     const val MOSHI_ADAPTERS = "com.squareup.moshi:moshi-adapters:${CoreVersions.MOSHI}"
     const val TIMBER = "com.jakewharton.timber:timber:${DomainVersions.TIMBER}"
     const val LOGGER = "com.orhanobut:logger:${DomainVersions.LOGGER}"
+    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 }

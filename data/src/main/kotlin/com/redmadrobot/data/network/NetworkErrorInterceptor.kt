@@ -15,6 +15,7 @@ class NetworkErrorInterceptor(private val moshi: Moshi) : Interceptor {
         if (!response.isSuccessful) {
             val responseBody = response.body?.string()
             if (responseBody != null) {
+                Timber.tag("OkHttp").d("От сервера пришел ответ с ошибкой $responseBody")
                 val adapter: JsonAdapter<NetworkEntityError> = moshi.adapter(NetworkEntityError::class.java)
                 val entityError = adapter.fromJson(responseBody)
 

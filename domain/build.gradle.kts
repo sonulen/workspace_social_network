@@ -52,6 +52,9 @@ android {
 dependencies {
     api(DomainDependency.KOTLIN)
 
+    implementation(DomainDependency.COROUTINES_CORE)
+    implementation(DomainDependency.COROUTINES_ANDROID)
+
     api(DomainDependency.DAGGER)
 
     api(DomainDependency.MOSHI)

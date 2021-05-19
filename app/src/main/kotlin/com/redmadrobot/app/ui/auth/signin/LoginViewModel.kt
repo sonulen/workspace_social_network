@@ -13,6 +13,9 @@ import com.redmadrobot.data.network.NetworkException
 import com.redmadrobot.domain.usecases.login.LoginUseCase
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,18 +32,18 @@ class LoginViewModel @Inject constructor(
     val isLoginButtonEnabled = liveState.mapDistinct { it.isEmailValid && it.isPasswordValid }
 
     fun onLoginClicked(email: String, password: String) {
-        state = state.copy(
-            screenState = ScreenState.LOADING
-        )
         viewModelScope.launch {
-            try {
-                useCase.login(email, password)
-                state = state.copy(screenState = ScreenState.CONTENT)
-                offerOnMain(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
-            } catch (e: NetworkException) {
-                state = state.copy(screenState = ScreenState.ERROR)
-                offerOnMain(EventError(e.message))
-            }
+            useCase.login(email, password)
+                .onStart {
+                    state = state.copy(screenState = ScreenState.LOADING)
+                }.catch { e ->
+                    state = state.copy(screenState = ScreenState.ERROR)
+                    if (e !is NetworkException) throw e
+                    eventsQueue.offerEvent(EventError(e.message))
+                }.collect {
+                    state = state.copy(screenState = ScreenState.CONTENT)
+                    eventsQueue.offerEvent(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
+                }
         }
     }
 

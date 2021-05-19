@@ -18,6 +18,10 @@ import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
@@ -116,13 +120,18 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
             editTextBirthDay.inputType = InputType.TYPE_NULL
 
             editTextBirthDay.setOnClickListener {
-                val picker =
-                    MaterialDatePicker.Builder.datePicker().setTheme(R.style.Widget_Workplaces_DatePicker).build()
+                val picker = MaterialDatePicker.Builder.datePicker()
+                    .setTheme(R.style.Widget_Workplaces_DatePicker)
+                    .build()
+
                 picker.show(parentFragmentManager, picker.toString())
 
-                picker.addOnPositiveButtonClickListener { _ ->
-                    editTextBirthDay.setText(picker.headerText)
-                    viewModel.onBirthDayEntered(picker.headerText)
+                picker.addOnPositiveButtonClickListener { dateTimeStampInMillis ->
+                    val dateTime =
+                        LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeStampInMillis), ZoneId.systemDefault())
+                    val dateAsFormattedText: String = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    editTextBirthDay.setText(dateAsFormattedText)
+                    viewModel.onBirthDayEntered(dateAsFormattedText)
                 }
             }
         }

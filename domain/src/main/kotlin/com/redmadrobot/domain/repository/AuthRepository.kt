@@ -1,6 +1,7 @@
 package com.redmadrobot.domain.repository
 
 import com.redmadrobot.domain.entity.repository.Tokens
+import com.redmadrobot.domain.entity.repository.UserProfileData
 
 interface AuthRepository {
 
@@ -43,5 +44,5 @@ interface AuthRepository {
         lastName: String,
         birthDay: String,
         avatarUrl: String? = null,
-    ): Boolean
+    ): UserProfileData
 }

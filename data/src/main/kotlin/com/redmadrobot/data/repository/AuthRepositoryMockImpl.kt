@@ -1,6 +1,7 @@
 package com.redmadrobot.data.repository
 
 import com.redmadrobot.domain.entity.repository.Tokens
+import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
 import kotlinx.coroutines.delay
 
@@ -37,8 +38,15 @@ class AuthRepositoryMockImpl : AuthRepository {
         lastName: String,
         birthDay: String,
         avatarUrl: String?,
-    ): Boolean {
+    ): UserProfileData {
         delay(timeMillis = 5000)
-        return true
+        return UserProfileData(
+            id = "id",
+            firstName = "first name",
+            lastName = "last name",
+            nickname = "nickname",
+            avatarUrl = "avatar url",
+            birthDay = "2021-12-21",
+        )
     }
 }

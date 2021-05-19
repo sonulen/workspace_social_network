@@ -9,9 +9,13 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.data.network.NetworkException
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -80,60 +84,43 @@ class UpdateProfileViewModel @Inject constructor(
     }
 
     fun onRegisterClicked(nickname: String, name: String, surname: String, birthDay: String) {
-        state = state.copy(
-            screenState = ScreenState.LOADING
-        )
-
         viewModelScope.launch {
-            state = if (
-                register() &&
+            useCase.register(
+                state.email ?: throw IllegalArgumentException("Email required"),
+                state.password ?: throw IllegalArgumentException("Password required")
+            ).onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }.catch { e ->
+                processError(e)
+            }.collect {
                 updateProfile(
                     nickname = nickname,
                     name = name,
                     surname = surname,
                     birthDay = birthDay
                 )
-            ) {
-                state.copy(
-                    screenState = ScreenState.CONTENT
-                )
-            } else {
-                state.copy(
-                    screenState = ScreenState.ERROR
-                )
             }
         }
     }
 
-    private suspend fun register(): Boolean {
-        with(state) {
-            if (email != null && password != null) {
-                val result = useCase.register(email, password)
-
-                if (!result) {
-                    offerOnMain(EventError("Зарегестрироваться не удалось"))
-                    return false
-                }
-            }
-        }
-        return true
+    private fun processError(e: Throwable) {
+        state = state.copy(screenState = ScreenState.ERROR)
+        if (e !is NetworkException) throw e
+        eventsQueue.offerEvent(EventError(e.message))
     }
 
-    private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String): Boolean {
-        val result = useCase.updateProfile(
+    private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String) {
+        useCase.updateProfile(
             nickname = nickname,
             firstName = name,
             lastName = surname,
             birthDay = birthDay
-        )
-
-        if (result) {
-            offerOnMain(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
-        } else {
-            offerOnMain(EventError("Обновить профиль не удалось"))
-            return false
+        ).onStart {
+            state = state.copy(screenState = ScreenState.LOADING)
+        }.catch { e ->
+            processError(e)
+        }.collect {
+            eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
         }
-
-        return true
     }
 }
