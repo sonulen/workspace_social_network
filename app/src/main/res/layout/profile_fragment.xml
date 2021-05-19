@@ -30,10 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             app:icon="@drawable/icon_logout"
-            android:padding="14dp"
-            app:iconGravity="end"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:text="@string/logout" />
+            android:padding="12dp"
+            app:iconGravity="textEnd"
+            app:iconPadding="0dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
