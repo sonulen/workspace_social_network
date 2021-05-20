@@ -1,9 +1,7 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
@@ -16,6 +14,7 @@ import com.redmadrobot.app.databinding.ProfileUpdateFragmentBinding
 import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import java.time.Instant
@@ -59,6 +58,34 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         registerNameEditTextListener()
         registerSurnameEditTexListener()
         registerBirthDayEditTexListener()
+    }
+
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        when (event) {
+            is EventShowDatePickerDialog -> showDatePicker()
+        }
+    }
+
+    private fun showDatePicker() {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setTheme(R.style.Widget_Workplaces_DatePicker)
+            .build()
+
+        picker.show(parentFragmentManager, picker.toString())
+
+        picker.addOnPositiveButtonClickListener { dateTimeStampInMillis ->
+            val dateTime =
+                LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(dateTimeStampInMillis),
+                    ZoneId.systemDefault()
+                )
+            val dateAsFormattedText: String = dateTime.format(
+                DateTimeFormatter.ofPattern(viewModel.getDataPattern())
+            )
+            binding.editTextBirthDay.setText(dateAsFormattedText)
+            viewModel.onBirthDayEntered(dateAsFormattedText)
+        }
     }
 
     private fun onScreenStateChange(state: ScreenState) {
@@ -111,28 +138,19 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
             toolBar.setNavigationOnClickListener {
                 viewModel.onBackClicked()
             }
+            buttonShowDatepicker.setOnClickListener {
+                viewModel.onShowDatePickerClicked()
+            }
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun registerBirthDayEditTexListener() {
-        with(binding) {
-            editTextBirthDay.inputType = InputType.TYPE_NULL
-
-            editTextBirthDay.setOnClickListener {
-                val picker = MaterialDatePicker.Builder.datePicker()
-                    .setTheme(R.style.Widget_Workplaces_DatePicker)
-                    .build()
-
-                picker.show(parentFragmentManager, picker.toString())
-
-                picker.addOnPositiveButtonClickListener { dateTimeStampInMillis ->
-                    val dateTime =
-                        LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeStampInMillis), ZoneId.systemDefault())
-                    val dateAsFormattedText: String = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                    editTextBirthDay.setText(dateAsFormattedText)
-                    viewModel.onBirthDayEntered(dateAsFormattedText)
+        binding.editTextBirthDay.doAfterTextChanged {
+            it?.let {
+                if (it.length == 4 || it.length == 7) {
+                    it.append('-')
                 }
+                viewModel.onBirthDayEntered(it.toString())
             }
         }
     }

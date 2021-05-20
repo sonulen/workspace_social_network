@@ -8,4 +8,5 @@ interface AuthValidator {
     fun isNameValid(name: String): Boolean
     fun isSurNameValid(surname: String): Boolean
     fun isBirthDayValid(birthDay: String): Boolean
+    fun getDataPattern(): String
 }

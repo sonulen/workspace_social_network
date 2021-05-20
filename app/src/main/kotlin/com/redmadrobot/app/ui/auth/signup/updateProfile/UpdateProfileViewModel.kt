@@ -36,6 +36,8 @@ class UpdateProfileViewModel @Inject constructor(
             it.birthDay.isValid && it.email != null && it.password != null
     }
 
+    fun getDataPattern(): String = validator.getDataPattern()
+
     fun onEmailAndPasswordReceived(email: String, password: String) {
         state = state.copy(
             email = email,
@@ -122,5 +124,9 @@ class UpdateProfileViewModel @Inject constructor(
         }.collect {
             eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
         }
+    }
+
+    fun onShowDatePickerClicked() {
+        eventsQueue.offerEvent(EventShowDatePickerDialog())
     }
 }
