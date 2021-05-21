@@ -77,7 +77,6 @@
         android:id="@+id/edit_text_birth_day"
         style="@style/Widget.Workplaces.EditText"
         android:layout_marginStart="@dimen/default_margin_horizontal"
-        android:autofillHints="date"
         android:ems="10"
         android:hint="@string/date_of_birth_hint"
         android:inputType="date"

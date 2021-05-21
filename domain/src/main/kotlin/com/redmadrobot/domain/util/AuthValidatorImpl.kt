@@ -3,20 +3,18 @@ package com.redmadrobot.domain.util
 import java.util.regex.Pattern
 
 class AuthValidatorImpl : AuthValidator {
+    private val nicknamePatter = Pattern.compile("^[a-zA-Z0-9]*\$")
+    private val namePatter = Pattern.compile("^[a-zA-Z]*\$")
+    private val datePattern = Pattern.compile("^([12][90]\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))\$")
+    private val passwordPattern = Pattern.compile("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}\$")
+
     override fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    override fun isPasswordValid(password: String): Boolean {
-        val passwordPattern = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}\$"
-        return Pattern.compile(passwordPattern).matcher(password).matches()
-    }
-
-    override fun getDataPattern(): String = "yyyy-MM-dd"
-    override fun isNicknameValid(nickName: String): Boolean = nickName.isNotEmpty()
-    override fun isNameValid(name: String): Boolean = name.isNotEmpty()
-    override fun isSurNameValid(surname: String): Boolean = surname.isNotEmpty()
-    override fun isBirthDayValid(birthDay: String): Boolean {
-        return Pattern.compile(getDataPattern()).matcher(birthDay).matches()
-    }
+    override fun isPasswordValid(password: String): Boolean = passwordPattern.matcher(password).matches()
+    override fun isNicknameValid(nickName: String): Boolean = nicknamePatter.matcher(nickName).matches()
+    override fun isNameValid(name: String): Boolean = namePatter.matcher(name).matches()
+    override fun isSurNameValid(surname: String): Boolean = namePatter.matcher(surname).matches()
+    override fun isBirthDayValid(birthDay: String): Boolean = datePattern.matcher(birthDay).matches()
 }

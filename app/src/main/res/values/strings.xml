@@ -29,12 +29,14 @@
     <!--   region Экран Sign Up Second    -->
     <string name="name_hint">Имя</string>
     <string name="surname_hint">Фамилия</string>
-    <string name="date_of_birth_hint">Дата рождения (yyyy-mm-dd)</string>
+    <string name="date_of_birth_hint">Дата рождения (ГГГГ-ММ-ДД)</string>
     <string name="button_finish_register">Зарегистрироваться</string>
     <string name="invalid_nickname">Проверьте, что используются только латинские символы и цифры</string>
     <string name="invalid_name">Проверьте, что используются только латинские символы</string>
     <string name="invalid_surname">Проверьте, что используются только латинские символы</string>
-    <string name="invalid_birthday">Некорректная дата рождения (yyyy-mm-dd)</string>
+    <string name="invalid_birthday">Некорректная дата рождения (ГГГГ-ММ-ДД)</string>
+    <string name="data_time_formatter_pattern">yyyy-MM-dd</string>
+    <string name="input_mask_date_pattern">[0000]{-}[00]{-}[00]</string>
     <!--    endregion-->
 
     <!--   region Экран Done    -->

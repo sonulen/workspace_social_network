@@ -143,6 +143,8 @@ dependencies {
     implementation(AppDependency.RMR_VIEW_BINDING)
     implementation(AppDependency.RMR_LIVEDATA)
 
+    implementation(AppDependency.RMR_INPUT_MASK)
+
     implementation(AppDependency.NAVIGATION_FRAGMENT)
     implementation(AppDependency.NAVIGATION_FRAGMENT_KTX)
     implementation(AppDependency.NAVIGATION_UI)
@@ -150,10 +152,10 @@ dependencies {
 
     kapt(AppDependency.DAGGER_COMPILER)
 
+    implementation(AppDependency.OK_HTTP_LOGGING)
+
     testImplementation(TestDependency.JUNIT)
     testImplementation(TestDependency.MOCKITO)
     testImplementation(TestDependency.ASSERTJ)
     testImplementation(TestDependency.ANDROIDX)
-
-    implementation(AppDependency.OK_HTTP_LOGGING)
 }

@@ -17,6 +17,7 @@ import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
+import com.redmadrobot.inputmask.MaskedTextChangedListener.Companion.installOn
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -81,10 +82,9 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
                     ZoneId.systemDefault()
                 )
             val dateAsFormattedText: String = dateTime.format(
-                DateTimeFormatter.ofPattern(viewModel.getDataPattern())
+                DateTimeFormatter.ofPattern(getString(R.string.data_time_formatter_pattern))
             )
             binding.editTextBirthDay.setText(dateAsFormattedText)
-            viewModel.onBirthDayEntered(dateAsFormattedText)
         }
     }
 
@@ -145,11 +145,13 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     }
 
     private fun registerBirthDayEditTexListener() {
+        installOn(
+            binding.editTextBirthDay,
+            getString(R.string.input_mask_date_pattern)
+        )
+
         binding.editTextBirthDay.doAfterTextChanged {
             it?.let {
-                if (it.length == 4 || it.length == 7) {
-                    it.append('-')
-                }
                 viewModel.onBirthDayEntered(it.toString())
             }
         }

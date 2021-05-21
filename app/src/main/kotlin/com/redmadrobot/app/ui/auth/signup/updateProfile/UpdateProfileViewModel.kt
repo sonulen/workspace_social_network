@@ -36,8 +36,6 @@ class UpdateProfileViewModel @Inject constructor(
             it.birthDay.isValid && it.email != null && it.password != null
     }
 
-    fun getDataPattern(): String = validator.getDataPattern()
-
     fun onEmailAndPasswordReceived(email: String, password: String) {
         state = state.copy(
             email = email,
