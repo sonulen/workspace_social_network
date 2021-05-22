@@ -1,9 +1,11 @@
 package com.redmadrobot.app.di.network
 
+import android.net.ConnectivityManager
 import com.redmadrobot.app.di.qualifiers.UnauthorizedZone
-import com.redmadrobot.data.network.AuthApi
-import com.redmadrobot.data.network.NetworkErrorInterceptor
 import com.redmadrobot.data.network.NetworkRouter
+import com.redmadrobot.data.network.auth.AuthApi
+import com.redmadrobot.data.network.errors.NetworkErrorHandler
+import com.redmadrobot.data.network.errors.NetworkErrorInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -45,7 +47,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideErrorInterceptor(moshi: Moshi): Interceptor = NetworkErrorInterceptor(moshi)
+    fun provideErrorInterceptor(
+        errorHandler: NetworkErrorHandler,
+        connectivityManager: ConnectivityManager,
+    ): Interceptor = NetworkErrorInterceptor(errorHandler, connectivityManager)
 
     @Provides
     @Singleton

@@ -19,6 +19,7 @@
         <item name="colorOnError">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/grey</item>
+        <item name="snackbarStyle">@style/Widget.Workplaces.Snackbar</item>
     </style>
 
 </resources>

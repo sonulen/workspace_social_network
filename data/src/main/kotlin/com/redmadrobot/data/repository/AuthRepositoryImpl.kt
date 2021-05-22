@@ -1,7 +1,7 @@
 package com.redmadrobot.data.repository
 
 import com.redmadrobot.data.entity.api.NetworkEntityUserCredentials
-import com.redmadrobot.data.network.AuthApi
+import com.redmadrobot.data.network.auth.AuthApi
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository

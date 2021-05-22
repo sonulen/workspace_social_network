@@ -9,7 +9,7 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
-import com.redmadrobot.data.network.NetworkException
+import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.usecases.signup.RegisterUseCase
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct

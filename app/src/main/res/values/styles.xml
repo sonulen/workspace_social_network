@@ -55,4 +55,10 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+
+    <style name="Widget.Workplaces.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">@color/orange</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyS</item>
+    </style>
+
 </resources>
