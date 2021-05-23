@@ -61,4 +61,9 @@
         <item name="android:textAppearance">@style/TextAppearance.App.BodyS</item>
     </style>
 
+    <style name="Widget.Workplaces.Dialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

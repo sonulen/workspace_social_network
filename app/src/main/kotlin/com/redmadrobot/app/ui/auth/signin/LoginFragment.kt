@@ -86,6 +86,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     private fun renderSpin(isVisible: Boolean) {
         if (isVisible) {
             loadingDialog = LoadingDialogFragment()
+            loadingDialog?.isCancelable = false
             loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
         } else {
             loadingDialog?.dismiss()

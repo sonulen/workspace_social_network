@@ -22,7 +22,7 @@ class LoadingDialogFragment : DialogFragment() {
             rocketAnimation = background as AnimationDrawable
         }
         rocketAnimation.start()
-        return AlertDialog.Builder(requireContext())
+        return AlertDialog.Builder(requireContext(), R.style.Widget_Workplaces_Dialog)
             .setView(view)
             .show()
     }

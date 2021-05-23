@@ -16,6 +16,6 @@
         android:drawable="@drawable/image_spin_5"
         android:duration="200" />
     <item
-        android:drawable="@drawable/image_spin_1"
+        android:drawable="@drawable/image_spin_6"
         android:duration="200" />
 </animation-list>
