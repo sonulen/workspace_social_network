@@ -26,6 +26,19 @@
             android:id="@+id/toWelcomeFragment"
             app:destination="@id/AuthGraph"
             app:popUpTo="@id/AuthGraph" />
+        <action
+            android:id="@+id/toProfileEditFragment"
+            app:destination="@id/profileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileEditFragment"
+        tools:layout="@layout/profile_edit_fragment"
+        android:name="com.redmadrobot.app.ui.workspace.profileEdit.ProfileEditFragment"
+        android:label="ProfileEditFragment">
+        <action
+            android:id="@+id/profileEditFragmentPop"
+            app:popUpTo="@id/profileEditFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

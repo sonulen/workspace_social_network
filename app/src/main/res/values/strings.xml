@@ -59,6 +59,10 @@
     <string name="profile_tab_name_friends">Друзья</string>
     <string name="profile_name_surname">Имя Фамилия</string>
     <string name="profile_age">Возраст</string>
+    <string name="nickname_stub">Nickname</string>
+    <string name="logout">Выйти</string>
+    <string name="profile_mine_empty_message">Пустота</string>
+    <string name="profile_mine_empty_message_second">Вы пока одиноки в сервисе,\n но это можно исправить</string>
     <!--    endregion-->
 
     <!--   region Bottom Menu    -->
@@ -69,10 +73,9 @@
 
 
     <!--   region Экран Profile    -->
-    <string name="nickname_stub">Nickname</string>
-    <string name="logout">Выйти</string>
-    <string name="profile_mine_empty_message">Пустота</string>
-    <string name="profile_mine_empty_message_second">Вы пока одиноки в сервисе,\n но это можно исправить</string>
+    <string name="profile_edit_screen_name">Редактирование профиля</string>
+    <string name="button_save">Сохранить</string>
+
     <!--    endregion-->
 
 </resources>
