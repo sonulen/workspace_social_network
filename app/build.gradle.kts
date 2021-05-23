@@ -158,4 +158,7 @@ dependencies {
     testImplementation(TestDependency.MOCKITO)
     testImplementation(TestDependency.ASSERTJ)
     testImplementation(TestDependency.ANDROIDX)
+
+    implementation(AppDependency.MAPMEMORY)
+    implementation(AppDependency.MAPMEMORY_COUROUTINES)
 }
