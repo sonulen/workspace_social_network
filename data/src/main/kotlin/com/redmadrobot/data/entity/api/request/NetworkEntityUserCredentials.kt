@@ -1,4 +1,4 @@
-package com.redmadrobot.data.entity.api
+package com.redmadrobot.data.entity.api.request
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

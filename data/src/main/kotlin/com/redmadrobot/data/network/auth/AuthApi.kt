@@ -1,9 +1,9 @@
 package com.redmadrobot.data.network.auth
 
-import com.redmadrobot.data.entity.api.NetworkEntityRefreshToken
-import com.redmadrobot.data.entity.api.NetworkEntityToken
-import com.redmadrobot.data.entity.api.NetworkEntityUserCredentials
-import com.redmadrobot.data.entity.api.NetworkEntityUserProfile
+import com.redmadrobot.data.entity.api.request.NetworkEntityRefreshToken
+import com.redmadrobot.data.entity.api.request.NetworkEntityUserCredentials
+import com.redmadrobot.data.entity.api.request.NetworkEntityUserProfile
+import com.redmadrobot.data.entity.api.response.NetworkEntityToken
 import com.redmadrobot.data.network.NetworkRouter
 import retrofit2.Response
 import retrofit2.http.*
@@ -31,7 +31,7 @@ interface AuthApi {
      */
     @PATCH(NetworkRouter.ME_CHANGE_PROFILE)
     @Multipart
-    suspend fun updateProfile(
+    suspend fun mePatchProfile(
         @Header("Authorization") accessToken: String,
         @Part("nickname") nickname: String,
         @Part("first_name") firstName: String,

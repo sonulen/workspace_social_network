@@ -1,6 +1,6 @@
 package com.redmadrobot.data.repository
 
-import com.redmadrobot.data.entity.api.NetworkEntityUserCredentials
+import com.redmadrobot.data.entity.api.request.NetworkEntityUserCredentials
 import com.redmadrobot.data.network.auth.AuthApi
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
@@ -49,7 +49,7 @@ class AuthRepositoryImpl @Inject constructor(
         birthDay: String,
         avatarUrl: String?,
     ): UserProfileData {
-        val userProfileData = api.updateProfile(
+        val userProfileData = api.mePatchProfile(
             accessToken = "Bearer " + (
                 session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
                 ),

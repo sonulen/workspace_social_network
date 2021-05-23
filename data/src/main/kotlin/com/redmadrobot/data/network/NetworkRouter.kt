@@ -13,7 +13,10 @@ object NetworkRouter {
 
     //region Feed
     private const val feed = "feed"
+    const val FEED_GET = feed
     const val FEED_LIKE = "$feed/{id}/like"
+    const val FEED_DELETE_LIKE = "$feed/{id}/like"
+    const val FEED_GET_FAVORITE = "$feed/favorite"
     //endregion
 
     //region Me

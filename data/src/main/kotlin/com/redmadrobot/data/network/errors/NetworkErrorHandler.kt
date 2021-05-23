@@ -1,6 +1,6 @@
 package com.redmadrobot.data.network.errors
 
-import com.redmadrobot.data.entity.api.NetworkEntityError
+import com.redmadrobot.data.entity.api.response.NetworkEntityError
 import com.redmadrobot.data.util.bodyCopy
 import com.redmadrobot.data.util.fromJsonOrThrow
 import com.squareup.moshi.Moshi

@@ -1,6 +1,6 @@
 package com.redmadrobot.data.network.errors
 
-import com.redmadrobot.data.entity.api.NetworkEntityError
+import com.redmadrobot.data.entity.api.response.NetworkEntityError
 import okio.IOException
 
 sealed class NetworkException(override val message: String) : IOException() {
