@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.ProfileUpdateFragmentBinding
 import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
+import com.redmadrobot.app.ui.LoadingDialogFragment
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.Event
@@ -31,7 +33,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
     private val binding: ProfileUpdateFragmentBinding by viewBinding()
     private val args: UpdateProfileFragmentArgs by navArgs()
-
+    private var loadingDialog: DialogFragment? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initDagger()
@@ -92,8 +94,24 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         when (state) {
             ScreenState.CONTENT,
             ScreenState.ERROR,
-            -> binding.buttonRegister.isClickable = true
-            ScreenState.LOADING -> binding.buttonRegister.isClickable = false
+            -> {
+                renderSpin(isVisible = false)
+                binding.buttonRegister.isClickable = true
+            }
+
+            ScreenState.LOADING -> {
+                renderSpin(isVisible = true)
+                binding.buttonRegister.isClickable = false
+            }
+        }
+    }
+
+    private fun renderSpin(isVisible: Boolean) {
+        if (isVisible) {
+            loadingDialog = LoadingDialogFragment()
+            loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
+        } else {
+            loadingDialog?.dismiss()
         }
     }
 

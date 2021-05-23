@@ -6,11 +6,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.LoginFragmentBinding
 import com.redmadrobot.app.di.auth.login.LoginComponent
+import com.redmadrobot.app.ui.LoadingDialogFragment
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.observe
@@ -23,6 +25,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
     private val viewModel: LoginViewModel by viewModels { viewModelFactory }
 
     private val binding: LoginFragmentBinding by viewBinding()
+
+    private var loadingDialog: DialogFragment? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,8 +55,15 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
         when (state) {
             ScreenState.CONTENT,
             ScreenState.ERROR,
-            -> binding.buttonLogin.isClickable = true
-            ScreenState.LOADING -> binding.buttonLogin.isClickable = false
+            -> {
+                renderSpin(isVisible = false)
+                binding.buttonLogin.isClickable = true
+            }
+
+            ScreenState.LOADING -> {
+                renderSpin(isVisible = true)
+                binding.buttonLogin.isClickable = false
+            }
         }
     }
 
@@ -70,6 +81,15 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
     private fun renderLoginButton(isEnabled: Boolean) {
         binding.buttonLogin.isEnabled = isEnabled
+    }
+
+    private fun renderSpin(isVisible: Boolean) {
+        if (isVisible) {
+            loadingDialog = LoadingDialogFragment()
+            loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
+        } else {
+            loadingDialog?.dismiss()
+        }
     }
 
     private fun registerButtonClickListeners() {
