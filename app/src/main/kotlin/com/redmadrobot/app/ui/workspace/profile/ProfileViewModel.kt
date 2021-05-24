@@ -38,10 +38,10 @@ class ProfileViewModel @Inject constructor(
                     state = state.copy(
                         screenState = ScreenState.CONTENT,
                         userData = UserDataProfileViewState(
-                            it.nickname,
-                            it.firstName,
-                            it.lastName,
-                            it.birthDay
+                            nickname = it.nickname,
+                            name = it.firstName,
+                            surname = it.lastName,
+                            birthDay = it.birthDay
                         )
                     )
                 }

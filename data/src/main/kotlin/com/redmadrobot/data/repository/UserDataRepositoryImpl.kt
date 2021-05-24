@@ -10,9 +10,18 @@ import javax.inject.Inject
 class UserDataRepositoryImpl @Inject constructor(
     private val memory: MapMemory,
 ) : UserDataRepository {
-    private val userProfileData: MutableStateFlow<UserProfileData> by memory.stateFlow(UserProfileData())
+    private val userProfileData: MutableStateFlow<UserProfileData> by memory.stateFlow(
+        UserProfileData(
+            id = "id",
+            firstName = "andrey",
+            lastName = "tolmachev",
+            nickname = "sonulen",
+            avatarUrl = null,
+            birthDay = "1993-07-29"
+        )
+    )
 
-    override suspend fun updateUserProfileData(
+    override fun updateUserProfileData(
         nickname: String,
         firstName: String,
         lastName: String,
@@ -32,18 +41,8 @@ class UserDataRepositoryImpl @Inject constructor(
         emit(Unit)
     }
 
-    override suspend fun getUserProfileDataFlow(): StateFlow<UserProfileData> {
+    override fun getUserProfileDataFlow(): StateFlow<UserProfileData> {
         // TODO Поход в сеть на patch /me
-        userProfileData.emit(
-            UserProfileData(
-                "id",
-                "andrey",
-                "tolmachev",
-                "sonulen",
-                null,
-                "1993-07-29"
-            )
-        )
         return userProfileData.asStateFlow()
     }
 }

@@ -9,7 +9,7 @@ interface AuthRepository {
     /**
      * Завершение сессии
      */
-    suspend fun logout(): Flow<Unit>
+    fun logout(): Flow<Unit>
 
     /**
      * Аутентификация пользователя

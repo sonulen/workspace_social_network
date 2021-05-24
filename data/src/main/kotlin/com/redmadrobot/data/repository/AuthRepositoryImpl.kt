@@ -19,7 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
     /**
      * /see [AuthRepository.logout]
      */
-    override suspend fun logout(): Flow<Unit> = flow {
+    override fun logout(): Flow<Unit> = flow {
         api.logout(
             "Bearer " + (
                 session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
@@ -71,7 +71,7 @@ class AuthRepositoryImpl @Inject constructor(
             firstName = userProfileData.firstName,
             lastName = userProfileData.lastName,
             nickname = userProfileData.nickname,
-            avatarUrl = userProfileData.avatarUrl ?: "",
+            avatarUrl = userProfileData.avatarUrl.orEmpty(),
             birthDay = userProfileData.birthDay,
         )
     }

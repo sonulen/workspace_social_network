@@ -51,16 +51,16 @@ class ProfileEditViewModel @Inject constructor(
                     state = state.copy(
                         screenState = ScreenState.CONTENT,
                         userData = UserDataProfileViewState(
-                            it.nickname,
-                            it.firstName,
-                            it.lastName,
-                            it.birthDay
+                            nickname = it.nickname,
+                            name = it.firstName,
+                            surname = it.lastName,
+                            birthDay = it.birthDay
                         ),
                         userDataForm = UserDataProfileViewState(
-                            it.nickname,
-                            it.firstName,
-                            it.lastName,
-                            it.birthDay
+                            nickname = it.nickname,
+                            name = it.firstName,
+                            surname = it.lastName,
+                            birthDay = it.birthDay
                         ),
                     )
                 }
@@ -122,11 +122,11 @@ class ProfileEditViewModel @Inject constructor(
     fun onSaveClicked() {
         viewModelScope.launch {
             userDataRepository.updateUserProfileData(
-                state.userDataForm.nickname,
-                state.userDataForm.name,
-                state.userDataForm.surname,
-                state.userDataForm.birthDay,
-                null
+                nickname = state.userDataForm.nickname,
+                firstName = state.userDataForm.name,
+                lastName = state.userDataForm.surname,
+                birthDay = state.userDataForm.birthDay,
+                avatarUrl = null
             ).onStart {
                 state = state.copy(screenState = ScreenState.LOADING)
             }.catch { e ->

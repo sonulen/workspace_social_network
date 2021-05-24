@@ -11,7 +11,7 @@ class AuthRepositoryMockImpl : AuthRepository {
     /**
      * /see [AuthRepository.logout]
      */
-    override suspend fun logout(): Flow<Unit> = flow {
+    override fun logout(): Flow<Unit> = flow {
         delay(timeMillis = 5_000)
         emit(Unit)
     }

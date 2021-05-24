@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface UserDataRepository {
-    suspend fun updateUserProfileData(
+    fun updateUserProfileData(
         nickname: String,
         firstName: String,
         lastName: String,
@@ -13,5 +13,5 @@ interface UserDataRepository {
         avatarUrl: String? = null,
     ): Flow<Unit>
 
-    suspend fun getUserProfileDataFlow(): StateFlow<UserProfileData>
+    fun getUserProfileDataFlow(): StateFlow<UserProfileData>
 }
