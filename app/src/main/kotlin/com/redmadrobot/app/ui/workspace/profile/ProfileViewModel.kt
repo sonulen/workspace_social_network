@@ -8,6 +8,7 @@ import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.data.network.errors.NetworkException
+import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.UserDataRepository
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.flow.catch
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val userDataRepository: UserDataRepository,
 ) : BaseViewModel() {
     private val liveState = MutableLiveData<ProfileViewState>(ProfileViewState())
@@ -57,6 +59,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onLogoutClicked() {
-        eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toWelcomeFragment()))
+        viewModelScope.launch {
+            authRepository.logout()
+                .onStart {
+                    state = state.copy(screenState = ScreenState.LOADING)
+                }.catch { e ->
+                    processError(e)
+                }.collect {
+                    state = state.copy(screenState = ScreenState.CONTENT)
+                    eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toWelcomeFragment()))
+                }
+        }
     }
 }

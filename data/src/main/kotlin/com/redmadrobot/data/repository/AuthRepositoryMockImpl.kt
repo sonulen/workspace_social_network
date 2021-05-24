@@ -4,13 +4,16 @@ import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class AuthRepositoryMockImpl : AuthRepository {
     /**
      * /see [AuthRepository.logout]
      */
-    override suspend fun logout() {
+    override suspend fun logout(): Flow<Unit> = flow {
         delay(timeMillis = 5_000)
+        emit(Unit)
     }
 
     /**

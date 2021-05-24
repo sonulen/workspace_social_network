@@ -2,13 +2,14 @@ package com.redmadrobot.domain.repository
 
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
     /**
      * Завершение сессии
      */
-    suspend fun logout()
+    suspend fun logout(): Flow<Unit>
 
     /**
      * Аутентификация пользователя

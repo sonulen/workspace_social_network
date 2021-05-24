@@ -6,6 +6,7 @@ import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.data.repository.AuthRepositoryMockImpl
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.SessionRepository
+import com.redmadrobot.mapmemory.MapMemory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,5 +23,6 @@ object AuthRepositoryModule {
     fun provideAuthRepositoryImpl(
         api: AuthApi,
         session: SessionRepository,
-    ): AuthRepository = AuthRepositoryImpl(api, session)
+        mapMemory: MapMemory,
+    ): AuthRepository = AuthRepositoryImpl(api, session, mapMemory)
 }

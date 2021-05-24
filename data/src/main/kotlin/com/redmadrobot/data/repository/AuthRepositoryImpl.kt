@@ -6,21 +6,28 @@ import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.SessionRepository
+import com.redmadrobot.mapmemory.MapMemory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val api: AuthApi,
     private val session: SessionRepository,
+    private val memory: MapMemory,
 ) : AuthRepository {
     /**
      * /see [AuthRepository.logout]
      */
-    override suspend fun logout() {
+    override suspend fun logout(): Flow<Unit> = flow {
         api.logout(
             "Bearer " + (
                 session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
                 )
         )
+        session.clear()
+        memory.clear()
+        emit(Unit)
     }
 
     /**
