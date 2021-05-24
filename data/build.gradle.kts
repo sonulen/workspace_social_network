@@ -69,4 +69,7 @@ dependencies {
     kaptTest(DataDependency.MOSHI_COMPILER)
 
     implementation(DataDependency.KOTLINX)
+
+    implementation(DataDependency.MAPMEMORY)
+    implementation(DataDependency.MAPMEMORY_COROUTINES)
 }

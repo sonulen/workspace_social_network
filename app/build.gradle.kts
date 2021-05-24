@@ -160,5 +160,5 @@ dependencies {
     testImplementation(TestDependency.ANDROIDX)
 
     implementation(AppDependency.MAPMEMORY)
-    implementation(AppDependency.MAPMEMORY_COUROUTINES)
+    implementation(AppDependency.MAPMEMORY_COROUTINES)
 }

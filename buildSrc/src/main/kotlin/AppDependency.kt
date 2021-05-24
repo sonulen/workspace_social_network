@@ -43,5 +43,5 @@ object AppDependency {
 
     // MapMemmory
     const val MAPMEMORY = "com.redmadrobot.mapmemory:mapmemory:${AppVersions.MAP_MEMORY}"
-    const val MAPMEMORY_COUROUTINES = "com.redmadrobot.mapmemory:mapmemory-coroutines:${AppVersions.MAP_MEMORY}"
+    const val MAPMEMORY_COROUTINES = "com.redmadrobot.mapmemory:mapmemory-coroutines:${AppVersions.MAP_MEMORY}"
 }

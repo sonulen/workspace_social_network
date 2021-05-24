@@ -7,6 +7,7 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.delegate
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
+import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.data.network.errors.NetworkException

@@ -14,6 +14,7 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.ProfileUpdateFragmentBinding
 import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
 import com.redmadrobot.app.ui.LoadingDialogFragment
+import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.extensions.lifecycle.Event
