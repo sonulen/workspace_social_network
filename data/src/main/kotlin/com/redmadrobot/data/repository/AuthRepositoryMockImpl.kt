@@ -8,6 +8,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class AuthRepositoryMockImpl : AuthRepository {
+    private val stubTokens = Tokens("access", "refresh")
+    private val stubUserProfileData = UserProfileData(
+        id = "1",
+        firstName = "MockName",
+        lastName = "MockLastName",
+        nickname = "MockNickname",
+        avatarUrl = null,
+        birthDay = "2001-01-01"
+    )
+
     /**
      * /see [AuthRepository.logout]
      */
@@ -19,37 +29,47 @@ class AuthRepositoryMockImpl : AuthRepository {
     /**
      * /see [AuthRepository.login]
      */
-    override suspend fun login(email: String, password: String): Tokens {
+    override fun login(email: String, password: String): Flow<Tokens> = flow {
         delay(timeMillis = 5_000)
-        return Tokens("access", "refresh")
+        emit(stubTokens)
+    }
+
+    /**
+     * Запрос новых токенов через refresh
+     *
+     * Refresh токен должен уже где то хранится
+     *
+     * @return Пара access и refresh токен
+     */
+    override fun refresh(): Flow<Tokens> = flow {
+        delay(timeMillis = 5_000)
+        emit(stubTokens)
     }
 
     /**
      * /see [AuthRepository.register]
      */
-    override suspend fun register(email: String, password: String): Tokens {
+    override fun register(email: String, password: String): Flow<Tokens> = flow {
         delay(timeMillis = 5_000)
-        return Tokens("access", "refresh")
+        emit(stubTokens)
     }
 
     /**
-     * /see [AuthRepository.updateProfile]
+     * Обновление данных профиля пользователя
+     *
+     * @param nickname Никнейм
+     * @param firstName Имя
+     * @param lastName Фамилия
+     * @param birthDay Дата рождения
+     * @return Результат запроса
      */
-    override suspend fun updateProfile(
+    override fun updateProfile(
         nickname: String,
         firstName: String,
         lastName: String,
         birthDay: String,
-        avatarUrl: String?,
-    ): UserProfileData {
-        delay(timeMillis = 5000)
-        return UserProfileData(
-            id = "id",
-            firstName = "first name",
-            lastName = "last name",
-            nickname = "nickname",
-            avatarUrl = "avatar url",
-            birthDay = "2021-12-21",
-        )
+    ): Flow<UserProfileData> = flow {
+        delay(timeMillis = 5_000)
+        emit(stubUserProfileData)
     }
 }

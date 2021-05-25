@@ -10,7 +10,7 @@ import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.data.network.errors.NetworkException
-import com.redmadrobot.domain.usecases.login.LoginUseCase
+import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.flow.catch
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val useCase: LoginUseCase,
+    private val authRepository: AuthRepository,
     private val validator: AuthValidator,
 ) : BaseViewModel() {
     private val liveState = MutableLiveData<LoginViewState>(LoginViewState())
@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
 
     fun onLoginClicked(email: String, password: String) {
         viewModelScope.launch {
-            useCase.login(email, password)
+            authRepository.login(email, password)
                 .onStart {
                     state = state.copy(screenState = ScreenState.LOADING)
                 }.catch { e ->

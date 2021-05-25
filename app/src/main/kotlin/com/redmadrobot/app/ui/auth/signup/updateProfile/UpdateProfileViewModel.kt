@@ -11,7 +11,7 @@ import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.data.network.errors.NetworkException
-import com.redmadrobot.domain.usecases.signup.RegisterUseCase
+import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.flow.catch
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
-    private val useCase: RegisterUseCase,
+    private val authRepository: AuthRepository,
     private val validator: AuthValidator,
 ) : BaseViewModel() {
     private val liveState = MutableLiveData<UpdateProfileViewState>(UpdateProfileViewState())
@@ -86,7 +86,7 @@ class UpdateProfileViewModel @Inject constructor(
 
     fun onRegisterClicked(nickname: String, name: String, surname: String, birthDay: String) {
         viewModelScope.launch {
-            useCase.register(
+            authRepository.register(
                 state.email ?: throw IllegalArgumentException("Email required"),
                 state.password ?: throw IllegalArgumentException("Password required")
             ).onStart {
@@ -111,7 +111,7 @@ class UpdateProfileViewModel @Inject constructor(
     }
 
     private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String) {
-        useCase.updateProfile(
+        authRepository.updateProfile(
             nickname = nickname,
             firstName = name,
             lastName = surname,

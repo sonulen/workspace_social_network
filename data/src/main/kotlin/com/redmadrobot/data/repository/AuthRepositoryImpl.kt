@@ -1,7 +1,9 @@
 package com.redmadrobot.data.repository
 
+import com.redmadrobot.data.entity.api.request.NetworkEntityRefreshToken
 import com.redmadrobot.data.entity.api.request.NetworkEntityUserCredentials
 import com.redmadrobot.data.network.auth.AuthApi
+import com.redmadrobot.data.util.toUserProfileData
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
@@ -20,42 +22,52 @@ class AuthRepositoryImpl @Inject constructor(
      * /see [AuthRepository.logout]
      */
     override fun logout(): Flow<Unit> = flow {
-        api.logout(
-            "Bearer " + (
-                session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
-                )
-        )
-        session.clear()
-        memory.clear()
+        try {
+            api.logout("Bearer " + requireNotNull(session.getAccessToken()) { "Access token required" })
+        } finally {
+            session.clear()
+            memory.clear()
+        }
         emit(Unit)
     }
 
     /**
      * /see [AuthRepository.login]
      */
-    override suspend fun login(email: String, password: String): Tokens {
+    override fun login(email: String, password: String): Flow<Tokens> = flow {
         val tokens = api.login(NetworkEntityUserCredentials(email, password))
-        return Tokens(tokens.accessToken, tokens.refreshToken)
+        session.saveSession(tokens.toUserProfileData())
+        emit(tokens.toUserProfileData())
+    }
+
+    /**
+     * /see [AuthRepository.refresh]
+     */
+    override fun refresh(): Flow<Tokens> = flow {
+        val refreshToken = requireNotNull(session.getRefreshToken()) { "Refresh token required" }
+        val tokens = api.refresh(NetworkEntityRefreshToken(refreshToken))
+        session.saveSession(tokens.toUserProfileData())
+        emit(tokens.toUserProfileData())
     }
 
     /**
      * /see [AuthRepository.register]
      */
-    override suspend fun register(email: String, password: String): Tokens {
+    override fun register(email: String, password: String): Flow<Tokens> = flow {
         val tokens = api.registration(NetworkEntityUserCredentials(email, password))
-        return Tokens(tokens.accessToken, tokens.refreshToken)
+        session.saveSession(tokens.toUserProfileData())
+        emit(tokens.toUserProfileData())
     }
 
     /**
      * /see [AuthRepository.updateProfile]
      */
-    override suspend fun updateProfile(
+    override fun updateProfile(
         nickname: String,
         firstName: String,
         lastName: String,
         birthDay: String,
-        avatarUrl: String?,
-    ): UserProfileData {
+    ): Flow<UserProfileData> = flow {
         val userProfileData = api.mePatchProfile(
             accessToken = "Bearer " + (
                 session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
@@ -66,13 +78,9 @@ class AuthRepositoryImpl @Inject constructor(
             birthday = birthDay,
         )
 
-        return UserProfileData(
-            id = userProfileData.id,
-            firstName = userProfileData.firstName,
-            lastName = userProfileData.lastName,
-            nickname = userProfileData.nickname,
-            avatarUrl = userProfileData.avatarUrl.orEmpty(),
-            birthDay = userProfileData.birthDay,
-        )
+        var cachedUserData: UserProfileData? by memory
+        cachedUserData = userProfileData.toUserProfileData()
+
+        emit(userProfileData.toUserProfileData())
     }
 }

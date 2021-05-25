@@ -18,7 +18,16 @@ interface AuthRepository {
      * @param password Пароль
      * @return Пара access и refresh токен
      */
-    suspend fun login(email: String, password: String): Tokens
+    fun login(email: String, password: String): Flow<Tokens>
+
+    /**
+     * Запрос новых токенов через refresh
+     *
+     * Refresh токен должен уже где то хранится
+     *
+     * @return Пара access и refresh токен
+     */
+    fun refresh(): Flow<Tokens>
 
     /**
      * Регистрация пользователя
@@ -27,7 +36,7 @@ interface AuthRepository {
      * @param password Пароль
      * @return Результат запроса
      */
-    suspend fun register(email: String, password: String): Tokens
+    fun register(email: String, password: String): Flow<Tokens>
 
     /**
      * Обновление данных профиля пользователя
@@ -35,15 +44,13 @@ interface AuthRepository {
      * @param nickname Никнейм
      * @param firstName Имя
      * @param lastName Фамилия
-     * @param avatarUrl Ссылка на аватар
      * @param birthDay Дата рождения
      * @return Результат запроса
      */
-    suspend fun updateProfile(
+    fun updateProfile(
         nickname: String,
         firstName: String,
         lastName: String,
         birthDay: String,
-        avatarUrl: String? = null,
-    ): UserProfileData
+    ): Flow<UserProfileData>
 }
