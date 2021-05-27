@@ -4,6 +4,8 @@ import com.redmadrobot.app.di.AppProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
+import com.redmadrobot.app.di.network.authApi.AuthApiModule
+import com.redmadrobot.app.di.network.workspaceApi.WorkspaceApiModule
 import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import com.redmadrobot.app.di.workspace.userDataRepository.UserDataRepositoryModule
 import com.redmadrobot.app.ui.workspace.profile.ProfileFragment
@@ -20,7 +22,9 @@ import javax.inject.Singleton
     modules = [
         UserDataRepositoryModule::class,
         ProfileViewModelModule::class,
-        AuthRepositoryModule::class
+        AuthApiModule::class,
+        AuthRepositoryModule::class,
+        WorkspaceApiModule::class,
     ]
 )
 interface ProfileComponent {

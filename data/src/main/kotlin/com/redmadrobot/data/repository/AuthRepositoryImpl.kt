@@ -25,7 +25,10 @@ class AuthRepositoryImpl @Inject constructor(
      */
     override fun logout(): Flow<Unit> = flow {
         try {
-            api.logout("Bearer " + requireNotNull(session.getAccessToken()) { "Access token required" })
+            api.logout(
+                AuthRepository.HEADER_TOKEN_PREFIX +
+                    requireNotNull(session.getAccessToken()) { "Access token required" }
+            )
         } finally {
             session.clear()
             memory.clear()
@@ -45,11 +48,11 @@ class AuthRepositoryImpl @Inject constructor(
     /**
      * /see [AuthRepository.refresh]
      */
-    override fun refresh(): Flow<Tokens> = flow {
+    override suspend fun refresh(): Tokens {
         val refreshToken = requireNotNull(session.getRefreshToken()) { "Refresh token required" }
         val tokens = api.refresh(NetworkEntityRefreshToken(refreshToken))
         session.saveSession(tokens.toTokens())
-        emit(tokens.toTokens())
+        return tokens.toTokens()
     }
 
     /**
@@ -71,9 +74,8 @@ class AuthRepositoryImpl @Inject constructor(
         birthDay: String,
     ): Flow<UserProfileData> = flow {
         val userProfileData = api.mePatchProfile(
-            accessToken = "Bearer " + (
-                session.getAccessToken() ?: throw IllegalArgumentException("Access token required")
-                ),
+            accessToken = AuthRepository.HEADER_TOKEN_PREFIX +
+                requireNotNull(session.getAccessToken()) { "Access token required" },
             nickname = nickname,
             firstName = firstName,
             lastName = lastName,

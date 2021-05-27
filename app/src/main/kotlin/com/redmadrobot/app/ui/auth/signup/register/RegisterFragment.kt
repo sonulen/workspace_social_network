@@ -30,7 +30,7 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
     }
 
     private fun initDagger() {
-        RegisterComponent.init(appComponent).inject(this)
+        RegisterComponent.init().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -2,6 +2,7 @@ package com.redmadrobot.data.network
 
 object NetworkRouter {
     const val BASE_HOSTNAME = "interns2021.redmadrobot.com"
+    const val BASE_URL = "https://$BASE_HOSTNAME"
 
     //region Auth
     private const val auth = "auth"

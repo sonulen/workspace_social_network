@@ -41,9 +41,9 @@ class AuthRepositoryMockImpl : AuthRepository {
      *
      * @return Пара access и refresh токен
      */
-    override fun refresh(): Flow<Tokens> = flow {
+    override suspend fun refresh(): Tokens {
         delay(timeMillis = 5_000)
-        emit(stubTokens)
+        return stubTokens
     }
 
     /**

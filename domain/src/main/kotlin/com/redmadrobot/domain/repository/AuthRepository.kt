@@ -5,6 +5,9 @@ import com.redmadrobot.domain.entity.repository.UserProfileData
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
+    companion object {
+        const val HEADER_TOKEN_PREFIX = "Bearer "
+    }
 
     /**
      * Завершение сессии
@@ -27,7 +30,7 @@ interface AuthRepository {
      *
      * @return Пара access и refresh токен
      */
-    fun refresh(): Flow<Tokens>
+    suspend fun refresh(): Tokens
 
     /**
      * Регистрация пользователя

@@ -1,5 +1,7 @@
-package com.redmadrobot.app.di.auth.authRepository
+package com.redmadrobot.app.di.network.workspaceApi
 
+import com.redmadrobot.app.di.android.AndroidToolsProvider
+import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
@@ -10,26 +12,30 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     dependencies = [
-        NetworkProvider::class,
+        AndroidToolsProvider::class,
         SessionRepositoryProvider::class,
-        MapMemoryProvider::class,
+        NetworkProvider::class,
+        MapMemoryProvider::class
     ],
     modules = [
         AuthApiModule::class,
         AuthRepositoryModule::class,
+        WorkspaceApiModule::class
     ]
 )
-interface AuthRepositoryComponent : AuthRepositoryProvider {
+interface WorkspaceApiComponent : WorkspaceApiProvider {
     class Builder private constructor() {
         companion object {
             fun build(
-                networkProvider: NetworkProvider,
+                androidToolsProvider: AndroidToolsProvider,
                 sessionRepositoryProvider: SessionRepositoryProvider,
+                networkProvider: NetworkProvider,
                 mapMemoryProvider: MapMemoryProvider,
-            ): AuthRepositoryProvider {
-                return DaggerAuthRepositoryComponent.builder()
-                    .networkProvider(networkProvider)
+            ): WorkspaceApiProvider {
+                return DaggerWorkspaceApiComponent.builder()
+                    .androidToolsProvider(androidToolsProvider)
                     .sessionRepositoryProvider(sessionRepositoryProvider)
+                    .networkProvider(networkProvider)
                     .mapMemoryProvider(mapMemoryProvider)
                     .build()
             }
