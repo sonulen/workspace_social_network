@@ -1,5 +1,6 @@
 package com.redmadrobot.data.network.errors
 
+import android.annotation.SuppressLint
 import com.redmadrobot.data.entity.api.response.NetworkEntityError
 import com.redmadrobot.data.util.bodyCopy
 import com.redmadrobot.data.util.fromJsonOrThrow
@@ -28,6 +29,10 @@ class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
         UNKNOWN_ERROR("Что-то пошло не так..."),
     }
 
+    companion object {
+        private const val NETWORK_LOG_TAG = "OkHttp"
+    }
+
     private val unknownErrorResponse
         get() = NetworkEntityError(
             code = ErrorCode.UNKNOWN_ERROR.toString(),
@@ -36,8 +41,17 @@ class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
 
     fun noInternetAccessException() = NetworkException.NoInternetAccess()
 
+    @SuppressLint("BinaryOperationInTimber")
     fun networkErrorToThrow(response: Response): NetworkException {
-        val error = parseErrorBody(response.bodyCopy())
+        val body = response.bodyCopy()
+        Timber.tag(NETWORK_LOG_TAG).d(
+            "От сервера пришел ответ с ошибкой.\n" +
+                "code : ${response.code}\n" +
+                "body: $body \n" +
+                "body string : ${body?.string()}\n" +
+                "message: ${response.message}"
+        )
+        val error = parseErrorBody(body)
 
         return when (response.code) {
             HttpsURLConnection.HTTP_BAD_REQUEST -> NetworkException.BadRequest(error)
@@ -49,12 +63,11 @@ class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
 
     private fun parseErrorBody(body: ResponseBody?): NetworkEntityError {
         return if (body != null) {
-            Timber.tag("OkHttp").d("От сервера пришел ответ с ошибкой $body")
             try {
                 val rawErrorFromServer = moshi.fromJsonOrThrow(NetworkEntityError::class, body.string())
                 rawErrorFromServer.convertToHumanReadableError()
             } catch (nonValidJsonOrNull: IOException) {
-                Timber.tag("OkHttp").d(nonValidJsonOrNull)
+                Timber.tag(NETWORK_LOG_TAG).d(nonValidJsonOrNull)
                 unknownErrorResponse
             }
         } else {

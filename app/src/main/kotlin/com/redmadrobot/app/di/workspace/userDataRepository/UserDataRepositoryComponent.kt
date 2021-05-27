@@ -2,13 +2,12 @@ package com.redmadrobot.app.di.workspace.userDataRepository
 
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
-import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-    dependencies = [NetworkProvider::class, SessionRepositoryProvider::class, MapMemoryProvider::class],
+    dependencies = [NetworkProvider::class, MapMemoryProvider::class],
     modules = [UserDataRepositoryModule::class]
 )
 interface UserDataRepositoryComponent : UserDataRepositoryProvider {
@@ -16,9 +15,11 @@ interface UserDataRepositoryComponent : UserDataRepositoryProvider {
         companion object {
             fun build(
                 mapMemoryProvider: MapMemoryProvider,
+                networkProvider: NetworkProvider,
             ): UserDataRepositoryProvider {
                 return DaggerUserDataRepositoryComponent.builder()
                     .mapMemoryProvider(mapMemoryProvider)
+                    .networkProvider(networkProvider)
                     .build()
             }
         }

@@ -106,8 +106,9 @@ class UpdateProfileViewModel @Inject constructor(
 
     private fun processError(e: Throwable) {
         state = state.copy(screenState = ScreenState.ERROR)
-        if (e !is NetworkException) throw e
-        eventsQueue.offerEvent(EventError(e.message))
+        if (e is NetworkException) {
+            eventsQueue.offerEvent(EventError(e.message))
+        }
     }
 
     private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String) {

@@ -69,8 +69,9 @@ class ProfileEditViewModel @Inject constructor(
 
     private fun processError(e: Throwable) {
         state = state.copy(screenState = ScreenState.ERROR)
-        if (e !is NetworkException) throw e
-        eventsQueue.offerEvent(EventError(e.message))
+        if (e is NetworkException) {
+            eventsQueue.offerEvent(EventError(e.message))
+        }
     }
 
     fun onNicknameEntered(nickname: String) {
