@@ -2,9 +2,7 @@ package com.redmadrobot.app.di.network.authApi
 
 import com.redmadrobot.app.di.network.NetworkProvider
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
     dependencies = [NetworkProvider::class],
     modules = [AuthApiModule::class]

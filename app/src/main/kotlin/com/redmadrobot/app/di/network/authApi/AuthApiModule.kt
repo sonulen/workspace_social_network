@@ -6,18 +6,18 @@ import com.redmadrobot.data.network.NetworkRouter
 import com.redmadrobot.data.network.auth.AuthApi
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 object AuthApiModule {
     @Provides
-    @Singleton
+    @Reusable
     @UnauthorizedZone
     fun provideUnauthorizedOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
@@ -34,7 +34,7 @@ object AuthApiModule {
     }
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideAuthApiClient(
         @UnauthorizedZone okHttpClient: OkHttpClient,
         moshiFactory: MoshiConverterFactory,

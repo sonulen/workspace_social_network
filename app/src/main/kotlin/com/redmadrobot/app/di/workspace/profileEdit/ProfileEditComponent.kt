@@ -11,9 +11,7 @@ import com.redmadrobot.app.di.validate.AuthValidatorModule
 import com.redmadrobot.app.di.workspace.userDataRepository.UserDataRepositoryModule
 import com.redmadrobot.app.ui.workspace.profileEdit.ProfileEditFragment
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
     dependencies = [
         NetworkProvider::class,

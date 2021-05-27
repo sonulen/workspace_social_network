@@ -10,9 +10,7 @@ import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import com.redmadrobot.app.di.workspace.userDataRepository.UserDataRepositoryModule
 import com.redmadrobot.app.ui.workspace.profile.ProfileFragment
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
     dependencies = [
         SessionRepositoryProvider::class,

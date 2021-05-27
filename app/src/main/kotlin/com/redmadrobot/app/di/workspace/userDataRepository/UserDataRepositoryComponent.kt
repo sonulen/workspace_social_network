@@ -7,9 +7,7 @@ import com.redmadrobot.app.di.network.authApi.AuthApiModule
 import com.redmadrobot.app.di.network.workspaceApi.WorkspaceApiModule
 import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
     dependencies = [
         NetworkProvider::class,

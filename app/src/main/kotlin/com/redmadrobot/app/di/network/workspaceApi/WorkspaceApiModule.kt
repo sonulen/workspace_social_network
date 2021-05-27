@@ -7,18 +7,18 @@ import com.redmadrobot.data.network.UserAuthenticator
 import com.redmadrobot.data.network.workspace.WorkspaceApi
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 object WorkspaceApiModule {
     @Provides
-    @Singleton
+    @Reusable
     @AuthorizedZone
     fun provideAuthorizedOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
@@ -37,7 +37,7 @@ object WorkspaceApiModule {
     }
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideWorkspaceApiClient(
         @AuthorizedZone okHttpClient: OkHttpClient,
         moshiFactory: MoshiConverterFactory,

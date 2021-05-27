@@ -10,10 +10,8 @@ import okhttp3.ResponseBody
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Singleton
 import javax.net.ssl.HttpsURLConnection
 
-@Singleton
 class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
     enum class ErrorCode(val message: String) {
         INVALID_CREDENTIALS("Email или пароль указаны неверно"),

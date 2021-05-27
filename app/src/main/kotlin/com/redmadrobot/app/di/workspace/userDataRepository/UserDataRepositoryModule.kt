@@ -6,12 +6,12 @@ import com.redmadrobot.domain.repository.UserDataRepository
 import com.redmadrobot.mapmemory.MapMemory
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.Reusable
 
 @Module
 object UserDataRepositoryModule {
     @Provides
-    @Singleton
+    @Reusable
     fun provideUserDataRepositoryImpl(
         api: WorkspaceApi,
         cache: MapMemory,

@@ -9,9 +9,7 @@ import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import com.redmadrobot.app.di.validate.AuthValidatorModule
 import com.redmadrobot.app.ui.auth.signin.LoginFragment
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
     dependencies = [
         SessionRepositoryProvider::class,
