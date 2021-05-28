@@ -68,7 +68,7 @@ class ProfileViewModel @Inject constructor(
                     processError(e)
                 }.collect {
                     state = state.copy(screenState = ScreenState.CONTENT)
-                    eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toWelcomeFragment()))
+                    eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toAuthGraph()))
                 }
         }
     }

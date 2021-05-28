@@ -11,7 +11,7 @@
         tools:layout="@layout/feed_fragment"
         android:label="FeedFragment">
         <action
-            android:id="@+id/toWelcomeFragment"
+            android:id="@+id/toAuthGraph"
             app:destination="@id/AuthGraph" />
         <action
             android:id="@+id/toProfileFragment"
@@ -23,7 +23,7 @@
         android:name="com.redmadrobot.app.ui.workspace.profile.ProfileFragment"
         android:label="ProfileFragment">
         <action
-            android:id="@+id/toWelcomeFragment"
+            android:id="@+id/toAuthGraph"
             app:destination="@id/AuthGraph"
             app:popUpTo="@id/AuthGraph" />
         <action
@@ -35,6 +35,10 @@
         tools:layout="@layout/profile_edit_fragment"
         android:name="com.redmadrobot.app.ui.workspace.profileEdit.ProfileEditFragment"
         android:label="ProfileEditFragment">
+        <action
+            android:id="@+id/toAuthGraph"
+            app:destination="@id/AuthGraph"
+            app:popUpTo="@id/AuthGraph" />
         <action
             android:id="@+id/profileEditFragmentPop"
             app:popUpTo="@id/profileEditFragment"

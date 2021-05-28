@@ -3,7 +3,8 @@ package com.redmadrobot.app.di
 import android.app.Application
 import com.redmadrobot.app.di.android.AndroidToolsComponent
 import com.redmadrobot.app.di.android.AndroidToolsProvider
-import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryModule
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryComponent
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryProvider
 import com.redmadrobot.app.di.mapMemory.MapMemoryComponent
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkComponent
@@ -21,9 +22,9 @@ import javax.inject.Singleton
         MapMemoryProvider::class,
         NetworkProvider::class,
         SessionRepositoryProvider::class,
+        DeauthorizationRepositoryProvider::class,
     ],
     modules = [
-        DeauthorizationRepositoryModule::class,
         MainViewModelModule::class,
     ]
 )
@@ -38,6 +39,7 @@ interface AppComponent : AppProvider {
             networkProvider: NetworkProvider,
             sessionRepositoryProvider: SessionRepositoryProvider,
             mapMemoryProvider: MapMemoryProvider,
+            deauthorizationRepositoryProvider: DeauthorizationRepositoryProvider,
         ): AppComponent
     }
 
@@ -47,9 +49,16 @@ interface AppComponent : AppProvider {
             val networkProvider = NetworkComponent.Builder.build(androidToolsProvider)
             val sessionRepositoryProvider = SessionRepositoryComponent.Builder.build(androidToolsProvider)
             val mapMemoryProvider = MapMemoryComponent.init()
+            val deauthorizationRepositoryProvider =
+                DeauthorizationRepositoryComponent.Builder.build(sessionRepositoryProvider, mapMemoryProvider)
 
-            return DaggerAppComponent.factory()
-                .create(androidToolsProvider, networkProvider, sessionRepositoryProvider, mapMemoryProvider)
+            return DaggerAppComponent.factory().create(
+                androidToolsProvider,
+                networkProvider,
+                sessionRepositoryProvider,
+                mapMemoryProvider,
+                deauthorizationRepositoryProvider,
+            )
         }
     }
 }

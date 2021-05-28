@@ -1,16 +1,22 @@
 package com.redmadrobot.app.ui
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.ActivityMainBinding
 import com.redmadrobot.app.di.AppComponent
 import com.redmadrobot.app.ui.base.activity.BaseActivity
+import com.redmadrobot.app.ui.base.events.EventError
+import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.utils.extension.dispatchApplyWindowInsetsToChild
 import com.redmadrobot.extensions.lifecycle.Event
@@ -43,11 +49,25 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onEvent(event: Event) {
-        if (event is EventNavigateTo) {
-            findNavController(R.id.nav_host_fragment).navigate(event.direction)
-        } else {
-            Timber.e(IllegalArgumentException("Unknown Event Type"))
+        when (event) {
+            is EventMessage -> showMessage(event.message)
+            is EventError -> showError(event.errorMessage)
+            is EventNavigateTo -> navigateTo(event.direction)
+            else -> Timber.e(IllegalArgumentException("Unknown Event Type"))
         }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showError(errorMessage: String) {
+        val contentView = this.findViewById<View>(android.R.id.content)
+        Snackbar.make(contentView, errorMessage, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun navigateTo(direction: NavDirections) {
+        findNavController(R.id.nav_host_fragment).navigate(direction)
     }
 
     private fun setupBottomNavigationBarVisibility(navController: NavController) {

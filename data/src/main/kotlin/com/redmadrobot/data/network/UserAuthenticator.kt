@@ -3,6 +3,7 @@ package com.redmadrobot.data.network
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.DeauthorizationRepository
 import com.redmadrobot.domain.repository.SessionRepository
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -33,7 +34,7 @@ class UserAuthenticator @Inject constructor(
             newAccessToken?.let { buildRequestWithNewAccessToken(response, it) }
         } else {
             currentAccessToken?.let {
-                buildRequestWithNewAccessToken(response, currentAccessToken)
+                buildRequestWithNewAccessToken(response, it)
             }
         }
     }
@@ -47,7 +48,7 @@ class UserAuthenticator @Inject constructor(
             } catch (exception: Exception) {
                 Timber.tag(TAG).d(exception, "An error occurred while token updating")
                 // Вызываем метод репозитория, который кинет событие, что нужна деавторизация
-                deauthorizationRepository.logout("Что-то пошло не так. Давай начнем сначала?")
+                deauthorizationRepository.logout("Что-то пошло не так. Давай начнем сначала?").launchIn(this)
                 // Если ошибка - возвращаем null, это значит что больше не надо пытаться авторизоваться
                 null
             }

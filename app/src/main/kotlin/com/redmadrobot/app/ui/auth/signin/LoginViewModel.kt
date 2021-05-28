@@ -38,8 +38,9 @@ class LoginViewModel @Inject constructor(
                     state = state.copy(screenState = ScreenState.LOADING)
                 }.catch { e ->
                     state = state.copy(screenState = ScreenState.ERROR)
-                    if (e !is NetworkException) throw e
-                    eventsQueue.offerEvent(EventError(e.message))
+                    if (e is NetworkException) {
+                        eventsQueue.offerEvent(EventError(e.message))
+                    }
                 }.collect {
                     state = state.copy(screenState = ScreenState.CONTENT)
                     eventsQueue.offerEvent(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))

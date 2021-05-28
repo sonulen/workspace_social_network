@@ -49,7 +49,7 @@ class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
                 "body string : ${body?.string()}\n" +
                 "message: ${response.message}"
         )
-        val error = parseErrorBody(body)
+        val error = parseErrorBody(response.bodyCopy())
 
         return when (response.code) {
             HttpsURLConnection.HTTP_BAD_REQUEST -> NetworkException.BadRequest(error)

@@ -2,7 +2,7 @@ package com.redmadrobot.app.di.workspace.profile
 
 import com.redmadrobot.app.di.AppProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
-import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryModule
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryProvider
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
@@ -14,6 +14,7 @@ import dagger.Component
 
 @Component(
     dependencies = [
+        DeauthorizationRepositoryProvider::class,
         MapMemoryProvider::class,
         NetworkProvider::class,
         SessionRepositoryProvider::class,
@@ -21,7 +22,6 @@ import dagger.Component
     modules = [
         AuthApiModule::class,
         AuthRepositoryModule::class,
-        DeauthorizationRepositoryModule::class,
         ProfileViewModelModule::class,
         UserDataRepositoryModule::class,
         WorkspaceApiModule::class,
@@ -36,12 +36,13 @@ interface ProfileComponent {
             sessionRepository: SessionRepositoryProvider,
             networkProvider: NetworkProvider,
             mapMemoryProvider: MapMemoryProvider,
+            deauthorizationRepositoryProvider: DeauthorizationRepositoryProvider,
         ): ProfileComponent
     }
 
     companion object {
         fun init(appProvider: AppProvider): ProfileComponent {
-            return DaggerProfileComponent.factory().create(appProvider, appProvider, appProvider)
+            return DaggerProfileComponent.factory().create(appProvider, appProvider, appProvider, appProvider)
         }
     }
 }

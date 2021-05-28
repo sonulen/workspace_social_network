@@ -34,8 +34,8 @@ object WorkspaceApiModule {
         authenticator: UserAuthenticator,
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
             .addInterceptor(errorInterceptor)
             .authenticator(authenticator)
             .callTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
