@@ -22,23 +22,14 @@ class UserAuthenticator @Inject constructor(
     @Synchronized
     override fun authenticate(route: Route?, response: Response): Request? {
         val currentAccessToken = session.getAccessToken()
-        if (currentAccessToken == null) {
-            Timber.tag(TAG).d("Попали в authenticate не имея Access Token")
-        }
         // Получаем текущий токен из запроса
         val requestAccessToken =
             response.request.header(HEADER_AUTHORIZATION)?.removePrefix(AuthRepository.HEADER_TOKEN_PREFIX)
 
-        if (currentAccessToken == null) {
-            Timber.tag(TAG).d("В header запроса нет токена")
-        }
-
         return if (currentAccessToken == requestAccessToken) {
-            Timber.tag(TAG).i("Token refreshing")
             val newAccessToken = refreshTokenSynchronously()
             newAccessToken?.let { buildRequestWithNewAccessToken(response, it) }
         } else {
-            Timber.tag(TAG).i("Proceeding with current token")
             currentAccessToken?.let {
                 buildRequestWithNewAccessToken(response, currentAccessToken)
             }
@@ -50,7 +41,7 @@ class UserAuthenticator @Inject constructor(
         return runBlocking {
             try {
                 // Пробуем запросить новый токен
-                repository.refresh().refresh
+                repository.refresh().access
             } catch (exception: Exception) {
                 Timber.tag(TAG).d(exception, "An error occurred while token updating")
                 // Тут вызываем какой-то метод репозитория, который кинет событие, что нужна деавторизация

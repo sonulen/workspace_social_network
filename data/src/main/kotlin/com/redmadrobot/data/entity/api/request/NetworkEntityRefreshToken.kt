@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class NetworkEntityRefreshToken(
-    @Json(name = "refresh_token") val refreshToken: String,
+    @Json(name = "token") val refreshToken: String,
 )

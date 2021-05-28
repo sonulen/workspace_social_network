@@ -2,9 +2,11 @@ package com.redmadrobot.app.di.network.workspaceApi
 
 import com.redmadrobot.app.di.network.NetworkModule
 import com.redmadrobot.app.di.qualifiers.AuthorizedZone
+import com.redmadrobot.data.network.AuthInterceptor
 import com.redmadrobot.data.network.NetworkRouter
 import com.redmadrobot.data.network.UserAuthenticator
 import com.redmadrobot.data.network.workspace.WorkspaceApi
+import com.redmadrobot.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -19,13 +21,20 @@ import java.util.concurrent.TimeUnit
 object WorkspaceApiModule {
     @Provides
     @Reusable
+    fun provideAuthInterceptor(sessionRepository: SessionRepository): AuthInterceptor =
+        AuthInterceptor(sessionRepository)
+
+    @Provides
+    @Reusable
     @AuthorizedZone
     fun provideAuthorizedOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         errorInterceptor: Interceptor,
+        authInterceptor: AuthInterceptor,
         authenticator: UserAuthenticator,
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(errorInterceptor)
             .authenticator(authenticator)
