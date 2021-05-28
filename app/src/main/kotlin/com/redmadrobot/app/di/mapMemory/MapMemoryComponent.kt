@@ -6,18 +6,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [MapMemoryModule::class])
 interface MapMemoryComponent : MapMemoryProvider {
-    @Component.Builder
-    interface ComponentBuilder {
-        fun build(): MapMemoryComponent
-    }
-
-    class Builder private constructor() {
-
-        companion object {
-            fun build(): MapMemoryProvider {
-                return DaggerMapMemoryComponent.builder()
-                    .build()
-            }
+    companion object {
+        fun init(): MapMemoryComponent {
+            return DaggerMapMemoryComponent.builder()
+                .build()
         }
     }
 }

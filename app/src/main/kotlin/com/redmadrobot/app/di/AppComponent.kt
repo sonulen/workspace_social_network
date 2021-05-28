@@ -17,14 +17,14 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     dependencies = [
-        NetworkProvider::class,
         AndroidToolsProvider::class,
+        MapMemoryProvider::class,
+        NetworkProvider::class,
         SessionRepositoryProvider::class,
-        MapMemoryProvider::class
     ],
     modules = [
-        MainViewModelModule::class,
         DeauthorizationRepositoryModule::class,
+        MainViewModelModule::class,
     ]
 )
 interface AppComponent : AppProvider {
@@ -46,7 +46,7 @@ interface AppComponent : AppProvider {
             val androidToolsProvider = AndroidToolsComponent.Builder.build(application)
             val networkProvider = NetworkComponent.Builder.build(androidToolsProvider)
             val sessionRepositoryProvider = SessionRepositoryComponent.Builder.build(androidToolsProvider)
-            val mapMemoryProvider = MapMemoryComponent.Builder.build()
+            val mapMemoryProvider = MapMemoryComponent.init()
 
             return DaggerAppComponent.factory()
                 .create(androidToolsProvider, networkProvider, sessionRepositoryProvider, mapMemoryProvider)

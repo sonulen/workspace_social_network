@@ -11,16 +11,16 @@ import dagger.Component
 
 @Component(
     dependencies = [
-        NetworkProvider::class,
         MapMemoryProvider::class,
+        NetworkProvider::class,
         SessionRepositoryProvider::class
     ],
     modules = [
-        UserDataRepositoryModule::class,
-        WorkspaceApiModule::class,
         AuthApiModule::class,
         AuthRepositoryModule::class,
         DeauthorizationRepositoryModule::class,
+        UserDataRepositoryModule::class,
+        WorkspaceApiModule::class,
     ]
 )
 interface UserDataRepositoryComponent : UserDataRepositoryProvider {

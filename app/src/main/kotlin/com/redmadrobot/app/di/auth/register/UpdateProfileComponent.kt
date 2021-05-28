@@ -12,15 +12,15 @@ import dagger.Component
 
 @Component(
     dependencies = [
-        SessionRepositoryProvider::class,
-        NetworkProvider::class,
         MapMemoryProvider::class,
+        NetworkProvider::class,
+        SessionRepositoryProvider::class,
     ],
     modules = [
-        UpdateProfileViewModelModule::class,
-        AuthValidatorModule::class,
+        AuthApiModule::class,
         AuthRepositoryModule::class,
-        AuthApiModule::class
+        AuthValidatorModule::class,
+        UpdateProfileViewModelModule::class,
     ]
 )
 interface UpdateProfileComponent {

@@ -15,18 +15,18 @@ import dagger.Component
 
 @Component(
     dependencies = [
-        NetworkProvider::class,
         MapMemoryProvider::class,
+        NetworkProvider::class,
         SessionRepositoryProvider::class
     ],
     modules = [
+        AuthApiModule::class,
+        AuthRepositoryModule::class,
         AuthValidatorModule::class,
+        DeauthorizationRepositoryModule::class,
         ProfileEditViewModelModule::class,
         UserDataRepositoryModule::class,
         WorkspaceApiModule::class,
-        AuthApiModule::class,
-        AuthRepositoryModule::class,
-        DeauthorizationRepositoryModule::class,
     ]
 )
 interface ProfileEditComponent {

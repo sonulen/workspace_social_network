@@ -6,8 +6,8 @@ import dagger.Component
 
 @Component(
     modules = [
+        AuthValidatorModule::class,
         RegisterViewModelModule::class,
-        AuthValidatorModule::class
     ]
 )
 interface RegisterComponent {

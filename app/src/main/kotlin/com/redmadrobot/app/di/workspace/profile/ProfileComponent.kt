@@ -14,17 +14,17 @@ import dagger.Component
 
 @Component(
     dependencies = [
-        SessionRepositoryProvider::class,
-        NetworkProvider::class,
         MapMemoryProvider::class,
+        NetworkProvider::class,
+        SessionRepositoryProvider::class,
     ],
     modules = [
-        UserDataRepositoryModule::class,
-        ProfileViewModelModule::class,
         AuthApiModule::class,
         AuthRepositoryModule::class,
-        WorkspaceApiModule::class,
         DeauthorizationRepositoryModule::class,
+        ProfileViewModelModule::class,
+        UserDataRepositoryModule::class,
+        WorkspaceApiModule::class,
     ]
 )
 interface ProfileComponent {
