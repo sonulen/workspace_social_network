@@ -2,6 +2,7 @@ package com.redmadrobot.app.di.workspace.profile
 
 import com.redmadrobot.app.di.AppProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryModule
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
@@ -23,6 +24,7 @@ import dagger.Component
         AuthApiModule::class,
         AuthRepositoryModule::class,
         WorkspaceApiModule::class,
+        DeauthorizationRepositoryModule::class,
     ]
 )
 interface ProfileComponent {

@@ -1,6 +1,7 @@
 package com.redmadrobot.data.network
 
 import com.redmadrobot.domain.repository.AuthRepository
+import com.redmadrobot.domain.repository.DeauthorizationRepository
 import com.redmadrobot.domain.repository.SessionRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -13,6 +14,7 @@ import javax.inject.Inject
 class UserAuthenticator @Inject constructor(
     private val repository: AuthRepository,
     private val session: SessionRepository,
+    private val deauthorizationRepository: DeauthorizationRepository,
 ) : Authenticator {
     companion object {
         private const val HEADER_AUTHORIZATION = "Authorization"
@@ -44,8 +46,8 @@ class UserAuthenticator @Inject constructor(
                 repository.refresh().access
             } catch (exception: Exception) {
                 Timber.tag(TAG).d(exception, "An error occurred while token updating")
-                // Тут вызываем какой-то метод репозитория, который кинет событие, что нужна деавторизация
-                // TODO repository.logout(tokenExpired = true).launchIn(this)
+                // Вызываем метод репозитория, который кинет событие, что нужна деавторизация
+                deauthorizationRepository.logout("Что-то пошло не так. Давай начнем сначала?")
                 // Если ошибка - возвращаем null, это значит что больше не надо пытаться авторизоваться
                 null
             }

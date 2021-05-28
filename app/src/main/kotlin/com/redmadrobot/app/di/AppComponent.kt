@@ -3,6 +3,7 @@ package com.redmadrobot.app.di
 import android.app.Application
 import com.redmadrobot.app.di.android.AndroidToolsComponent
 import com.redmadrobot.app.di.android.AndroidToolsProvider
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryModule
 import com.redmadrobot.app.di.mapMemory.MapMemoryComponent
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkComponent
@@ -23,6 +24,7 @@ import javax.inject.Singleton
     ],
     modules = [
         MainViewModelModule::class,
+        DeauthorizationRepositoryModule::class,
     ]
 )
 interface AppComponent : AppProvider {

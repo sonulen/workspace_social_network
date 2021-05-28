@@ -2,6 +2,7 @@ package com.redmadrobot.app.di.network.workspaceApi
 
 import com.redmadrobot.app.di.android.AndroidToolsProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
+import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryModule
 import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
@@ -18,7 +19,8 @@ import dagger.Component
     modules = [
         AuthApiModule::class,
         AuthRepositoryModule::class,
-        WorkspaceApiModule::class
+        WorkspaceApiModule::class,
+        DeauthorizationRepositoryModule::class
     ]
 )
 interface WorkspaceApiComponent : WorkspaceApiProvider {
