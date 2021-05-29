@@ -26,8 +26,6 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
     private val binding: LoginFragmentBinding by viewBinding()
 
-    private var loadingDialog: DialogFragment? = null
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initDagger()
@@ -85,11 +83,12 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
     private fun renderSpin(isVisible: Boolean) {
         if (isVisible) {
-            loadingDialog = LoadingDialogFragment()
-            loadingDialog?.isCancelable = false
-            loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
+            LoadingDialogFragment().apply {
+                isCancelable = false
+            }.show(childFragmentManager, LoadingDialogFragment.TAG)
         } else {
-            loadingDialog?.dismiss()
+            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+            fragment?.dismiss()
         }
     }
 

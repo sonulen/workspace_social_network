@@ -34,7 +34,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
     private val binding: ProfileUpdateFragmentBinding by viewBinding()
     private val args: UpdateProfileFragmentArgs by navArgs()
-    private var loadingDialog: DialogFragment? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initDagger()
@@ -109,11 +109,12 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
     private fun renderSpin(isVisible: Boolean) {
         if (isVisible) {
-            loadingDialog = LoadingDialogFragment()
-            loadingDialog?.isCancelable = false
-            loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
+            LoadingDialogFragment().apply {
+                isCancelable = false
+            }.show(childFragmentManager, LoadingDialogFragment.TAG)
         } else {
-            loadingDialog?.dismiss()
+            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+            fragment?.dismiss()
         }
     }
 

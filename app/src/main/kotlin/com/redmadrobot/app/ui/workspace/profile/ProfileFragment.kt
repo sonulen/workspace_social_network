@@ -22,7 +22,6 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
-    private var loadingDialog: DialogFragment? = null
     private val binding: ProfileFragmentBinding by viewBinding()
 
     override fun onAttach(context: Context) {
@@ -64,11 +63,12 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
 
     private fun renderSpin(isVisible: Boolean) {
         if (isVisible) {
-            loadingDialog = LoadingDialogFragment()
-            loadingDialog?.isCancelable = false
-            loadingDialog?.show(childFragmentManager, LoadingDialogFragment.TAG)
+            LoadingDialogFragment().apply {
+                isCancelable = false
+            }.show(childFragmentManager, LoadingDialogFragment.TAG)
         } else {
-            loadingDialog?.dismiss()
+            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+            fragment?.dismiss()
         }
     }
 
