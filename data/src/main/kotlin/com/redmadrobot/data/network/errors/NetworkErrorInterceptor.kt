@@ -2,7 +2,7 @@ package com.redmadrobot.data.network.errors
 
 import android.annotation.SuppressLint
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import com.redmadrobot.data.util.hasConnection
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -26,9 +26,6 @@ class NetworkErrorInterceptor(
     @SuppressLint("MissingPermission")
     private fun isConnected(): Boolean {
         val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return activeNetwork?.let {
-            it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or
-                it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        } ?: false
+        return activeNetwork?.hasConnection() ?: false
     }
 }
