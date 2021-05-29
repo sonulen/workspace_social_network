@@ -28,10 +28,8 @@ object NetworkModule {
     @Provides
     @Reusable
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor {
-            fun log(message: String) {
-                Timber.tag("OkHttp").d(message)
-            }
+        return HttpLoggingInterceptor { message ->
+            Timber.tag("OkHttp").d(message)
         }.apply {
             level = HttpLoggingInterceptor.Level.BODY
             redactHeader("Authorization")
