@@ -20,6 +20,7 @@
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/grey</item>
         <item name="snackbarStyle">@style/Widget.Workplaces.Snackbar</item>
+        <item name="materialCalendarTheme">@style/Widget.Workplaces.DatePicker</item>
     </style>
 
 </resources>

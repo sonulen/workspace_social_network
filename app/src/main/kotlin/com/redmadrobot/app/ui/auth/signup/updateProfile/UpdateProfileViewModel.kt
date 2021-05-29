@@ -14,10 +14,7 @@ import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
@@ -85,15 +82,17 @@ class UpdateProfileViewModel @Inject constructor(
     }
 
     fun onRegisterClicked(nickname: String, name: String, surname: String, birthDay: String) {
-        viewModelScope.launch {
-            authRepository.register(
-                state.email ?: throw IllegalArgumentException("Email required"),
-                state.password ?: throw IllegalArgumentException("Password required")
-            ).onStart {
+        authRepository.register(
+            requireNotNull(state.email) { "Email required" },
+            requireNotNull(state.password) { "Password required" }
+        )
+            .onStart {
                 state = state.copy(screenState = ScreenState.LOADING)
-            }.catch { e ->
+            }
+            .catch { e ->
                 processError(e)
-            }.collect {
+            }
+            .onCompletion {
                 updateProfile(
                     nickname = nickname,
                     name = name,
@@ -101,7 +100,7 @@ class UpdateProfileViewModel @Inject constructor(
                     birthDay = birthDay
                 )
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     private fun processError(e: Throwable) {
@@ -117,13 +116,16 @@ class UpdateProfileViewModel @Inject constructor(
             firstName = name,
             lastName = surname,
             birthDay = birthDay
-        ).onStart {
-            state = state.copy(screenState = ScreenState.LOADING)
-        }.catch { e ->
-            processError(e)
-        }.collect {
-            eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
-        }
+        )
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .catch { e ->
+                processError(e)
+            }
+            .collect {
+                eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
+            }
     }
 
     fun onShowDatePickerClicked() {

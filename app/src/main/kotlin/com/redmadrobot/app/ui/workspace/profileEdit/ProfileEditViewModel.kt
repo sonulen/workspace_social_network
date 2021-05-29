@@ -16,9 +16,7 @@ import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.UserDataRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -121,22 +119,24 @@ class ProfileEditViewModel @Inject constructor(
     }
 
     fun onSaveClicked() {
-        viewModelScope.launch {
-            userDataRepository.updateUserProfileData(
-                nickname = state.userDataForm.nickname,
-                firstName = state.userDataForm.name,
-                lastName = state.userDataForm.surname,
-                birthDay = state.userDataForm.birthDay,
-                avatarUrl = null
-            ).onStart {
+        userDataRepository.updateUserProfileData(
+            nickname = state.userDataForm.nickname,
+            firstName = state.userDataForm.name,
+            lastName = state.userDataForm.surname,
+            birthDay = state.userDataForm.birthDay,
+            avatarUrl = null
+        )
+            .onStart {
                 state = state.copy(screenState = ScreenState.LOADING)
-            }.catch { e ->
+            }
+            .catch { e ->
                 processError(e)
-            }.collect {
+            }
+            .onCompletion {
                 state = state.copy(screenState = ScreenState.CONTENT)
                 eventsQueue.offerEvent(EventNavigateTo(ProfileEditFragmentDirections.profileEditFragmentPop()))
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     fun onBackClicked() {
