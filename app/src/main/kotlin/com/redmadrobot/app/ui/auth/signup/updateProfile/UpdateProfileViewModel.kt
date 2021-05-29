@@ -92,7 +92,7 @@ class UpdateProfileViewModel @Inject constructor(
             .catch { e ->
                 processError(e)
             }
-            .onCompletion {
+            .onEach {
                 updateProfile(
                     nickname = nickname,
                     name = name,
@@ -124,6 +124,7 @@ class UpdateProfileViewModel @Inject constructor(
                 processError(e)
             }
             .collect {
+                state = state.copy(screenState = ScreenState.CONTENT)
                 eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
             }
     }

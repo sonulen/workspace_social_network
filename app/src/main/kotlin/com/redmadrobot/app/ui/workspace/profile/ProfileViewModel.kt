@@ -11,9 +11,7 @@ import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.UserDataRepository
 import com.redmadrobot.extensions.lifecycle.mapDistinct
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +30,11 @@ class ProfileViewModel @Inject constructor(
             userDataRepository.getUserProfileDataFlow()
                 .onStart {
                     state = state.copy(screenState = ScreenState.LOADING)
-                }.catch { e ->
+                }
+                .catch { e ->
                     processError(e)
-                }.collect {
+                }
+                .collect {
                     state = state.copy(
                         screenState = ScreenState.CONTENT,
                         userData = UserDataProfileViewState(
@@ -60,16 +60,17 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onLogoutClicked() {
-        viewModelScope.launch {
-            authRepository.logout()
-                .onStart {
-                    state = state.copy(screenState = ScreenState.LOADING)
-                }.catch { e ->
-                    processError(e)
-                }.collect {
-                    state = state.copy(screenState = ScreenState.CONTENT)
-                    eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toAuthGraph()))
-                }
-        }
+        authRepository.logout()
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .catch { e ->
+                processError(e)
+            }
+            .onEach {
+                state = state.copy(screenState = ScreenState.CONTENT)
+                eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toAuthGraph()))
+            }
+            .launchIn(viewModelScope)
     }
 }

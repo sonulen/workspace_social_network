@@ -14,9 +14,9 @@ import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
@@ -32,20 +32,21 @@ class LoginViewModel @Inject constructor(
     val isLoginButtonEnabled = liveState.mapDistinct { it.isEmailValid && it.isPasswordValid }
 
     fun onLoginClicked(email: String, password: String) {
-        viewModelScope.launch {
-            authRepository.login(email, password)
-                .onStart {
-                    state = state.copy(screenState = ScreenState.LOADING)
-                }.catch { e ->
-                    state = state.copy(screenState = ScreenState.ERROR)
-                    if (e is NetworkException) {
-                        eventsQueue.offerEvent(EventError(e.message))
-                    }
-                }.collect {
-                    state = state.copy(screenState = ScreenState.CONTENT)
-                    eventsQueue.offerEvent(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
+        authRepository.login(email, password)
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .catch { e ->
+                state = state.copy(screenState = ScreenState.ERROR)
+                if (e is NetworkException) {
+                    eventsQueue.offerEvent(EventError(e.message))
                 }
-        }
+            }
+            .onEach {
+                state = state.copy(screenState = ScreenState.CONTENT)
+                eventsQueue.offerEvent(EventNavigateTo(LoginFragmentDirections.toDoneFragment()))
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onBackClicked() {
