@@ -22,4 +22,8 @@ class UserProfileDataStorage @Inject constructor(
         isEmpty = false
         _userProfileData.emit(userProfileData)
     }
+
+    fun clear() {
+        isEmpty = true
+    }
 }

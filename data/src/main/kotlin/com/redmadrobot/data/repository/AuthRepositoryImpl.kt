@@ -32,6 +32,7 @@ class AuthRepositoryImpl @Inject constructor(
         } finally {
             session.clear()
             memory.clear()
+            userProfileDataStorage.clear()
         }
         emit(Unit)
     }
