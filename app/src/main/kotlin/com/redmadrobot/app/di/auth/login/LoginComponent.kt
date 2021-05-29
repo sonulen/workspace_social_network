@@ -2,7 +2,7 @@ package com.redmadrobot.app.di.auth.login
 
 import com.redmadrobot.app.di.AppProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
-import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
+import com.redmadrobot.app.di.memoryCache.MemoryCacheProvider
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
 import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
@@ -12,7 +12,7 @@ import dagger.Component
 
 @Component(
     dependencies = [
-        MapMemoryProvider::class,
+        MemoryCacheProvider::class,
         NetworkProvider::class,
         SessionRepositoryProvider::class,
     ],
@@ -31,7 +31,7 @@ interface LoginComponent {
         fun create(
             sessionRepository: SessionRepositoryProvider,
             networkProvider: NetworkProvider,
-            mapMemoryProvider: MapMemoryProvider,
+            memoryCacheProvider: MemoryCacheProvider,
         ): LoginComponent
     }
 

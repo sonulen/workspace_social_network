@@ -4,6 +4,7 @@ import com.redmadrobot.app.di.qualifiers.Mock
 import com.redmadrobot.data.network.auth.AuthApi
 import com.redmadrobot.data.repository.AuthRepositoryImpl
 import com.redmadrobot.data.repository.AuthRepositoryMockImpl
+import com.redmadrobot.data.repository.UserProfileDataStorage
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.SessionRepository
 import com.redmadrobot.mapmemory.MapMemory
@@ -24,5 +25,6 @@ object AuthRepositoryModule {
         api: AuthApi,
         session: SessionRepository,
         mapMemory: MapMemory,
-    ): AuthRepository = AuthRepositoryImpl(api, session, mapMemory)
+        userProfileDataStorage: UserProfileDataStorage,
+    ): AuthRepository = AuthRepositoryImpl(api, session, mapMemory, userProfileDataStorage)
 }

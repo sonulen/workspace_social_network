@@ -9,26 +9,26 @@ class AuthValidatorImpl : AuthValidator {
     private val passwordPattern = Pattern.compile("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}\$")
 
     override fun isEmailValid(email: String): Boolean {
-        return email != "" && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     override fun isPasswordValid(password: String): Boolean {
-        return password != "" && passwordPattern.matcher(password).matches()
+        return password.isNotBlank() && passwordPattern.matcher(password).matches()
     }
 
     override fun isNicknameValid(nickName: String): Boolean {
-        return nickName != "" && nicknamePatter.matcher(nickName).matches()
+        return nickName.isNotBlank() && nicknamePatter.matcher(nickName).matches()
     }
 
     override fun isNameValid(name: String): Boolean {
-        return name != "" && namePatter.matcher(name).matches()
+        return name.isNotBlank() && namePatter.matcher(name).matches()
     }
 
     override fun isSurNameValid(surname: String): Boolean {
-        return surname != "" && namePatter.matcher(surname).matches()
+        return surname.isNotBlank() && namePatter.matcher(surname).matches()
     }
 
     override fun isBirthDayValid(birthDay: String): Boolean {
-        return birthDay != "" && datePattern.matcher(birthDay).matches()
+        return birthDay.isNotBlank() && datePattern.matcher(birthDay).matches()
     }
 }

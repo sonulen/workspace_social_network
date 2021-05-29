@@ -10,7 +10,6 @@ import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.SessionRepository
 import com.redmadrobot.mapmemory.MapMemory
-import com.redmadrobot.mapmemory.shared
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,6 +18,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val api: AuthApi,
     private val session: SessionRepository,
     private val memory: MapMemory,
+    private val userProfileDataStorage: UserProfileDataStorage,
 ) : AuthRepository {
     /**
      * /see [AuthRepository.logout]
@@ -73,7 +73,7 @@ class AuthRepositoryImpl @Inject constructor(
         lastName: String,
         birthDay: String,
     ): Flow<UserProfileData> = flow {
-        val userProfileData = api.mePatchProfile(
+        val networkEntityUserProfile = api.mePatchProfile(
             accessToken = AuthRepository.HEADER_TOKEN_PREFIX +
                 requireNotNull(session.getAccessToken()) { "Access token required" },
             nickname = nickname,
@@ -82,9 +82,7 @@ class AuthRepositoryImpl @Inject constructor(
             birthday = birthDay,
         )
 
-        var cachedUserData: UserProfileData? by memory.shared("USER_PROFILE_DATA")
-        cachedUserData = userProfileData.toUserProfileData()
-
-        emit(userProfileData.toUserProfileData())
+        userProfileDataStorage.updateUserProfileData(networkEntityUserProfile.toUserProfileData())
+        emit(networkEntityUserProfile.toUserProfileData())
     }
 }

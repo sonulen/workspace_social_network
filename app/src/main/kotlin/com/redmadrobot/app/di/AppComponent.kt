@@ -5,8 +5,8 @@ import com.redmadrobot.app.di.android.AndroidToolsComponent
 import com.redmadrobot.app.di.android.AndroidToolsProvider
 import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryComponent
 import com.redmadrobot.app.di.deauthorizationRepository.DeauthorizationRepositoryProvider
-import com.redmadrobot.app.di.mapMemory.MapMemoryComponent
-import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
+import com.redmadrobot.app.di.memoryCache.MemoryCacheComponent
+import com.redmadrobot.app.di.memoryCache.MemoryCacheProvider
 import com.redmadrobot.app.di.network.NetworkComponent
 import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.sessionRepository.SessionRepositoryComponent
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @Component(
     dependencies = [
         AndroidToolsProvider::class,
-        MapMemoryProvider::class,
+        MemoryCacheProvider::class,
         NetworkProvider::class,
         SessionRepositoryProvider::class,
         DeauthorizationRepositoryProvider::class,
@@ -38,7 +38,7 @@ interface AppComponent : AppProvider {
             androidToolsProvider: AndroidToolsProvider,
             networkProvider: NetworkProvider,
             sessionRepositoryProvider: SessionRepositoryProvider,
-            mapMemoryProvider: MapMemoryProvider,
+            memoryCacheProvider: MemoryCacheProvider,
             deauthorizationRepositoryProvider: DeauthorizationRepositoryProvider,
         ): AppComponent
     }
@@ -48,15 +48,15 @@ interface AppComponent : AppProvider {
             val androidToolsProvider = AndroidToolsComponent.Builder.build(application)
             val networkProvider = NetworkComponent.Builder.build(androidToolsProvider)
             val sessionRepositoryProvider = SessionRepositoryComponent.Builder.build(androidToolsProvider)
-            val mapMemoryProvider = MapMemoryComponent.init()
+            val memoryCacheProvider = MemoryCacheComponent.init()
             val deauthorizationRepositoryProvider =
-                DeauthorizationRepositoryComponent.Builder.build(sessionRepositoryProvider, mapMemoryProvider)
+                DeauthorizationRepositoryComponent.Builder.build(sessionRepositoryProvider, memoryCacheProvider)
 
             return DaggerAppComponent.factory().create(
                 androidToolsProvider,
                 networkProvider,
                 sessionRepositoryProvider,
-                mapMemoryProvider,
+                memoryCacheProvider,
                 deauthorizationRepositoryProvider,
             )
         }

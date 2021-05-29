@@ -1,6 +1,6 @@
 package com.redmadrobot.app.di.deauthorizationRepository
 
-import com.redmadrobot.app.di.mapMemory.MapMemoryProvider
+import com.redmadrobot.app.di.memoryCache.MemoryCacheProvider
 import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import dagger.Component
 import javax.inject.Singleton
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Component(
     dependencies = [
         SessionRepositoryProvider::class,
-        MapMemoryProvider::class
+        MemoryCacheProvider::class
     ],
     modules = [DeauthorizationRepositoryModule::class]
 )
@@ -18,11 +18,11 @@ interface DeauthorizationRepositoryComponent : DeauthorizationRepositoryProvider
         companion object {
             fun build(
                 sessionRepositoryProvider: SessionRepositoryProvider,
-                mapMemoryProvider: MapMemoryProvider,
+                memoryCacheProvider: MemoryCacheProvider,
             ): DeauthorizationRepositoryProvider {
                 return DaggerDeauthorizationRepositoryComponent.builder()
                     .sessionRepositoryProvider(sessionRepositoryProvider)
-                    .mapMemoryProvider(mapMemoryProvider)
+                    .memoryCacheProvider(memoryCacheProvider)
                     .build()
             }
         }

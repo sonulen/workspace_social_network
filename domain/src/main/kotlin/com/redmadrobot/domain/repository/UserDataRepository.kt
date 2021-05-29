@@ -2,7 +2,7 @@ package com.redmadrobot.domain.repository
 
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 interface UserDataRepository {
     fun updateUserProfileData(
@@ -13,5 +13,5 @@ interface UserDataRepository {
         avatarUrl: String? = null,
     ): Flow<Unit>
 
-    suspend fun getUserProfileDataFlow(): StateFlow<UserProfileData>
+    suspend fun getUserProfileDataFlow(): SharedFlow<UserProfileData>
 }
