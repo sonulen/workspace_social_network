@@ -12,7 +12,7 @@ class NetworkErrorInterceptor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isConnected()) {
-            throw errorHandler.noInternetAccessException()
+            throw errorHandler.noInternetAccessException
         }
 
         val response = chain.proceed(chain.request())

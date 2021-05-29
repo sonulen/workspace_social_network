@@ -37,7 +37,7 @@ class NetworkErrorHandler @Inject constructor(private val moshi: Moshi) {
             message = ErrorCode.UNKNOWN_ERROR.message
         )
 
-    fun noInternetAccessException() = NetworkException.NoInternetAccess()
+    val noInternetAccessException = NetworkException.NoInternetAccess()
 
     @SuppressLint("BinaryOperationInTimber")
     fun networkErrorToThrow(response: Response): NetworkException {
