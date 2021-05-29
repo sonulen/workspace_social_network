@@ -2,19 +2,14 @@ package com.redmadrobot.app.di.auth.register
 
 import com.redmadrobot.app.di.AppProvider
 import com.redmadrobot.app.di.auth.authRepository.AuthRepositoryModule
-import com.redmadrobot.app.di.memoryCache.MemoryCacheProvider
-import com.redmadrobot.app.di.network.NetworkProvider
 import com.redmadrobot.app.di.network.authApi.AuthApiModule
-import com.redmadrobot.app.di.sessionRepository.SessionRepositoryProvider
 import com.redmadrobot.app.di.validate.AuthValidatorModule
 import com.redmadrobot.app.ui.auth.signup.updateProfile.UpdateProfileFragment
 import dagger.Component
 
 @Component(
     dependencies = [
-        MemoryCacheProvider::class,
-        NetworkProvider::class,
-        SessionRepositoryProvider::class,
+        AppProvider::class,
     ],
     modules = [
         AuthApiModule::class,
@@ -28,17 +23,13 @@ interface UpdateProfileComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(
-            sessionRepository: SessionRepositoryProvider,
-            networkProvider: NetworkProvider,
-            memoryCacheProvider: MemoryCacheProvider,
-        ): UpdateProfileComponent
+        fun create(appProvider: AppProvider): UpdateProfileComponent
     }
 
     companion object {
         fun init(appProvider: AppProvider): UpdateProfileComponent {
             return DaggerUpdateProfileComponent.factory()
-                .create(appProvider, appProvider, appProvider)
+                .create(appProvider)
         }
     }
 }

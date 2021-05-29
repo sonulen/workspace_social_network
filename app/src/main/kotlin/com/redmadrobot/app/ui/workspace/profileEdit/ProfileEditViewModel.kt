@@ -134,6 +134,7 @@ class ProfileEditViewModel @Inject constructor(
                 processError(e)
             }.collect {
                 state = state.copy(screenState = ScreenState.CONTENT)
+                eventsQueue.offerEvent(EventNavigateTo(ProfileEditFragmentDirections.profileEditFragmentPop()))
             }
         }
     }
