@@ -13,6 +13,14 @@ class UserDataRepositoryImpl @Inject constructor(
     private val api: WorkspaceApi,
     private val userProfileDataStorage: UserProfileDataStorage,
 ) : UserDataRepository {
+
+    override fun init(): Flow<Unit> = flow {
+        if (userProfileDataStorage.isEmpty) {
+            requestUserProfileData()
+        }
+        emit(Unit)
+    }
+
     override fun updateUserProfileData(
         nickname: String,
         firstName: String,
@@ -31,12 +39,7 @@ class UserDataRepositoryImpl @Inject constructor(
         emit(Unit)
     }
 
-    override suspend fun getUserProfileDataFlow(): SharedFlow<UserProfileData> {
-        if (userProfileDataStorage.isEmpty) {
-            requestUserProfileData()
-        }
-        return userProfileDataStorage.userProfileData
-    }
+    override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
 
     private suspend fun requestUserProfileData() {
         val networkEntityUserProfile = api.meGetProfile()

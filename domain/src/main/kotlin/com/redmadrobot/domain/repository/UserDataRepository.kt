@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 
 interface UserDataRepository {
+    fun init(): Flow<Unit>
+
     fun updateUserProfileData(
         nickname: String,
         firstName: String,
@@ -13,5 +15,5 @@ interface UserDataRepository {
         avatarUrl: String? = null,
     ): Flow<Unit>
 
-    suspend fun getUserProfileDataFlow(): SharedFlow<UserProfileData>
+    fun getUserProfileDataFlow(): SharedFlow<UserProfileData>
 }

@@ -11,8 +11,10 @@ import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.repository.UserDataRepository
 import com.redmadrobot.extensions.lifecycle.mapDistinct
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -26,26 +28,39 @@ class ProfileViewModel @Inject constructor(
     val userData = liveState.mapDistinct { it.userData }
 
     init {
-        viewModelScope.launch {
-            userDataRepository.getUserProfileDataFlow()
-                .onStart {
-                    state = state.copy(screenState = ScreenState.LOADING)
-                }
-                .catch { e ->
-                    processError(e)
-                }
-                .collect {
-                    state = state.copy(
-                        screenState = ScreenState.CONTENT,
-                        userData = UserDataProfileViewState(
-                            nickname = it.nickname,
-                            name = it.firstName,
-                            surname = it.lastName,
-                            birthDay = it.birthDay
-                        )
+        userDataRepository.init()
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .catch { e ->
+                processError(e)
+            }
+            .onEach {
+                state = state.copy(
+                    screenState = ScreenState.CONTENT
+                )
+            }
+            .launchIn(viewModelScope)
+
+        userDataRepository.getUserProfileDataFlow()
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .catch { e ->
+                processError(e)
+            }
+            .onEach {
+                state = state.copy(
+                    screenState = ScreenState.CONTENT,
+                    userData = UserDataProfileViewState(
+                        nickname = it.nickname,
+                        name = it.firstName,
+                        surname = it.lastName,
+                        birthDay = it.birthDay
                     )
-                }
-        }
+                )
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun processError(e: Throwable) {
