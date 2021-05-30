@@ -23,5 +23,6 @@ rootProject.name = ("a.tolmachev")
 include(
     "app",
     "data",
-    "domain"
+    "domain",
+    "base-test"
 )

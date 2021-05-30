@@ -19,7 +19,6 @@ android {
         val proguardFiles = rootProject.fileTree("proguard").files +
                 getDefaultProguardFile("proguard-android-optimize.txt")
 
-
         getByName(BuildTypes.DEBUG) {
             isDebuggable = true
 
@@ -67,4 +66,6 @@ dependencies {
     api(DomainDependency.LOGGER)
 
     kapt(DomainDependency.MOSHI_COMPILER)
+
+    testImplementation(project(":base-test"))
 }

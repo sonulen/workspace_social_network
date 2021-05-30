@@ -17,7 +17,7 @@ android {
     buildTypes {
 
         val proguardFiles = rootProject.fileTree("proguard").files +
-                getDefaultProguardFile("proguard-android-optimize.txt")
+            getDefaultProguardFile("proguard-android-optimize.txt")
 
         getByName(BuildTypes.DEBUG) {
             isDebuggable = true
@@ -36,10 +36,6 @@ android {
         }
     }
 
-    testOptions {
-        unitTests.isReturnDefaultValues = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -53,21 +49,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-
-    implementation(DataDependency.OKHTTP_LOGGING) {
-        exclude("org.json", "json")
-    }
-
-    kapt(DataDependency.DAGGER_COMPILER)
-    kapt(DataDependency.MOSHI_COMPILER)
-
-    kaptTest(DataDependency.MOSHI_COMPILER)
-
-    implementation(DataDependency.KOTLINX)
-
-    implementation(DataDependency.MAPMEMORY)
-    implementation(DataDependency.MAPMEMORY_COROUTINES)
-
-    testImplementation(project(":base-test"))
+    api(TestDependency.JUNIT)
+    api(TestDependency.ANDROIDX)
+    api(TestDependency.KOTEST_RUNNER)
+    api(TestDependency.KOTEST_ASSERTION)
+    api(TestDependency.MOCKK)
 }

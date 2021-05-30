@@ -80,7 +80,6 @@ android {
         val proguardFiles = rootProject.fileTree("proguard").files +
                 getDefaultProguardFile("proguard-android-optimize.txt")
 
-
         getByName(BuildTypes.DEBUG) {
             applicationIdSuffix = ".debug"
 
@@ -154,11 +153,8 @@ dependencies {
 
     implementation(AppDependency.OK_HTTP_LOGGING)
 
-    testImplementation(TestDependency.JUNIT)
-    testImplementation(TestDependency.MOCKITO)
-    testImplementation(TestDependency.ASSERTJ)
-    testImplementation(TestDependency.ANDROIDX)
-
     implementation(AppDependency.MAPMEMORY)
     implementation(AppDependency.MAPMEMORY_COROUTINES)
+
+    testImplementation(project(":base-test"))
 }
