@@ -53,5 +53,6 @@ dependencies {
     api(TestDependency.ANDROIDX)
     api(TestDependency.KOTEST_RUNNER)
     api(TestDependency.KOTEST_ASSERTION)
+    api(TestDependency.KOTEST_DATATEST)
     api(TestDependency.MOCKK)
 }
