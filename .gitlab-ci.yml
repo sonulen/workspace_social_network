@@ -48,8 +48,7 @@ check:
   stage: check
   interruptible: true
   script:
-    - ./gradlew detektDebug app:lintDebug
-#    - ./gradlew testDebug
+    - ./gradlew detektDebug app:lintDebug testDebug
     - touch build/reports/success
   artifacts:
     when: always
