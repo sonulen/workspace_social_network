@@ -26,5 +26,10 @@ object AuthRepositoryModule {
         session: SessionRepository,
         mapMemory: MapMemory,
         userProfileDataStorage: UserProfileDataStorage,
-    ): AuthRepository = AuthRepositoryImpl(api, session, mapMemory, userProfileDataStorage)
+    ): AuthRepository = AuthRepositoryImpl(
+        api = api,
+        session = session,
+        memory = mapMemory,
+        userProfileDataStorage = userProfileDataStorage,
+    )
 }
