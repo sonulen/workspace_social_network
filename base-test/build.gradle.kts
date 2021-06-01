@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    api(TestDependency.KOTLIN_COROUTINES_TEST)
     api(TestDependency.JUNIT)
     api(TestDependency.ANDROIDX)
     api(TestDependency.KOTEST_RUNNER)
