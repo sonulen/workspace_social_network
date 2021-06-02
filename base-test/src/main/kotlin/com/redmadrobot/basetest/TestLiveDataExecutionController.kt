@@ -9,8 +9,14 @@ object TestLiveDataExecutionController {
     fun enableTestMode() {
         ArchTaskExecutor.getInstance()
             .setDelegate(object : TaskExecutor() {
-                override fun executeOnDiskIO(runnable: Runnable) = runnable.run()
-                override fun postToMainThread(runnable: Runnable) = runnable.run()
+                override fun executeOnDiskIO(runnable: Runnable) {
+                    runnable.run()
+                }
+
+                override fun postToMainThread(runnable: Runnable) {
+                    runnable.run()
+                }
+
                 override fun isMainThread(): Boolean = true
             })
     }

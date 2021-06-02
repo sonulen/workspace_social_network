@@ -1,4 +1,4 @@
-@file:Suppress("TestFunctionName")
+@file:Suppress("FunctionNaming", "TooManyFunctions")
 
 package com.redmadrobot.basetest
 
