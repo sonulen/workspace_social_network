@@ -3,13 +3,7 @@ package com.redmadrobot.app.ui.auth.signup.updateProfile
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
-import com.redmadrobot.basetest.And
-import com.redmadrobot.basetest.Feature
-import com.redmadrobot.basetest.Given
-import com.redmadrobot.basetest.Scenario
-import com.redmadrobot.basetest.TestLiveDataExecutionController
-import com.redmadrobot.basetest.Then
-import com.redmadrobot.basetest.When
+import com.redmadrobot.basetest.*
 import com.redmadrobot.data.entity.api.response.NetworkEntityError
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.entity.repository.Tokens
