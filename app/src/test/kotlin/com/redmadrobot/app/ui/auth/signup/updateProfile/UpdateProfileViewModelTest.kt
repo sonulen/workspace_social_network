@@ -170,7 +170,7 @@ class UpdateProfileViewModelTest : FreeSpec({
                 isRegisterButtonEnabled shouldBe false
             }
             When("Click on register button with invalid birthday") {
-                viewModel.onRegisterClicked(nickname, name, surname, birthDay)
+                viewModel.onRegisterClicked()
             }
             Then("Correctly sequence of AuthRepository method's calls") {
                 verifySequence {
@@ -234,7 +234,7 @@ class UpdateProfileViewModelTest : FreeSpec({
                 isRegisterButtonEnabled shouldBe true
             }
             When("Click on register button") {
-                viewModel.onRegisterClicked(nickname, name, surname, birthDay)
+                viewModel.onRegisterClicked()
             }
             Then("Correctly sequence of AuthRepository method's calls") {
                 verifySequence {
