@@ -6,12 +6,10 @@ import com.redmadrobot.data.repository.UserProfileDataStorage
 import com.redmadrobot.domain.repository.UserDataRepository
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 
 @Module
 object UserDataRepositoryModule {
     @Provides
-    @Reusable
     fun provideUserDataRepositoryImpl(
         api: WorkspaceApi,
         userProfileDataStorage: UserProfileDataStorage,

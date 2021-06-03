@@ -6,7 +6,6 @@ import com.redmadrobot.data.network.errors.NetworkErrorInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -17,16 +16,13 @@ object NetworkModule {
     const val HTTP_CLIENT_TIMEOUT = 30L
 
     @Provides
-    @Reusable
     fun provideMoshi(): Moshi = Moshi.Builder()
         .build()
 
     @Provides
-    @Reusable
     fun provideMoshiConverterFactory(moshi: Moshi): MoshiConverterFactory = MoshiConverterFactory.create(moshi)
 
     @Provides
-    @Reusable
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
             Timber.tag("OkHttp").d(message)
@@ -38,7 +34,6 @@ object NetworkModule {
     }
 
     @Provides
-    @Reusable
     fun provideErrorInterceptor(
         errorHandler: NetworkErrorHandler,
         connectivityManager: ConnectivityManager,

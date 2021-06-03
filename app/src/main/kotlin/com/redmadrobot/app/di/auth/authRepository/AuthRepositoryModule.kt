@@ -10,17 +10,14 @@ import com.redmadrobot.domain.repository.SessionRepository
 import com.redmadrobot.mapmemory.MapMemory
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 
 @Module
 object AuthRepositoryModule {
     @Provides
     @Mock
-    @Reusable
     fun provideAuthRepositoryMock(): AuthRepository = AuthRepositoryMockImpl()
 
     @Provides
-    @Reusable
     fun provideAuthRepositoryImpl(
         api: AuthApi,
         session: SessionRepository,

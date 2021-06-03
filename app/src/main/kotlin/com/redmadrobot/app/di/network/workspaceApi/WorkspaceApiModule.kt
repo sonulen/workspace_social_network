@@ -9,7 +9,6 @@ import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,12 +19,10 @@ import java.util.concurrent.TimeUnit
 @Module
 object WorkspaceApiModule {
     @Provides
-    @Reusable
     fun provideAuthInterceptor(sessionRepository: SessionRepository): AuthInterceptor =
         AuthInterceptor(sessionRepository)
 
     @Provides
-    @Reusable
     @AuthorizedZone
     fun provideAuthorizedOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
@@ -46,7 +43,6 @@ object WorkspaceApiModule {
     }
 
     @Provides
-    @Reusable
     fun provideWorkspaceApiClient(
         @AuthorizedZone okHttpClient: OkHttpClient,
         moshiFactory: MoshiConverterFactory,
