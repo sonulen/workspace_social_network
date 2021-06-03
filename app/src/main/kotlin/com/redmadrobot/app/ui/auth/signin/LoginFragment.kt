@@ -15,6 +15,7 @@ import com.redmadrobot.app.di.auth.login.LoginComponent
 import com.redmadrobot.app.ui.LoadingDialogFragment
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.extension.setTextIfDifferent
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
@@ -40,7 +41,9 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
         observe(viewModel.eventsQueue, ::onEvent)
         observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.email, ::renderEmail)
         observe(viewModel.emailError, ::renderEmailError)
+        observe(viewModel.password, ::renderPassword)
         observe(viewModel.passwordError, ::renderPasswordError)
         observe(viewModel.isLoginButtonEnabled, ::renderLoginButton)
 
@@ -65,10 +68,18 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
         }
     }
 
+    private fun renderEmail(string: String) {
+        binding.editTextEmail.setTextIfDifferent(string)
+    }
+
     private fun renderEmailError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextEmail.error = getString(stringId)
         }
+    }
+
+    private fun renderPassword(string: String) {
+        binding.editTextPassword.setTextIfDifferent(string)
     }
 
     private fun renderPasswordError(@StringRes stringId: Int?) {
@@ -101,10 +112,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
                 viewModel.onGoToRegisterClicked()
             }
             buttonLogin.setOnClickListener {
-                viewModel.onLoginClicked(
-                    editTextEmail.text.toString(),
-                    editTextPassword.text.toString()
-                )
+                viewModel.onLoginClicked()
             }
         }
     }

@@ -10,11 +10,15 @@ import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.InputField
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
@@ -29,7 +33,7 @@ class UpdateProfileViewModel @Inject constructor(
     val nicknameError = liveState.map { it.nickname.error }
     val name = liveState.mapDistinct { it.name.value }
     val nameError = liveState.map { it.name.error }
-    val surname = liveState.map { it.surname.value }
+    val surname = liveState.mapDistinct { it.surname.value }
     val surnameError = liveState.map { it.surname.error }
     val birthDay = liveState.mapDistinct { it.birthDay.value }
     val birthDayError = liveState.map { it.birthDay.error }
@@ -89,7 +93,7 @@ class UpdateProfileViewModel @Inject constructor(
         eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.updateProfileFragmentPop()))
     }
 
-    fun onRegisterClicked(nickname: String, name: String, surname: String, birthDay: String) {
+    fun onRegisterClicked() {
         authRepository.register(
             requireNotNull(state.email) { "Email required" },
             requireNotNull(state.password) { "Password required" }
@@ -101,12 +105,7 @@ class UpdateProfileViewModel @Inject constructor(
                 processError(e)
             }
             .onEach {
-                updateProfile(
-                    nickname = nickname,
-                    name = name,
-                    surname = surname,
-                    birthDay = birthDay
-                )
+                updateProfile()
             }
             .launchIn(viewModelScope)
     }
@@ -118,12 +117,12 @@ class UpdateProfileViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateProfile(nickname: String, name: String, surname: String, birthDay: String) {
+    private fun updateProfile() {
         authRepository.updateProfile(
-            nickname = nickname,
-            firstName = name,
-            lastName = surname,
-            birthDay = birthDay
+            nickname = state.nickname.value,
+            firstName = state.name.value,
+            lastName = state.surname.value,
+            birthDay = state.birthDay.value,
         )
             .onStart {
                 state = state.copy(screenState = ScreenState.LOADING)
@@ -131,10 +130,11 @@ class UpdateProfileViewModel @Inject constructor(
             .catch { e ->
                 processError(e)
             }
-            .collect {
+            .onEach {
                 state = state.copy(screenState = ScreenState.CONTENT)
                 eventsQueue.offerEvent(EventNavigateTo(UpdateProfileFragmentDirections.toDoneFragment()))
             }
+            .launchIn(viewModelScope)
     }
 
     fun onShowDatePickerClicked() {

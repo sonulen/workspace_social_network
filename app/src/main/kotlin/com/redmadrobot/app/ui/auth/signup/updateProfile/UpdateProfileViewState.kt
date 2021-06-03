@@ -1,12 +1,7 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
-
-data class InputField(
-    val value: String = "",
-    val isValid: Boolean = false,
-    val error: Int? = null,
-)
+import com.redmadrobot.app.utils.InputField
 
 /**
  * Состояние валидности данных на форме обновления профиля

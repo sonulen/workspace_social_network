@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.R
-import com.redmadrobot.app.ui.auth.signup.updateProfile.ValidAndError
 import com.redmadrobot.app.ui.base.delegate
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo

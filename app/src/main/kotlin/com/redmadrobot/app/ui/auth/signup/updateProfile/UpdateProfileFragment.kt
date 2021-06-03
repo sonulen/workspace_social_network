@@ -17,6 +17,7 @@ import com.redmadrobot.app.ui.LoadingDialogFragment
 import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.extension.setTextIfDifferent
 import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
@@ -90,7 +91,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
             val dateAsFormattedText: String = dateTime.format(
                 DateTimeFormatter.ofPattern(getString(R.string.data_time_formatter_pattern))
             )
-            binding.editTextBirthDay.setText(dateAsFormattedText)
+            viewModel.onBirthDayEntered(dateAsFormattedText)
         }
     }
 
@@ -121,8 +122,8 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
-    private fun renderNickname(value: String) {
-        binding.editTextNickname.setText(value)
+    private fun renderNickname(string: String) {
+        binding.editTextNickname.setTextIfDifferent(string)
     }
 
     private fun renderNicknameError(@StringRes stringId: Int?) {
@@ -131,8 +132,8 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
-    private fun renderName(value: String) {
-        binding.editTextName.setText(value)
+    private fun renderName(string: String) {
+        binding.editTextName.setTextIfDifferent(string)
     }
 
     private fun renderNameError(@StringRes stringId: Int?) {
@@ -141,8 +142,8 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
-    private fun renderSurname(value: String) {
-        binding.editTextSurname.setText(value)
+    private fun renderSurname(string: String) {
+        binding.editTextSurname.setTextIfDifferent(string)
     }
 
     private fun renderSurnameError(@StringRes stringId: Int?) {
@@ -151,8 +152,8 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
-    private fun renderBirthDay(value: String) {
-        binding.editTextBirthDay.setText(value)
+    private fun renderBirthDay(string: String) {
+        binding.editTextBirthDay.setTextIfDifferent(string)
     }
 
     private fun renderBirthDayError(@StringRes stringId: Int?) {
@@ -168,12 +169,7 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     private fun registerButtonClickListeners() {
         with(binding) {
             buttonRegister.setOnClickListener {
-                viewModel.onRegisterClicked(
-                    nickname = editTextNickname.text.toString(),
-                    name = editTextName.text.toString(),
-                    surname = editTextSurname.text.toString(),
-                    birthDay = editTextBirthDay.text.toString(),
-                )
+                viewModel.onRegisterClicked()
             }
             toolBar.setNavigationOnClickListener {
                 viewModel.onBackClicked()

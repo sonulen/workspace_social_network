@@ -9,6 +9,7 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.InputField
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.AuthRepository
 import com.redmadrobot.domain.util.AuthValidator
@@ -27,12 +28,14 @@ class LoginViewModel @Inject constructor(
     private var state: LoginViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
-    val emailError = liveState.map { it.emailError }
-    val passwordError = liveState.map { it.passwordError }
-    val isLoginButtonEnabled = liveState.mapDistinct { it.isEmailValid && it.isPasswordValid }
+    val email = liveState.mapDistinct { it.email.value }
+    val emailError = liveState.map { it.email.error }
+    val password = liveState.mapDistinct { it.password.value }
+    val passwordError = liveState.map { it.password.error }
+    val isLoginButtonEnabled = liveState.mapDistinct { it.email.isValid && it.password.isValid }
 
-    fun onLoginClicked(email: String, password: String) {
-        authRepository.login(email, password)
+    fun onLoginClicked() {
+        authRepository.login(state.email.value, state.password.value)
             .onStart {
                 state = state.copy(screenState = ScreenState.LOADING)
             }
@@ -59,15 +62,21 @@ class LoginViewModel @Inject constructor(
 
     fun onPasswordEntered(password: String) {
         state = state.copy(
-            isPasswordValid = validator.isPasswordValid(password),
-            passwordError = if (validator.isPasswordValid(password)) null else R.string.invalid_password
+            password = InputField(
+                value = password,
+                isValid = validator.isPasswordValid(password),
+                error = if (validator.isPasswordValid(password)) null else R.string.invalid_password
+            )
         )
     }
 
     fun onEmailEntered(email: String) {
         state = state.copy(
-            isEmailValid = validator.isEmailValid(email),
-            emailError = if (validator.isEmailValid(email)) null else R.string.invalid_email
+            email = InputField(
+                value = email,
+                isValid = validator.isEmailValid(email),
+                error = if (validator.isEmailValid(email)) null else R.string.invalid_email
+            )
         )
     }
 }
