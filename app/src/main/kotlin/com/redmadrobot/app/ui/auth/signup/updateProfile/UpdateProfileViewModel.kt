@@ -25,9 +25,13 @@ class UpdateProfileViewModel @Inject constructor(
     private var state: UpdateProfileViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
+    val nickname = liveState.mapDistinct { it.nickname.value }
     val nicknameError = liveState.map { it.nickname.error }
+    val name = liveState.mapDistinct { it.name.value }
     val nameError = liveState.map { it.name.error }
+    val surname = liveState.map { it.surname.value }
     val surnameError = liveState.map { it.surname.error }
+    val birthDay = liveState.mapDistinct { it.birthDay.value }
     val birthDayError = liveState.map { it.birthDay.error }
     val isRegisterButtonEnabled = liveState.mapDistinct {
         it.nickname.isValid && it.name.isValid && it.surname.isValid &&
@@ -43,7 +47,8 @@ class UpdateProfileViewModel @Inject constructor(
 
     fun onNicknameEntered(nickname: String) {
         state = state.copy(
-            nickname = ValidAndError(
+            nickname = InputField(
+                value = nickname,
                 isValid = validator.isNicknameValid(nickname),
                 error = if (validator.isNicknameValid(nickname)) null else R.string.invalid_nickname
             )
@@ -52,7 +57,8 @@ class UpdateProfileViewModel @Inject constructor(
 
     fun onNameEntered(name: String) {
         state = state.copy(
-            name = ValidAndError(
+            name = InputField(
+                value = name,
                 isValid = validator.isNameValid(name),
                 error = if (validator.isNameValid(name)) null else R.string.invalid_name
             )
@@ -61,7 +67,8 @@ class UpdateProfileViewModel @Inject constructor(
 
     fun onSurnameEntered(surname: String) {
         state = state.copy(
-            surname = ValidAndError(
+            surname = InputField(
+                value = surname,
                 isValid = validator.isSurNameValid(surname),
                 error = if (validator.isSurNameValid(surname)) null else R.string.invalid_surname
             )
@@ -70,7 +77,8 @@ class UpdateProfileViewModel @Inject constructor(
 
     fun onBirthDayEntered(birthDay: String) {
         state = state.copy(
-            birthDay = ValidAndError(
+            birthDay = InputField(
+                value = birthDay,
                 isValid = validator.isBirthDayValid(birthDay),
                 error = if (validator.isBirthDayValid(birthDay)) null else R.string.invalid_birthday
             )

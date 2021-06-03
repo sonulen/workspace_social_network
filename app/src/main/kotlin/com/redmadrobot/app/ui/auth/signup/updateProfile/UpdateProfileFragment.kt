@@ -51,9 +51,13 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
         observe(viewModel.eventsQueue, ::onEvent)
         observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.nickname, ::renderNickname)
         observe(viewModel.nicknameError, ::renderNicknameError)
+        observe(viewModel.name, ::renderName)
         observe(viewModel.nameError, ::renderNameError)
+        observe(viewModel.surname, ::renderSurname)
         observe(viewModel.surnameError, ::renderSurnameError)
+        observe(viewModel.birthDay, ::renderBirthDay)
         observe(viewModel.birthDayError, ::renderBirthDayError)
         observe(viewModel.isRegisterButtonEnabled, ::renderRegisterButton)
 
@@ -117,10 +121,18 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
+    private fun renderNickname(value: String) {
+        binding.editTextNickname.setText(value)
+    }
+
     private fun renderNicknameError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextNickname.error = getString(stringId)
         }
+    }
+
+    private fun renderName(value: String) {
+        binding.editTextName.setText(value)
     }
 
     private fun renderNameError(@StringRes stringId: Int?) {
@@ -129,10 +141,18 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
+    private fun renderSurname(value: String) {
+        binding.editTextSurname.setText(value)
+    }
+
     private fun renderSurnameError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextSurname.error = getString(stringId)
         }
+    }
+
+    private fun renderBirthDay(value: String) {
+        binding.editTextBirthDay.setText(value)
     }
 
     private fun renderBirthDayError(@StringRes stringId: Int?) {
