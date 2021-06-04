@@ -10,27 +10,27 @@ import io.kotest.core.spec.style.scopes.FreeSpecTerminalContext
 
 // region Gherkin style
 fun FreeSpecRootContext.Feature(name: String, test: suspend FreeSpecContainerContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.Feature: $name" - test
+    "Feature: $name" - test
 }
 
 suspend fun FreeSpecContainerContext.Scenario(name: String, test: suspend FreeSpecContainerContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.Scenario: $name" - test
+    "Scenario: $name" - test
 }
 
 suspend fun FreeSpecContainerContext.Given(name: String, test: suspend FreeSpecTerminalContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.Given: $name"(test)
+    "Given: $name"(test)
 }
 
 suspend fun FreeSpecContainerContext.When(name: String, test: suspend FreeSpecTerminalContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.When: $name"(test)
+    "When: $name"(test)
 }
 
 suspend fun FreeSpecContainerContext.Then(name: String, test: suspend FreeSpecTerminalContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.Then: $name"(test)
+    "Then: $name"(test)
 }
 
 suspend fun FreeSpecContainerContext.And(name: String, test: suspend FreeSpecTerminalContext.() -> Unit) {
-    "com.redmadrobot.`base-test`.And: $name"(test)
+    "And: $name"(test)
 }
 // endregion
 

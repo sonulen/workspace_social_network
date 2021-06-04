@@ -11,7 +11,7 @@ class EachScenarioTestListener(
     private val afterEachScenario: (() -> Unit)? = null,
 ) : TestListener {
     private fun TestCase.isChildOfExpectedFeature() = description.parent == featureDescription
-    private fun TestCase.isScenario() = displayName.startsWith("com.redmadrobot.`base-test`.Scenario: ")
+    private fun TestCase.isScenario() = displayName.startsWith("Scenario: ")
     private fun TestCase.shouldBeProcessed() = isChildOfExpectedFeature() && isScenario()
     override suspend fun beforeContainer(testCase: TestCase) {
         if (beforeEachScenario != null && testCase.shouldBeProcessed()) beforeEachScenario.invoke()

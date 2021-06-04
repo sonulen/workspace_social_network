@@ -8,7 +8,7 @@ class EachFeatureTestListener(
     private val beforeEachFeature: (() -> Unit)? = null,
     private val afterEachFeature: (() -> Unit)? = null,
 ) : TestListener {
-    private fun TestCase.isFeature() = displayName.startsWith("com.redmadrobot.`base-test`.Feature: ")
+    private fun TestCase.isFeature() = displayName.startsWith("Feature: ")
     override suspend fun beforeContainer(testCase: TestCase) {
         if (beforeEachFeature != null && testCase.isFeature()) beforeEachFeature.invoke()
     }
