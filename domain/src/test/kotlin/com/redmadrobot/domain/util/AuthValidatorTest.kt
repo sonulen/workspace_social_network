@@ -26,187 +26,139 @@ class AuthValidatorTest : FunSpec({
             }
         }
     }
-    context("Passing the correct email's to a email validation function") {
-        withData<String>(
-            { "validate email [\"$it\"] should be true" },
-            "chimi@gmail.com",
-            "changa@mail.uk",
-            "chimi@mail.ru",
-            "changa@ya.mail.en",
-            "chimi_changa@gmail.com",
-            "email@example.com",
-            "firstname.lastname@example.com",
-            "email@subdomain.example.com",
-            "firstname+lastname@example.com",
-            "email@123.123.123.123",
-            "1234567890@example.com",
-            "email@example-one.com",
-            "_______@example.com",
-            "email@example.name",
-            "email@example.museum",
-            "email@example.co.jp",
-            "firstname-lastname@example.com",
-        ) {
-            validator.isEmailValid(it) shouldBe true
+    context("Email validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "chimi@gmail.com" to true,
+            "changa@mail.uk" to true,
+            "chimi@mail.ru" to true,
+            "changa@ya.mail.en" to true,
+            "chimi_changa@gmail.com" to true,
+            "email@example.com" to true,
+            "firstname.lastname@example.com" to true,
+            "email@subdomain.example.com" to true,
+            "firstname+lastname@example.com" to true,
+            "email@123.123.123.123" to true,
+            "1234567890@example.com" to true,
+            "email@example-one.com" to true,
+            "_______@example.com" to true,
+            "email@example.name" to true,
+            "email@example.museum" to true,
+            "email@example.co.jp" to true,
+            "firstname-lastname@example.com" to true,
+            "chimi@g!mail.com" to false,
+            "@mail.uk" to false,
+            "chimi@mail" to false,
+            "@" to false,
+            "." to false,
+            "!@example.com" to false,
+            "changa@.com" to false,
+            "chimichanga" to false,
+        ) { (value, expected) ->
+            validator.isEmailValid(value) shouldBe expected
         }
     }
-    context("Passing the incorrect email's to a email validation function") {
-        withData<String>(
-            { "validate email [\"$it\"] should be false" },
-            "chimi@g!mail.com",
-            "@mail.uk",
-            "chimi@mail",
-            "@",
-            ".",
-            "!@example.com",
-            "changa@.com",
-            "chimichanga",
-        ) {
-            validator.isEmailValid(it) shouldBe false
+    context("Password validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "MMMlkj19" to true,
+            "kjljMIO09" to true,
+            "0bG29bIb" to true,
+            "fvRPU4wD" to true,
+            "Toyd7sdZz" to true,
+            "avyqY7dRO" to true,
+            "fjPM8XFle" to true,
+            "lmH0EeNdT" to true,
+            "QzX04PSp" to true,
+            "HVGVXJi5" to true,
+            "ptq8ATvm" to true,
+            "rdldVms1" to true,
+            "MMMlkj1" to false,
+            "k" to false,
+            "0bG29" to false,
+            "fvRPUwD" to false,
+            "toyd7sdz" to false,
+            "avyqY7!dRO" to false,
+            "fjPM8@XFle" to false,
+            "lmH0E eNdT" to false,
+            "QzX04P\"Sp" to false,
+            "HVGVXJшi5" to false,
+            "ptq8ATШvm" to false,
+            "rdldV_ms1" to false,
+        ) { (value, expected) ->
+            validator.isPasswordValid(value) shouldBe expected
         }
     }
-    context("Passing the correct password's to a password validation function") {
-        withData<String>(
-            { "validate password [\"$it\"] should be true" },
-            "MMMlkj19",
-            "kjljMIO09",
-            "0bG29bIb",
-            "fvRPU4wD",
-            "Toyd7sdZz",
-            "avyqY7dRO",
-            "fjPM8XFle",
-            "lmH0EeNdT",
-            "QzX04PSp",
-            "HVGVXJi5",
-            "ptq8ATvm",
-            "rdldVms1",
-        ) {
-            validator.isPasswordValid(it) shouldBe true
+    context("Nickname validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "sonulen" to true,
+            "medivh" to true,
+            "CHIMI" to true,
+            "CHANGA" to true,
+            "1234908" to true,
+            "timmy098" to true,
+            "a" to true,
+            "Андрей" to false,
+            "chimi_changa" to false,
+            "chimi changa" to false,
+            "timmy!" to false,
+            "Jack@" to false,
+            "Joshик" to false,
+            "(a)" to false,
+            "!!!" to false,
+        ) { (value, expected) ->
+            validator.isNicknameValid(value) shouldBe expected
         }
     }
-    context("Passing the incorrect password's to a password validation function") {
-        withData<String>(
-            { "validate password [\"$it\"] should be false" },
-            "MMMlkj1",
-            "k",
-            "0bG29",
-            "fvRPUwD",
-            "toyd7sdz",
-            "avyqY7!dRO",
-            "fjPM8@XFle",
-            "lmH0E eNdT",
-            "QzX04P\"Sp",
-            "HVGVXJшi5",
-            "ptq8ATШvm",
-            "rdldV_ms1",
-        ) {
-            validator.isPasswordValid(it) shouldBe false
+    context("Name validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "Josh" to true,
+            "Andrey" to true,
+            "Monika" to true,
+            "Андрей" to false,
+            "And rey" to false,
+            "Monika!" to false,
+            "!" to false,
+            "Joshi1" to false,
+            "121243" to false,
+        ) { (value, expected) ->
+            validator.isNameValid(value) shouldBe expected
         }
     }
-    context("Passing the correct nickname's to a nickname validation function") {
-        withData<String>(
-            { "validate nickname [\"$it\"] should be true" },
-            "sonulen",
-            "medivh",
-            "CHIMI",
-            "CHANGA",
-            "1234908",
-            "timmy098",
-            "a",
-        ) {
-            validator.isNicknameValid(it) shouldBe true
+    context("Surname validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "Tolmachev" to true,
+            "C" to true,
+            "JJ" to true,
+            "Churchill" to true,
+            "Tolma chev" to false,
+            "Black1" to false,
+            "Black!" to false,
+            "0123948" to false,
+            "Chur-chill" to false,
+            "Spencer Churchill" to false,
+        ) { (value, expected) ->
+            validator.isSurNameValid(value) shouldBe expected
         }
     }
-    context("Passing the incorrect nickname's to a nickname validation function") {
-        withData<String>(
-            { "validate nickname [\"$it\"] should be false" },
-            "Андрей",
-            "chimi_changa",
-            "chimi changa",
-            "timmy!",
-            "Jack@",
-            "Joshик",
-            "(a)",
-            "!!!"
-        ) {
-            validator.isNicknameValid(it) shouldBe false
-        }
-    }
-    context("Passing the correct name's to a name validation function") {
-        withData<String>(
-            { "validate name [\"$it\"] should be true" },
-            "Josh",
-            "Andrey",
-            "Monika",
-        ) {
-            validator.isNameValid(it) shouldBe true
-        }
-    }
-    context("Passing the incorrect name's to a name validation function") {
-        withData<String>(
-            { "validate name [\"$it\"] should be false" },
-            "Андрей",
-            "And rey",
-            "Monika!",
-            "!",
-            "Joshi1",
-            "121243"
-        ) {
-            validator.isNameValid(it) shouldBe false
-        }
-    }
-    context("Passing the correct surname's to a surname validation function") {
-        withData<String>(
-            { "validate surname [\"$it\"] should be true" },
-            "Tolmachev",
-            "C",
-            "JJ",
-            "Churchill",
-        ) {
-            validator.isSurNameValid(it) shouldBe true
-        }
-    }
-    context("Passing the incorrect surname's to a surname validation function") {
-        withData<String>(
-            { "validate surname [\"$it\"] should be false" },
-            "Tolma chev",
-            "Black1",
-            "Black!",
-            "0123948",
-            "Chur-chill",
-            "Spencer Churchill"
-        ) {
-            validator.isSurNameValid(it) shouldBe false
-        }
-    }
-    context("Passing the correct birthday's to a birthday validation function") {
-        withData<String>(
-            { "validate birthday [\"$it\"] should be true" },
-            "1993-07-29",
-            "2007-01-01",
-            "1999-12-31",
-        ) {
-            validator.isBirthDayValid(it) shouldBe true
-        }
-    }
-    context("Passing the incorrect birthday's to a birthday validation function") {
-        withData<String>(
-            { "validate birthday [\"$it\"] should be false" },
-            "29-07-1993",
-            "1993/07/29",
-            "one thousand nine hundred ninety-three",
-            "1993 07 29",
-            "1899-01-01",
-            "7777-01-01",
-            "0000-00-00",
-            "1993-07-39",
-            "1993-16-39",
-            "0999-12-31",
-            "1993-07-32",
-            "1993-07-00",
-            "1993-00-03",
-        ) {
-            validator.isBirthDayValid(it) shouldBe false
+    context("Birthday validation function tests") {
+        withData<Pair<String, Boolean>>(
+            "1993-07-29" to true,
+            "2007-01-01" to true,
+            "1999-12-31" to true,
+            "29-07-1993" to false,
+            "1993/07/29" to false,
+            "one thousand nine hundred ninety-three" to false,
+            "1993 07 29" to false,
+            "1899-01-01" to false,
+            "7777-01-01" to false,
+            "0000-00-00" to false,
+            "1993-07-39" to false,
+            "1993-16-39" to false,
+            "0999-12-31" to false,
+            "1993-07-32" to false,
+            "1993-07-00" to false,
+            "1993-00-03" to false,
+        ) { (value, expected) ->
+            validator.isBirthDayValid(value) shouldBe expected
         }
     }
 })
