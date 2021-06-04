@@ -6,6 +6,7 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.delegate
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
+import com.redmadrobot.app.utils.InputField
 import com.redmadrobot.domain.util.AuthValidator
 import com.redmadrobot.extensions.lifecycle.mapDistinct
 import javax.inject.Inject
@@ -15,21 +16,29 @@ class RegisterViewModel @Inject constructor(private val validator: AuthValidator
     private var state: RegisterViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
-    val emailError = liveState.map { it.emailError }
-    val passwordError = liveState.map { it.passwordError }
-    val isGoNextButtonEnabled = liveState.mapDistinct { it.isEmailValid && it.isPasswordValid }
+    val email = liveState.mapDistinct { it.email.value }
+    val emailError = liveState.map { it.email.error }
+    val password = liveState.mapDistinct { it.password.value }
+    val passwordError = liveState.map { it.password.error }
+    val isGoNextButtonEnabled = liveState.mapDistinct { it.email.isValid && it.password.isValid }
 
     fun onPasswordEntered(password: String) {
         state = state.copy(
-            isPasswordValid = validator.isPasswordValid(password),
-            passwordError = if (validator.isPasswordValid(password)) null else R.string.invalid_password
+            password = InputField(
+                value = password,
+                isValid = validator.isPasswordValid(password),
+                error = if (validator.isPasswordValid(password)) null else R.string.invalid_password
+            )
         )
     }
 
     fun onEmailEntered(email: String) {
         state = state.copy(
-            isEmailValid = validator.isEmailValid(email),
-            emailError = if (validator.isEmailValid(email)) null else R.string.invalid_email
+            email = InputField(
+                value = email,
+                isValid = validator.isEmailValid(email),
+                error = if (validator.isEmailValid(email)) null else R.string.invalid_email
+            )
         )
     }
 

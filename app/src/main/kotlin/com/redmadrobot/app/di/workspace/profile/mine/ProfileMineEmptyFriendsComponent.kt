@@ -11,14 +11,9 @@ import dagger.Component
 interface ProfileMineEmptyFriendsComponent {
     fun inject(obj: ProfileMineEmptyFriendsFragment)
 
-    @Component.Factory
-    interface Factory {
-        fun create(): ProfileMineEmptyFriendsComponent
-    }
-
     companion object {
         fun init(): ProfileMineEmptyFriendsComponent {
-            return DaggerProfileMineEmptyFriendsComponent.factory().create()
+            return DaggerProfileMineEmptyFriendsComponent.builder().build()
         }
     }
 }

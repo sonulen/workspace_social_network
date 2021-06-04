@@ -4,6 +4,19 @@
     android:id="@+id/rootGraph"
     app:startDestination="@id/AuthGraph">
 
+    <action
+        android:id="@+id/toAuthGraph"
+        app:destination="@id/welcomeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/toAuthGraph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/toWorkspaceGraph"
+        app:destination="@id/WorkspaceGraph"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/WorkspaceGraph"
+        app:popUpToInclusive="true" />
 
     <include app:graph="@navigation/auth_graph" />
     <include app:graph="@navigation/workspace_graph" />

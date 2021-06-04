@@ -11,14 +11,9 @@ import dagger.Component
 interface FeedComponent {
     fun inject(obj: FeedFragment)
 
-    @Component.Factory
-    interface Factory {
-        fun create(): FeedComponent
-    }
-
     companion object {
         fun init(): FeedComponent {
-            return DaggerFeedComponent.factory().create()
+            return DaggerFeedComponent.builder().build()
         }
     }
 }

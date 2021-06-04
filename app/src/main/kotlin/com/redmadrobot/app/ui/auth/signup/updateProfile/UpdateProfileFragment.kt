@@ -1,12 +1,11 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -14,10 +13,19 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.ProfileUpdateFragmentBinding
 import com.redmadrobot.app.di.auth.register.UpdateProfileComponent
+import com.redmadrobot.app.ui.LoadingDialogFragment
+import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.extension.setTextIfDifferent
+import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
+import com.redmadrobot.inputmask.MaskedTextChangedListener.Companion.installOn
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
@@ -44,9 +52,13 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
 
         observe(viewModel.eventsQueue, ::onEvent)
         observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.nickname, ::renderNickname)
         observe(viewModel.nicknameError, ::renderNicknameError)
+        observe(viewModel.name, ::renderName)
         observe(viewModel.nameError, ::renderNameError)
+        observe(viewModel.surname, ::renderSurname)
         observe(viewModel.surnameError, ::renderSurnameError)
+        observe(viewModel.birthDay, ::renderBirthDay)
         observe(viewModel.birthDayError, ::renderBirthDayError)
         observe(viewModel.isRegisterButtonEnabled, ::renderRegisterButton)
 
@@ -57,13 +69,61 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         registerBirthDayEditTexListener()
     }
 
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        when (event) {
+            is EventShowDatePickerDialog -> showDatePicker()
+        }
+    }
+
+    private fun showDatePicker() {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .build()
+
+        picker.show(parentFragmentManager, picker.toString())
+
+        picker.addOnPositiveButtonClickListener { dateTimeStampInMillis ->
+            val dateTime =
+                LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(dateTimeStampInMillis),
+                    ZoneId.systemDefault()
+                )
+            val dateAsFormattedText: String = dateTime.format(
+                DateTimeFormatter.ofPattern(getString(R.string.data_time_formatter_pattern))
+            )
+            viewModel.onBirthDayEntered(dateAsFormattedText)
+        }
+    }
+
     private fun onScreenStateChange(state: ScreenState) {
         when (state) {
             ScreenState.CONTENT,
             ScreenState.ERROR,
-            -> binding.buttonRegister.isClickable = true
-            ScreenState.LOADING -> binding.buttonRegister.isClickable = false
+            -> {
+                renderSpin(isVisible = false)
+                binding.buttonRegister.isClickable = true
+            }
+
+            ScreenState.LOADING -> {
+                renderSpin(isVisible = true)
+                binding.buttonRegister.isClickable = false
+            }
         }
+    }
+
+    private fun renderSpin(isVisible: Boolean) {
+        if (isVisible) {
+            LoadingDialogFragment().apply {
+                isCancelable = false
+            }.show(childFragmentManager, LoadingDialogFragment.TAG)
+        } else {
+            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+            fragment?.dismiss()
+        }
+    }
+
+    private fun renderNickname(string: String) {
+        binding.editTextNickname.setTextIfDifferent(string)
     }
 
     private fun renderNicknameError(@StringRes stringId: Int?) {
@@ -72,16 +132,28 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
         }
     }
 
+    private fun renderName(string: String) {
+        binding.editTextName.setTextIfDifferent(string)
+    }
+
     private fun renderNameError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextName.error = getString(stringId)
         }
     }
 
+    private fun renderSurname(string: String) {
+        binding.editTextSurname.setTextIfDifferent(string)
+    }
+
     private fun renderSurnameError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextSurname.error = getString(stringId)
         }
+    }
+
+    private fun renderBirthDay(string: String) {
+        binding.editTextBirthDay.setTextIfDifferent(string)
     }
 
     private fun renderBirthDayError(@StringRes stringId: Int?) {
@@ -97,33 +169,26 @@ class UpdateProfileFragment : BaseFragment(R.layout.profile_update_fragment) {
     private fun registerButtonClickListeners() {
         with(binding) {
             buttonRegister.setOnClickListener {
-                viewModel.onRegisterClicked(
-                    nickname = editTextNickname.text.toString(),
-                    name = editTextName.text.toString(),
-                    surname = editTextSurname.text.toString(),
-                    birthDay = editTextBirthDay.text.toString(),
-                )
+                viewModel.onRegisterClicked()
             }
             toolBar.setNavigationOnClickListener {
                 viewModel.onBackClicked()
             }
+            buttonShowDatepicker.setOnClickListener {
+                viewModel.onShowDatePickerClicked()
+            }
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun registerBirthDayEditTexListener() {
-        with(binding) {
-            editTextBirthDay.inputType = InputType.TYPE_NULL
+        installOn(
+            binding.editTextBirthDay,
+            getString(R.string.input_mask_date_pattern)
+        )
 
-            editTextBirthDay.setOnClickListener {
-                val picker =
-                    MaterialDatePicker.Builder.datePicker().setTheme(R.style.Widget_Workplaces_DatePicker).build()
-                picker.show(parentFragmentManager, picker.toString())
-
-                picker.addOnPositiveButtonClickListener { _ ->
-                    editTextBirthDay.setText(picker.headerText)
-                    viewModel.onBirthDayEntered(picker.headerText)
-                }
+        binding.editTextBirthDay.doAfterTextChanged {
+            it?.let {
+                viewModel.onBirthDayEntered(it.toString())
             }
         }
     }

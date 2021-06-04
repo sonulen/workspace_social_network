@@ -13,6 +13,7 @@ import com.redmadrobot.app.databinding.RegisterFragmentBinding
 import com.redmadrobot.app.di.auth.register.RegisterComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.extension.setTextIfDifferent
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
     }
 
     private fun initDagger() {
-        RegisterComponent.init(appComponent).inject(this)
+        RegisterComponent.init().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +39,9 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
 
         observe(viewModel.eventsQueue, ::onEvent)
         observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.email, ::renderEmail)
         observe(viewModel.emailError, ::renderEmailError)
+        observe(viewModel.password, ::renderPassword)
         observe(viewModel.passwordError, ::renderPasswordError)
         observe(viewModel.isGoNextButtonEnabled, ::renderGoNextButton)
 
@@ -56,10 +59,18 @@ class RegisterFragment : BaseFragment(R.layout.register_fragment) {
         }
     }
 
+    private fun renderEmail(string: String) {
+        binding.editTextEmail.setTextIfDifferent(string)
+    }
+
     private fun renderEmailError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextEmail.error = getString(stringId)
         }
+    }
+
+    private fun renderPassword(string: String) {
+        binding.editTextPassword.setTextIfDifferent(string)
     }
 
     private fun renderPasswordError(@StringRes stringId: Int?) {

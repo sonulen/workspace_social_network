@@ -8,8 +8,13 @@ internal object AppVersions {
     const val MATERIAL_UI = "1.3.0"
     const val RMR_VIEW_BINDING = "4.1.2-2"
     const val RMR_LIVEDATA = "2.3.0-0"
+    const val RMR_INPUT_MASK = "6.0.0"
 
     const val NAVIGATION = "2.3.5"
+
+    const val OK_HTTP_LOGGING = "4.9.1"
+
+    const val MAP_MEMORY = "2.0"
 }
 
 object AppDependency {
@@ -22,6 +27,7 @@ object AppDependency {
     const val MATERIAL_UI = "com.google.android.material:material:${AppVersions.MATERIAL_UI}"
     const val RMR_VIEW_BINDING = "com.redmadrobot.extensions:viewbinding-ktx:${AppVersions.RMR_VIEW_BINDING}"
     const val RMR_LIVEDATA = "com.redmadrobot.extensions:lifecycle-livedata-ktx:${AppVersions.RMR_LIVEDATA}"
+    const val RMR_INPUT_MASK = "com.redmadrobot:input-mask-android:${AppVersions.RMR_INPUT_MASK}"
 
     // NAVIGATION
     const val NAVIGATION_FRAGMENT =
@@ -33,4 +39,9 @@ object AppDependency {
 
     // DAGGER
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${CoreVersions.DAGGER}"
+    const val OK_HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${AppVersions.OK_HTTP_LOGGING}"
+
+    // MapMemmory
+    const val MAPMEMORY = "com.redmadrobot.mapmemory:mapmemory:${AppVersions.MAP_MEMORY}"
+    const val MAPMEMORY_COROUTINES = "com.redmadrobot.mapmemory:mapmemory-coroutines:${AppVersions.MAP_MEMORY}"
 }

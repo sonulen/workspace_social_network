@@ -29,12 +29,14 @@
     <!--   region Экран Sign Up Second    -->
     <string name="name_hint">Имя</string>
     <string name="surname_hint">Фамилия</string>
-    <string name="date_of_birth_hint">Дата рождения</string>
+    <string name="date_of_birth_hint">Дата рождения (ГГГГ-ММ-ДД)</string>
     <string name="button_finish_register">Зарегистрироваться</string>
     <string name="invalid_nickname">Проверьте, что используются только латинские символы и цифры</string>
     <string name="invalid_name">Проверьте, что используются только латинские символы</string>
     <string name="invalid_surname">Проверьте, что используются только латинские символы</string>
-    <string name="invalid_birthday">Некорректная дата рождения</string>
+    <string name="invalid_birthday">Некорректная дата рождения (ГГГГ-ММ-ДД)</string>
+    <string name="data_time_formatter_pattern">yyyy-MM-dd</string>
+    <string name="input_mask_date_pattern">[0000]{-}[00]{-}[00]</string>
     <!--    endregion-->
 
     <!--   region Экран Done    -->
@@ -57,6 +59,10 @@
     <string name="profile_tab_name_friends">Друзья</string>
     <string name="profile_name_surname">Имя Фамилия</string>
     <string name="profile_age">Возраст</string>
+    <string name="nickname_stub">Nickname</string>
+    <string name="logout">Выйти</string>
+    <string name="profile_mine_empty_message">Пустота</string>
+    <string name="profile_mine_empty_message_second">Вы пока одиноки в сервисе,\n но это можно исправить</string>
     <!--    endregion-->
 
     <!--   region Bottom Menu    -->
@@ -67,10 +73,9 @@
 
 
     <!--   region Экран Profile    -->
-    <string name="nickname_stub">Nickname</string>
-    <string name="logout">Выйти</string>
-    <string name="profile_mine_empty_message">Пустота</string>
-    <string name="profile_mine_empty_message_second">Вы пока одиноки в сервисе,\n но это можно исправить</string>
+    <string name="profile_edit_screen_name">Редактирование профиля</string>
+    <string name="button_save">Сохранить</string>
+
     <!--    endregion-->
 
 </resources>

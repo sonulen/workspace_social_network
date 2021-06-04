@@ -6,13 +6,16 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.LoginFragmentBinding
 import com.redmadrobot.app.di.auth.login.LoginComponent
+import com.redmadrobot.app.ui.LoadingDialogFragment
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.utils.extension.setTextIfDifferent
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
@@ -38,7 +41,9 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
 
         observe(viewModel.eventsQueue, ::onEvent)
         observe(viewModel.screenState, ::onScreenStateChange)
+        observe(viewModel.email, ::renderEmail)
         observe(viewModel.emailError, ::renderEmailError)
+        observe(viewModel.password, ::renderPassword)
         observe(viewModel.passwordError, ::renderPasswordError)
         observe(viewModel.isLoginButtonEnabled, ::renderLoginButton)
 
@@ -51,15 +56,30 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
         when (state) {
             ScreenState.CONTENT,
             ScreenState.ERROR,
-            -> binding.buttonLogin.isClickable = true
-            ScreenState.LOADING -> binding.buttonLogin.isClickable = false
+            -> {
+                renderSpin(isVisible = false)
+                binding.buttonLogin.isClickable = true
+            }
+
+            ScreenState.LOADING -> {
+                renderSpin(isVisible = true)
+                binding.buttonLogin.isClickable = false
+            }
         }
+    }
+
+    private fun renderEmail(string: String) {
+        binding.editTextEmail.setTextIfDifferent(string)
     }
 
     private fun renderEmailError(@StringRes stringId: Int?) {
         if (stringId != null) {
             binding.editTextEmail.error = getString(stringId)
         }
+    }
+
+    private fun renderPassword(string: String) {
+        binding.editTextPassword.setTextIfDifferent(string)
     }
 
     private fun renderPasswordError(@StringRes stringId: Int?) {
@@ -72,6 +92,17 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
         binding.buttonLogin.isEnabled = isEnabled
     }
 
+    private fun renderSpin(isVisible: Boolean) {
+        if (isVisible) {
+            LoadingDialogFragment().apply {
+                isCancelable = false
+            }.show(childFragmentManager, LoadingDialogFragment.TAG)
+        } else {
+            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+            fragment?.dismiss()
+        }
+    }
+
     private fun registerButtonClickListeners() {
         with(binding) {
             toolBar.setNavigationOnClickListener {
@@ -81,10 +112,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment) {
                 viewModel.onGoToRegisterClicked()
             }
             buttonLogin.setOnClickListener {
-                viewModel.onLoginClicked(
-                    editTextEmail.text.toString(),
-                    editTextPassword.text.toString()
-                )
+                viewModel.onLoginClicked()
             }
         }
     }

@@ -11,14 +11,9 @@ import dagger.Component
 interface WelcomeComponent {
     fun inject(obj: WelcomeFragment)
 
-    @Component.Factory
-    interface Factory {
-        fun create(): WelcomeComponent
-    }
-
     companion object {
         fun init(): WelcomeComponent {
-            return DaggerWelcomeComponent.factory().create()
+            return DaggerWelcomeComponent.builder().build()
         }
     }
 }

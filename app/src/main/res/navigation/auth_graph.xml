@@ -5,20 +5,6 @@
     android:id="@+id/AuthGraph"
     app:startDestination="@id/welcomeFragment">
 
-    <action
-        android:id="@+id/toAuthGraph"
-        app:destination="@id/welcomeFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/toAuthGraph"
-        app:popUpToInclusive="true" />
-
-    <action
-        android:id="@+id/toWorkspaceGraph"
-        app:destination="@id/WorkspaceGraph"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/WorkspaceGraph"
-        app:popUpToInclusive="true" />
-
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.redmadrobot.app.ui.auth.signup.register.RegisterFragment"
