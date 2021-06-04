@@ -8,9 +8,7 @@ import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class SessionRepositoryImplTest : FreeSpec({
 
     Feature("Storing access token in memory, refresh token in SharedPreferences") {

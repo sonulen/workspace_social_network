@@ -50,6 +50,10 @@ android {
     }
 
     sourceSets.forEach { it.java.srcDir("src/${it.name}/kotlin") }
+
+    tasks.withType().configureEach {
+        kotlinOptions.freeCompilerArgs += "-Xopt-in=ExperimentalCoroutinesApi"
+    }
 }
 
 dependencies {

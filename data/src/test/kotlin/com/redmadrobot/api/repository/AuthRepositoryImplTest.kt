@@ -10,7 +10,6 @@ import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.single
@@ -18,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScope
 import retrofit2.Response
 
-@ExperimentalCoroutinesApi
 class AuthRepositoryImplTest : FreeSpec({
 
     Feature("User logout from network") {

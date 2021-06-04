@@ -1,12 +1,10 @@
 package com.redmadrobot.domain.util
 
 import io.kotest.assertions.assertSoftly
-import io.kotest.common.ExperimentalKotest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-@ExperimentalKotest
 class AuthValidatorTest : FunSpec({
     val validator = AuthValidatorImpl()
 
@@ -211,5 +209,4 @@ class AuthValidatorTest : FunSpec({
             validator.isBirthDayValid(it) shouldBe false
         }
     }
-
 })
