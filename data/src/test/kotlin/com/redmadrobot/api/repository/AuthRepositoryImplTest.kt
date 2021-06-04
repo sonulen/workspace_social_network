@@ -25,8 +25,8 @@ class AuthRepositoryImplTest : FreeSpec({
         lateinit var repository: AuthRepositoryImpl
 
         val mockAuthApi = mockk<AuthApi>()
-        val mockSessionRepository = mockk<SessionRepository>()
-        val mockUserProfileDataStorage = mockk<UserProfileDataStorage>()
+        val mockSessionRepository = mockk<SessionRepository>(relaxUnitFun = true)
+        val mockUserProfileDataStorage = mockk<UserProfileDataStorage>(relaxUnitFun = true)
         val memory = MapMemory()
 
         beforeEachScenario {
@@ -49,9 +49,7 @@ class AuthRepositoryImplTest : FreeSpec({
         Scenario("Logout clears the data regardless of the api results") {
             Given("Mock auth api logout throws Exceptions") {
                 coEvery { mockAuthApi.logout(any()) } throws Exception("this is a test")
-                every { mockSessionRepository.clear() } returns Unit
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
-                every { mockUserProfileDataStorage.clear() } returns Unit
             }
             When("Logout") {
                 testCoroutineScope.launch {
@@ -74,9 +72,7 @@ class AuthRepositoryImplTest : FreeSpec({
         Scenario("Logout clears the data on the backend too") {
             Given("Mock auth api logout returns Response.success") {
                 coEvery { mockAuthApi.logout(any()) } returns Response.success(Unit)
-                every { mockSessionRepository.clear() } returns Unit
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
-                every { mockUserProfileDataStorage.clear() } returns Unit
             }
             When("Logout") {
                 testCoroutineScope.launch {
