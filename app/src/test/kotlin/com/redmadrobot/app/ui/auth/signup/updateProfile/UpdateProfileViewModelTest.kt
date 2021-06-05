@@ -13,11 +13,10 @@ import com.redmadrobot.domain.util.AuthValidatorImpl
 import com.redmadrobot.extensions.lifecycle.Event
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.should
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.beInstanceOf
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifySequence
@@ -35,19 +34,17 @@ class UpdateProfileViewModelTest : FreeSpec({
         // region Fields and functions
         lateinit var testDispatcher: TestCoroutineDispatcher
         lateinit var viewModel: UpdateProfileViewModel
-
-        val validator = AuthValidatorImpl()
-        val mockAuthRepository = mockk<AuthRepository>()
+        lateinit var mockAuthRepository: AuthRepository
 
         beforeEachScenario {
             testDispatcher = TestCoroutineDispatcher()
             Dispatchers.setMain(testDispatcher)
 
-            clearAllMocks()
+            mockAuthRepository = mockk<AuthRepository>()
 
             viewModel = UpdateProfileViewModel(
                 mockAuthRepository,
-                validator,
+                AuthValidatorImpl(),
             )
         }
         afterEachScenario {
@@ -73,9 +70,8 @@ class UpdateProfileViewModelTest : FreeSpec({
             }
             Then("Error string res id is correct") {
                 assertSoftly {
-                    birthDayError shouldNotBe null
                     birthDayError shouldBe R.string.invalid_birthday
-                    isRegisterButtonEnabled shouldBe false
+                    isRegisterButtonEnabled.shouldBeFalse()
                 }
             }
         }
@@ -97,8 +93,8 @@ class UpdateProfileViewModelTest : FreeSpec({
             }
             Then("BirthDayError is null and register button is enabled") {
                 assertSoftly {
-                    birthDayError shouldBe null
-                    isRegisterButtonEnabled shouldBe false
+                    birthDayError.shouldBeNull()
+                    isRegisterButtonEnabled.shouldBeFalse()
                 }
             }
         }
@@ -118,22 +114,16 @@ class UpdateProfileViewModelTest : FreeSpec({
                 viewModel.onBirthDayEntered("1993-07-29")
             }
             Then("Register button is disable") {
-                isRegisterButtonEnabled shouldBe false
+                isRegisterButtonEnabled.shouldBeFalse()
             }
         }
 
-        Scenario("Pressing register button with invalid email") {
-            // region Input data
-            val nickname = "sonulen"
-            val name = "Andrey"
-            val surname = "Tolmachev"
-            val birthDay = "0000-00-00"
+        Scenario("Pressing register button with invalid birthday") {
             val errorMessage = "this is a test"
-            // endregion
             var isRegisterButtonEnabled = false
             var event: Event? = null
 
-            Given("Subscribe on button status and mock AuthRepository where updateProfile throw error") {
+            Given("Mock AuthRepository where updateProfile throw error") {
                 every { mockAuthRepository.register(any(), any()) } returns flow {
                     emit(Tokens("access", "refresh"))
                 }
@@ -147,6 +137,8 @@ class UpdateProfileViewModelTest : FreeSpec({
                         NetworkEntityError("111", errorMessage)
                     )
                 }
+            }
+            And("Subscribe on button status") {
                 viewModel.isRegisterButtonEnabled.observeForever {
                     isRegisterButtonEnabled = it
                 }
@@ -155,17 +147,17 @@ class UpdateProfileViewModelTest : FreeSpec({
                 }
             }
             When("Enter fully valid data with invalid birthday") {
-                viewModel.onNicknameEntered(nickname)
-                viewModel.onNameEntered(name)
-                viewModel.onSurnameEntered(surname)
-                viewModel.onBirthDayEntered(birthDay)
+                viewModel.onNicknameEntered("sonulen")
+                viewModel.onNameEntered("Andrey")
+                viewModel.onSurnameEntered("Tolmachev")
+                viewModel.onBirthDayEntered("0000-00-00")
                 viewModel.onEmailAndPasswordReceived(
                     "noreply@gmail.com",
                     "bestPassword1"
                 )
             }
             Then("Register button is disable") {
-                isRegisterButtonEnabled shouldBe false
+                isRegisterButtonEnabled.shouldBeFalse()
             }
             When("Click on register button with invalid birthday") {
                 viewModel.onRegisterClicked()
@@ -177,27 +169,18 @@ class UpdateProfileViewModelTest : FreeSpec({
                 }
             }
             And("Error event with message") {
-                event shouldNotBe null
-                event should beInstanceOf<EventError>()
-                (event as EventError).errorMessage shouldBe errorMessage
+                (event as? EventError)?.errorMessage shouldBe errorMessage
             }
         }
 
         Scenario("Check unlocking and pressing register button") {
-            // region Input data
-            val nickname = "sonulen"
-            val name = "Andrey"
-            val surname = "Tolmachev"
-            val birthDay = "1993-07-29"
-            // endregion
             var isRegisterButtonEnabled = false
             var event: Event? = null
 
-            Given("Subscribe on button status and mock AuthRepository") {
+            Given("Mock AuthRepository") {
                 every { mockAuthRepository.register(any(), any()) } returns flow {
                     emit(Tokens("access", "refresh"))
                 }
-
                 every { mockAuthRepository.updateProfile(any(), any(), any(), any()) } returns flow {
                     emit(
                         UserProfileData(
@@ -210,7 +193,8 @@ class UpdateProfileViewModelTest : FreeSpec({
                         )
                     )
                 }
-
+            }
+            And("Subscribe on button status") {
                 viewModel.isRegisterButtonEnabled.observeForever {
                     isRegisterButtonEnabled = it
                 }
@@ -219,17 +203,17 @@ class UpdateProfileViewModelTest : FreeSpec({
                 }
             }
             When("Enter fully valid data") {
-                viewModel.onNicknameEntered(nickname)
-                viewModel.onNameEntered(name)
-                viewModel.onSurnameEntered(surname)
-                viewModel.onBirthDayEntered(birthDay)
+                viewModel.onNicknameEntered("sonulen")
+                viewModel.onNameEntered("Andrey")
+                viewModel.onSurnameEntered("Tolmachev")
+                viewModel.onBirthDayEntered("1993-07-29")
                 viewModel.onEmailAndPasswordReceived(
                     "noreply@gmail.com",
                     "bestPassword1"
                 )
             }
             Then("Register button is enable") {
-                isRegisterButtonEnabled shouldBe true
+                isRegisterButtonEnabled.shouldBeTrue()
             }
             When("Click on register button") {
                 viewModel.onRegisterClicked()
@@ -241,9 +225,7 @@ class UpdateProfileViewModelTest : FreeSpec({
                 }
             }
             And("Navigation event to Done Fragment") {
-                event shouldNotBe null
-                event should beInstanceOf<EventNavigateTo>()
-                (event as EventNavigateTo).direction shouldBe UpdateProfileFragmentDirections.toDoneFragment()
+                (event as? EventNavigateTo)?.direction shouldBe UpdateProfileFragmentDirections.toDoneFragment()
             }
         }
     }
