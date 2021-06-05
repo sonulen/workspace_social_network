@@ -29,6 +29,9 @@ class ProfileViewModel @Inject constructor(
 
     init {
         userDataRepository.initProfileData()
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
             .catch { e ->
                 processError(e)
             }
@@ -36,12 +39,6 @@ class ProfileViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         userDataRepository.getUserProfileDataFlow()
-            .onStart {
-                state = state.copy(screenState = ScreenState.LOADING)
-            }
-            .catch { e ->
-                processError(e)
-            }
             .onEach {
                 state = state.copy(
                     screenState = ScreenState.CONTENT,
