@@ -8,31 +8,33 @@ import com.redmadrobot.domain.repository.SessionRepository
 import com.redmadrobot.mapmemory.MapMemory
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
-import io.mockk.*
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineScope
 import retrofit2.Response
 
 class AuthRepositoryImplTest : FreeSpec({
 
     Feature("User logout from network") {
         // region Fields and functions
-        lateinit var testCoroutineScope: TestCoroutineScope
         lateinit var repository: AuthRepositoryImpl
-
-        val mockAuthApi = mockk<AuthApi>()
-        val mockSessionRepository = mockk<SessionRepository>(relaxUnitFun = true)
-        val mockUserProfileDataStorage = mockk<UserProfileDataStorage>(relaxUnitFun = true)
-        val memory = MapMemory()
+        lateinit var mockAuthApi: AuthApi
+        lateinit var mockSessionRepository: SessionRepository
+        lateinit var mockUserProfileDataStorage: UserProfileDataStorage
+        lateinit var memory: MapMemory
 
         beforeEachScenario {
-            testCoroutineScope = TestCoroutineScope()
 
-            clearAllMocks()
+            mockAuthApi = mockk<AuthApi>()
+            mockSessionRepository = mockk<SessionRepository>(relaxUnitFun = true)
+            mockUserProfileDataStorage = mockk<UserProfileDataStorage>(relaxUnitFun = true)
+            memory = MapMemory()
 
             repository = AuthRepositoryImpl(
                 mockAuthApi,
@@ -40,9 +42,6 @@ class AuthRepositoryImplTest : FreeSpec({
                 memory,
                 mockUserProfileDataStorage
             )
-        }
-        afterEachScenario {
-            testCoroutineScope.cleanupTestCoroutines()
         }
         // endregion
 
@@ -52,9 +51,11 @@ class AuthRepositoryImplTest : FreeSpec({
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
             }
             When("Logout") {
-                testCoroutineScope.launch {
+                launch {
                     repository.logout()
-                        .catch {}
+                        .catch {
+                            // No-op
+                        }
                         .firstOrNull()
                 }
             }
@@ -65,7 +66,7 @@ class AuthRepositoryImplTest : FreeSpec({
                         mockSessionRepository.clear()
                         mockUserProfileDataStorage.clear()
                     }
-                    memory.isEmpty() shouldBe true
+                    memory.isEmpty().shouldBeTrue()
                 }
             }
         }
@@ -75,10 +76,12 @@ class AuthRepositoryImplTest : FreeSpec({
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
             }
             When("Logout") {
-                testCoroutineScope.launch {
+                launch {
                     repository.logout()
-                        .catch {}
-                        .single()
+                        .catch {
+                            // No-op
+                        }
+                        .first()
                 }
             }
             Then("All data deleted") {
@@ -88,7 +91,7 @@ class AuthRepositoryImplTest : FreeSpec({
                         mockSessionRepository.clear()
                         mockUserProfileDataStorage.clear()
                     }
-                    memory.isEmpty() shouldBe true
+                    memory.isEmpty().shouldBeTrue()
                 }
             }
         }
