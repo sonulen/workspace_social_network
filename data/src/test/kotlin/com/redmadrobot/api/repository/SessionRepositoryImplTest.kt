@@ -1,85 +1,60 @@
 package com.redmadrobot.api.repository
 
-import android.content.SharedPreferences
 import com.redmadrobot.basetest.*
+import com.redmadrobot.basetest.fakes.SharedPreferencesFake
 import com.redmadrobot.data.repository.SessionRepositoryImpl
 import com.redmadrobot.domain.entity.repository.Tokens
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import io.mockk.*
 
 class SessionRepositoryImplTest : FreeSpec({
 
     Feature("Storing access token in memory, refresh token in SharedPreferences") {
         // region Fields and functions
-        val mockSharedPreference = mockk<SharedPreferences>()
-        val mockEditor = mockk<SharedPreferences.Editor>()
         lateinit var repository: SessionRepositoryImpl
 
         beforeEachScenario {
-            clearAllMocks()
-            every { mockSharedPreference.edit() } returns mockEditor
-
             repository = SessionRepositoryImpl(
-                mockSharedPreference
+                SharedPreferencesFake()
             )
         }
         // endregion
         Scenario("Get tokens when they are saved, and then cleanup repository") {
-            val key = "AUTH_REFRESH_TOKEN"
             val accessToken = "access"
             val refreshToken = "refresh"
 
-            Given("Mock SharedPreferences and Editor") {
-                every { mockSharedPreference.getString(key, null) } returns refreshToken andThen null
-                every { mockEditor.putString(key, refreshToken) } returns mockEditor
-                every { mockEditor.remove(key) } returns mockEditor
-                every { mockEditor.apply() } returns Unit
-            }
             When("Save new session") {
                 repository.saveSession(Tokens(accessToken, refreshToken))
             }
-            Then("Refresh token must be stored in SharedPreferences") {
+            Then("Get tokens, they match the saved ones") {
                 assertSoftly {
-                    verifySequence {
-                        mockEditor.putString(key, refreshToken)
-                        mockEditor.apply()
-                    }
+                    repository.sessionExists().shouldBeTrue()
+                    repository.getAccessToken() shouldBe accessToken
+                    repository.getRefreshToken() shouldBe refreshToken
                 }
             }
-            And("Get tokens, they match the saved ones") {
-                repository.getAccessToken() shouldBe accessToken
-                repository.getRefreshToken() shouldBe refreshToken
-                verify {
-                    mockSharedPreference.getString(key, null)
-                }
-            }
-            Then("Clean up repository") {
+            When("Clean up repository") {
                 repository.clear()
             }
-            And("Get tokens from repository, they null") {
-                verify {
-                    mockEditor.remove(key)
-                }
+            Then("Get tokens from repository, they null") {
                 repository.getAccessToken() shouldBe null
                 repository.getRefreshToken() shouldBe null
             }
         }
-        Scenario("Get tokens without set its returns null") {
-            val key = "AUTH_REFRESH_TOKEN"
+        Scenario("Get tokens without saved session") {
             var accessToken: String? = null
             var refreshToken: String? = null
 
-            Given("Mock SharedPreferences.Editor") {
-                every { mockSharedPreference.getString(key, null) } returns null
-            }
-            When("Save new session") {
+            When("Get tokens") {
                 accessToken = repository.getAccessToken()
                 refreshToken = repository.getRefreshToken()
             }
             Then("Both tokens null") {
                 assertSoftly {
+                    repository.sessionExists().shouldBeFalse()
                     accessToken shouldBe null
                     refreshToken shouldBe null
                 }
