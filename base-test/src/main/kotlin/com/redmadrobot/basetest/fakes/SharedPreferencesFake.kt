@@ -1,3 +1,7 @@
+@file:Suppress(
+    "NotImplementedDeclaration",
+    "StringLiteralDuplication",
+)
 package com.redmadrobot.basetest.fakes
 
 import android.content.SharedPreferences
@@ -33,7 +37,7 @@ class SharedPreferencesFake : SharedPreferences {
      *
      * @throws ClassCastException
      */
-    override fun getString(key: String?, defValue: String?): String? = storage[key] as String? ?: defValue
+    override fun getString(key: String?, defValue: String?): String? = storage[key] as? String ?: defValue
 
     /**
      * Retrieve a set of String values from the preferences.
@@ -68,7 +72,7 @@ class SharedPreferencesFake : SharedPreferences {
      *
      * @throws ClassCastException
      */
-    override fun getInt(key: String?, defValue: Int): Int = storage[key] as Int? ?: defValue
+    override fun getInt(key: String?, defValue: Int): Int = storage[key] as? Int ?: defValue
 
     /**
      * Retrieve a long value from the preferences.
@@ -82,7 +86,7 @@ class SharedPreferencesFake : SharedPreferences {
      *
      * @throws ClassCastException
      */
-    override fun getLong(key: String?, defValue: Long): Long = storage[key] as Long? ?: defValue
+    override fun getLong(key: String?, defValue: Long): Long = storage[key] as? Long ?: defValue
 
     /**
      * Retrieve a float value from the preferences.
@@ -96,7 +100,7 @@ class SharedPreferencesFake : SharedPreferences {
      *
      * @throws ClassCastException
      */
-    override fun getFloat(key: String?, defValue: Float): Float = storage[key] as Float? ?: defValue
+    override fun getFloat(key: String?, defValue: Float): Float = storage[key] as? Float ?: defValue
 
     /**
      * Retrieve a boolean value from the preferences.
@@ -110,7 +114,7 @@ class SharedPreferencesFake : SharedPreferences {
      *
      * @throws ClassCastException
      */
-    override fun getBoolean(key: String?, defValue: Boolean): Boolean = storage[key] as Boolean? ?: defValue
+    override fun getBoolean(key: String?, defValue: Boolean): Boolean = storage[key] as? Boolean ?: defValue
 
     /**
      * Checks whether the preferences contains a preference.
