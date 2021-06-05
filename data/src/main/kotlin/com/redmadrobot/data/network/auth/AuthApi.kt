@@ -2,8 +2,8 @@ package com.redmadrobot.data.network.auth
 
 import com.redmadrobot.data.entity.api.request.NetworkEntityRefreshToken
 import com.redmadrobot.data.entity.api.request.NetworkEntityUserCredentials
-import com.redmadrobot.data.entity.api.request.NetworkEntityUserProfile
 import com.redmadrobot.data.entity.api.response.NetworkEntityToken
+import com.redmadrobot.data.entity.api.response.NetworkEntityUserProfile
 import com.redmadrobot.data.network.NetworkRouter
 import retrofit2.Response
 import retrofit2.http.*

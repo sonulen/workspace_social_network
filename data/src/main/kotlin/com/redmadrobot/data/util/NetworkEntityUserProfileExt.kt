@@ -1,6 +1,6 @@
 package com.redmadrobot.data.util
 
-import com.redmadrobot.data.entity.api.request.NetworkEntityUserProfile
+import com.redmadrobot.data.entity.api.response.NetworkEntityUserProfile
 import com.redmadrobot.domain.entity.repository.UserProfileData
 
 fun NetworkEntityUserProfile.toUserProfileData() = UserProfileData(

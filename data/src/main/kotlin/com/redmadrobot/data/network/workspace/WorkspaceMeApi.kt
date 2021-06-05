@@ -1,10 +1,10 @@
 package com.redmadrobot.data.network.workspace
 
-import com.redmadrobot.data.entity.api.NetworkEntityPosts
 import com.redmadrobot.data.entity.api.request.NetworkEntityAddFriend
-import com.redmadrobot.data.entity.api.request.NetworkEntityUserProfile
 import com.redmadrobot.data.entity.api.response.NetworkEntityPostItem
+import com.redmadrobot.data.entity.api.response.NetworkEntityPosts
 import com.redmadrobot.data.entity.api.response.NetworkEntityUserList
+import com.redmadrobot.data.entity.api.response.NetworkEntityUserProfile
 import com.redmadrobot.data.network.NetworkRouter
 import retrofit2.http.*
 

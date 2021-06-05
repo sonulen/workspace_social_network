@@ -5,9 +5,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class NetworkEntityPostItem(
-    @Json(name = "author") val author: NetworkEntityAuthor,
+    @Json(name = "author") val author: NetworkEntityUserProfile,
     @Json(name = "id") val id: String,
-    @Json(name = "image_url") val imageUrl: String,
+    @Json(name = "image_url") val imageUrl: String? = null,
     @Json(name = "lat") val lat: Double,
     @Json(name = "likes") val likes: Int,
     @Json(name = "liked") val liked: Boolean,

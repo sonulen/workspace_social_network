@@ -26,7 +26,7 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
     }
 
     private fun initDagger() {
-        FeedComponent.init().inject(this)
+        FeedComponent.init(appComponent).inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

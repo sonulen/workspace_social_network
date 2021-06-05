@@ -28,18 +28,11 @@ class ProfileViewModel @Inject constructor(
     val userData = liveState.mapDistinct { it.userData }
 
     init {
-        userDataRepository.init()
-            .onStart {
-                state = state.copy(screenState = ScreenState.LOADING)
-            }
+        userDataRepository.initProfileData()
             .catch { e ->
                 processError(e)
             }
-            .onEach {
-                state = state.copy(
-                    screenState = ScreenState.CONTENT
-                )
-            }
+            .onEach { /* No-op */ }
             .launchIn(viewModelScope)
 
         userDataRepository.getUserProfileDataFlow()

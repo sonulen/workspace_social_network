@@ -1,5 +1,3 @@
-package com.redmadrobot.data.entity.api
+package com.redmadrobot.data.entity.api.response
 
-import com.redmadrobot.data.entity.api.response.NetworkEntityPostItem
-
-typealias NetworkEntityPosts = ArrayList<NetworkEntityPostItem>
+typealias NetworkEntityPosts = List<NetworkEntityPostItem>
