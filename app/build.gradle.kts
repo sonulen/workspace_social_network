@@ -6,7 +6,9 @@ plugins {
     id(GradlePluginId.SAFE_ARGS)
     kotlin(GradlePluginId.KOTLIN_ANDROID)
     kotlin(GradlePluginId.KAPT)
+    id(GradlePluginId.KOTLIN_KAPT)
 }
+
 
 android {
 
@@ -130,6 +132,10 @@ android {
     tasks.withType().configureEach {
         kotlinOptions.freeCompilerArgs += "-Xopt-in=ExperimentalCoroutinesApi"
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -158,6 +164,9 @@ dependencies {
 
     implementation(AppDependency.MAPMEMORY)
     implementation(AppDependency.MAPMEMORY_COROUTINES)
+
+    implementation(AppDependency.EPOXY)
+    kapt(AppDependency.EPOXY_PROCESSOR)
 
     testImplementation(project(":base-test"))
 }

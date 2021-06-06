@@ -50,6 +50,11 @@
     <string name="feed_is_empty_message_second">Вам нужны друзья,\n чтобы лента стала живой</string>
     <string name="button_find_friends">Найти друзей</string>
     <string name="button_deauthorization">Деавторизация</string>
+    <string name="button_save">Сохранить</string>
+    <string name="feed_header_toolbar">Популярное</string>
+    <string name="feed_oops_message">Упс...</string>
+    <string name="feed_oops_message_second">Что-то пошло не так</string>
+    <string name="button_refresh">Обновить</string>
     <!--    endregion-->
 
     <!--   region Экран Profile    -->
@@ -74,8 +79,6 @@
 
     <!--   region Экран Profile    -->
     <string name="profile_edit_screen_name">Редактирование профиля</string>
-    <string name="button_save">Сохранить</string>
-
     <!--    endregion-->
 
 </resources>

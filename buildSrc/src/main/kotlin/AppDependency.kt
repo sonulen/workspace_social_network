@@ -9,12 +9,10 @@ internal object AppVersions {
     const val RMR_VIEW_BINDING = "4.1.2-2"
     const val RMR_LIVEDATA = "2.3.0-0"
     const val RMR_INPUT_MASK = "6.0.0"
-
     const val NAVIGATION = "2.3.5"
-
     const val OK_HTTP_LOGGING = "4.9.1"
-
     const val MAP_MEMORY = "2.0"
+    const val EPOXY = "4.6.1"
 }
 
 object AppDependency {
@@ -44,4 +42,8 @@ object AppDependency {
     // MapMemmory
     const val MAPMEMORY = "com.redmadrobot.mapmemory:mapmemory:${AppVersions.MAP_MEMORY}"
     const val MAPMEMORY_COROUTINES = "com.redmadrobot.mapmemory:mapmemory-coroutines:${AppVersions.MAP_MEMORY}"
+
+    // Epoxy
+    const val EPOXY = "com.airbnb.android:epoxy:${AppVersions.EPOXY}"
+    const val EPOXY_PROCESSOR = "com.airbnb.android:${AppVersions.EPOXY}"
 }

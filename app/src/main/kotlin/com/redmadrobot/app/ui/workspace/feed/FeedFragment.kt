@@ -32,14 +32,12 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.eventsQueue, ::onEvent)
-        registerButtonClickListeners()
+        initEpoxyRecyclerView()
     }
 
-    private fun registerButtonClickListeners() {
+    private fun initEpoxyRecyclerView() {
         with(binding) {
-            buttonFindFriends.setOnClickListener {
-                viewModel.onFindFriendsClicked()
-            }
+            recyclerView.setController(viewModel.getEpoxyController())
         }
     }
 }

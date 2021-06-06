@@ -15,6 +15,7 @@ object GradlePluginId {
 
     const val KOTLIN_ANDROID = "android"
     const val KAPT = "kapt"
+    const val KOTLIN_KAPT = "kotlin-kapt"
 
     const val DETEKT = "io.gitlab.arturbosch.detekt"
 
