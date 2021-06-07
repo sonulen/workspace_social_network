@@ -1,11 +1,8 @@
 package com.redmadrobot.app.ui.auth.signup.updateProfile
 
 import com.redmadrobot.app.R
-import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.basetest.*
-import com.redmadrobot.data.entity.api.response.NetworkEntityError
-import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.entity.repository.Tokens
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.AuthRepository
@@ -88,10 +85,10 @@ class UpdateProfileViewModelTest : FreeSpec({
                     isRegisterButtonEnabled = it
                 }
             }
-            When("Enter invalid birthday") {
+            When("Enter valid birthday") {
                 viewModel.onBirthDayEntered("1993-07-28")
             }
-            Then("BirthDayError is null and register button is enabled") {
+            Then("BirthDayError is null and register button disable") {
                 assertSoftly {
                     birthDayError.shouldBeNull()
                     isRegisterButtonEnabled.shouldBeFalse()
@@ -118,35 +115,9 @@ class UpdateProfileViewModelTest : FreeSpec({
             }
         }
 
-        Scenario("Pressing register button with invalid birthday") {
-            val errorMessage = "this is a test"
+        Scenario("Enter full data with invalid birthday") {
             var isRegisterButtonEnabled = false
-            var event: Event? = null
-
-            Given("Mock AuthRepository where updateProfile throw error") {
-                every { mockAuthRepository.register(any(), any()) } returns flow {
-                    emit(Tokens("access", "refresh"))
-                }
-                every {
-                    mockAuthRepository.updateProfile(any(),
-                        any(),
-                        any(),
-                        any())
-                } returns flow {
-                    throw NetworkException.BadRequest(
-                        NetworkEntityError("111", errorMessage)
-                    )
-                }
-            }
-            And("Subscribe on button status") {
-                viewModel.isRegisterButtonEnabled.observeForever {
-                    isRegisterButtonEnabled = it
-                }
-                viewModel.eventsQueue.observeForever {
-                    event = it
-                }
-            }
-            When("Enter fully valid data with invalid birthday") {
+            Given("Enter fully valid data with invalid birthday") {
                 viewModel.onNicknameEntered("sonulen")
                 viewModel.onNameEntered("Andrey")
                 viewModel.onSurnameEntered("Tolmachev")
@@ -156,20 +127,13 @@ class UpdateProfileViewModelTest : FreeSpec({
                     "bestPassword1"
                 )
             }
-            Then("Register button is disable") {
-                isRegisterButtonEnabled.shouldBeFalse()
-            }
-            When("Click on register button with invalid birthday") {
-                viewModel.onRegisterClicked()
-            }
-            Then("Correctly sequence of AuthRepository method's calls") {
-                verifySequence {
-                    mockAuthRepository.register(any(), any())
-                    mockAuthRepository.updateProfile(any(), any(), any(), any())
+            And("Subscribe on button status") {
+                viewModel.isRegisterButtonEnabled.observeForever {
+                    isRegisterButtonEnabled = it
                 }
             }
-            And("Error event with message") {
-                (event as? EventError)?.errorMessage shouldBe errorMessage
+            Then("Register button is disable") {
+                isRegisterButtonEnabled.shouldBeFalse()
             }
         }
 
