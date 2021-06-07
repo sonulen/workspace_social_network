@@ -6,6 +6,7 @@ import com.airbnb.epoxy.EpoxyController
 import com.redmadrobot.app.di.qualifiers.Mock
 import com.redmadrobot.app.ui.base.delegate
 import com.redmadrobot.app.ui.base.events.EventError
+import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
 import com.redmadrobot.app.ui.workspace.PostsEpoxyController
@@ -25,23 +26,24 @@ class FeedViewModel @Inject constructor(
     private var state: FeedViewState by liveState.delegate()
 
     init {
-        userDataRepository.initFeed()
-            .catch { e ->
-                processError(e)
-            }
-            .onStart {
-                controller.setEmptyView()
-                state = state.copy(screenState = ScreenState.LOADING)
-            }
-            .onEach { /* No-op */ }
-            .launchIn(viewModelScope)
+        refreshFeed()
 
         userDataRepository.getUserFeed()
             .onEach { feed ->
                 if (feed.isEmpty()) {
-                    controller.setEmptyView()
+                    controller.setEmptyView {
+                        eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!"))
+                    }
                 } else {
-                    controller.setPostsList(feed)
+                    controller.setPostsList(feed
+                    ) { postId: String, isLiked: Boolean ->
+                        userDataRepository.changeLikePost(postId, !isLiked)
+                            .catch { e ->
+                                processError(e)
+                            }
+                            .onEach { /* No-op */ }
+                            .launchIn(viewModelScope)
+                    }
                 }
             }
             .launchIn(viewModelScope)
@@ -49,10 +51,29 @@ class FeedViewModel @Inject constructor(
 
     private fun processError(e: Throwable) {
         state = state.copy(screenState = ScreenState.ERROR)
-        controller.setErrorView()
+        controller.setErrorView {
+            onRefresh()
+        }
         if (e is NetworkException) {
             eventsQueue.offerEvent(EventError(e.message))
         }
+    }
+
+    private fun onRefresh(): Unit = refreshFeed()
+
+    private fun refreshFeed() {
+        userDataRepository.initFeed()
+            .catch { e ->
+                processError(e)
+            }
+            .onStart {
+                controller.setEmptyView {
+                    eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!"))
+                }
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
+            .onEach { /* No-op */ }
+            .launchIn(viewModelScope)
     }
 
     fun getEpoxyController(): EpoxyController = controller

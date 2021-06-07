@@ -18,39 +18,63 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
 
     private var posts: List<Post> = emptyList()
     private var state = STATE.EMPTY
+    private var emptyHandler: () -> Unit = {}
+    private var errorHandler: () -> Unit = {}
+    private var postLikeHandler: (String, Boolean) -> Unit = { _, _ -> }
 
-    init {
-        requestModelBuild()
-    }
-
-    fun setEmptyView() {
+    fun setEmptyView(handler: () -> Unit) {
+        reset()
         state = STATE.EMPTY
-        posts = emptyList()
+        emptyHandler = handler
         requestModelBuild()
     }
 
-    fun setErrorView() {
+    fun setErrorView(handler: () -> Unit) {
+        reset()
         state = STATE.ERROR
-        posts = emptyList()
+        errorHandler = handler
         requestModelBuild()
     }
 
-    fun setPostsList(posts: List<Post>) {
+    fun setPostsList(posts: List<Post>, handler: (String, Boolean) -> Unit) {
+        reset()
         state = STATE.CONTENT
         this.posts = posts
+        postLikeHandler = handler
         requestModelBuild()
+    }
+
+    private fun reset() {
+        posts = emptyList()
+        emptyHandler = {}
+        errorHandler = {}
+        postLikeHandler = { _, _ -> }
     }
 
     override fun buildModels() {
         when (state) {
-            STATE.EMPTY -> emptyView {
-                id(UUID.randomUUID().toString())
+            STATE.EMPTY -> {
+                val explicitHandler = emptyHandler
+                emptyView {
+                    id(UUID.randomUUID().toString())
+                    findFriendOnClickListener {
+                        explicitHandler.invoke()
+                    }
+                }
             }
-            STATE.ERROR -> errorView {
-                id(UUID.randomUUID().toString())
+
+            STATE.ERROR -> {
+                val explicitHandler = errorHandler
+                errorView {
+                    id(UUID.randomUUID().toString())
+                    refreshOnClickListener {
+                        explicitHandler.invoke()
+                    }
+                }
             }
 
             STATE.CONTENT -> {
+                val explicitHandler = postLikeHandler
                 val df = DecimalFormat("#.##")
                 for (post in posts) {
                     postView {
@@ -60,6 +84,9 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
                         author(post.author.nickname)
                         likesCountText(post.likes.toString())
                         likeState(post.liked)
+                        likeOnClickListener {
+                            explicitHandler.invoke(post.id, post.liked)
+                        }
                     }
                 }
             }

@@ -5,8 +5,8 @@ data class Post(
     val id: String,
     val imageUrl: String? = null,
     val lat: Double,
-    val likes: Int,
-    val liked: Boolean,
+    var likes: Int,
+    var liked: Boolean,
     val lon: Double,
     val text: String,
 )

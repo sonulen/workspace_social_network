@@ -45,5 +45,5 @@ object AppDependency {
 
     // Epoxy
     const val EPOXY = "com.airbnb.android:epoxy:${AppVersions.EPOXY}"
-    const val EPOXY_PROCESSOR = "com.airbnb.android:${AppVersions.EPOXY}"
+    const val EPOXY_PROCESSOR = "com.airbnb.android:epoxy-processor:${AppVersions.EPOXY}"
 }

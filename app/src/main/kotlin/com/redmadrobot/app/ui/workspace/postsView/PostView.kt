@@ -3,6 +3,7 @@ package com.redmadrobot.app.ui.workspace.postsView
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
@@ -44,5 +45,12 @@ class PostView @JvmOverloads constructor(
             if (isLiked) R.drawable.icon_like_enable
             else R.drawable.icon_like_disable
         )
+    }
+
+    @CallbackProp
+    fun setLikeOnClickListener(listener: (() -> Unit)?) {
+        binding.likeButton.setOnClickListener { _ ->
+            listener?.invoke()
+        }
     }
 }

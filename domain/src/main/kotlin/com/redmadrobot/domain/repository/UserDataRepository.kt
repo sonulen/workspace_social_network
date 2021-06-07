@@ -20,4 +20,5 @@ interface UserDataRepository {
 
     fun getUserProfileDataFlow(): SharedFlow<UserProfileData>
     fun getUserFeed(): SharedFlow<Feed>
+    fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit>
 }

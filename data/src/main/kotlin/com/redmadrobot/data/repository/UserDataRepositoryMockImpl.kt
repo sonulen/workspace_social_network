@@ -39,6 +39,8 @@ class UserDataRepositoryMockImpl @Inject constructor(
         "2000-01-01",
     )
 
+    val feed = mutableListOf<Post>()
+
     override fun initProfileData(): Flow<Unit> = flow {
         if (userProfileDataStorage.isProfileEmpty) {
             mockUserProfileData()
@@ -47,8 +49,17 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     override fun initFeed(): Flow<Unit> = flow {
-        if (mode == MODE.ERROR) {
-            throw NetworkException.NoInternetAccess()
+        when (mode) {
+            MODE.EMPTY -> {
+            }
+
+            MODE.FULL -> {
+                generateFullList()
+            }
+
+            MODE.ERROR -> {
+                throw NetworkException.NoInternetAccess()
+            }
         }
         if (userProfileDataStorage.isFeedEmpty) {
             mockFeed()
@@ -82,28 +93,24 @@ class UserDataRepositoryMockImpl @Inject constructor(
     override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
     override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
 
+    override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
+        feed.find { post -> post.id == postId }?.let {
+            it.liked = isLike
+            it.likes += if (isLike) 1 else -1
+        }
+        mockFeed()
+        emit(Unit)
+    }
+
     private suspend fun mockUserProfileData() {
         userProfileDataStorage.updateUserProfileData(mockUser)
     }
 
     private suspend fun mockFeed() {
-        var feed = mutableListOf<Post>()
-        when (mode) {
-            MODE.EMPTY -> {
-            }
-
-            MODE.FULL -> {
-                feed = generateFullList()
-            }
-
-            MODE.ERROR -> {
-            }
-        }
         userProfileDataStorage.updateFeed(feed)
     }
 
-    private fun generateFullList(): MutableList<Post> {
-        val feed = mutableListOf<Post>()
+    private fun generateFullList() {
         for (num: Int in (1..100)) {
             feed.add(
                 Post(
@@ -117,6 +124,5 @@ class UserDataRepositoryMockImpl @Inject constructor(
                 )
             )
         }
-        return feed
     }
 }

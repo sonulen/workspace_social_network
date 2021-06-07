@@ -3,6 +3,7 @@ package com.redmadrobot.app.ui.workspace.postsView
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.redmadrobot.app.databinding.EmptyViewBinding
 import com.redmadrobot.extensions.viewbinding.inflateViewBinding
@@ -14,4 +15,11 @@ class EmptyView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private var binding = inflateViewBinding<EmptyViewBinding>()
+
+    @CallbackProp
+    fun setFindFriendOnClickListener(listener: (() -> Unit)?) {
+        binding.buttonFindFriends.setOnClickListener { _ ->
+            listener?.invoke()
+        }
+    }
 }
