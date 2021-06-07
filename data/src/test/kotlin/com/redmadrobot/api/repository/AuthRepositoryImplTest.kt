@@ -16,7 +16,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class AuthRepositoryImplTest : FreeSpec({
@@ -51,13 +50,11 @@ class AuthRepositoryImplTest : FreeSpec({
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
             }
             When("Logout") {
-                launch {
-                    repository.logout()
-                        .catch {
-                            // No-op
-                        }
-                        .firstOrNull()
-                }
+                repository.logout()
+                    .catch {
+                        // No-op
+                    }
+                    .firstOrNull()
             }
             Then("All data deleted") {
                 assertSoftly {
@@ -76,13 +73,11 @@ class AuthRepositoryImplTest : FreeSpec({
                 every { mockSessionRepository.getAccessToken() } returns "access_token"
             }
             When("Logout") {
-                launch {
-                    repository.logout()
-                        .catch {
-                            // No-op
-                        }
-                        .first()
-                }
+                repository.logout()
+                    .catch {
+                        // No-op
+                    }
+                    .first()
             }
             Then("All data deleted") {
                 assertSoftly {
