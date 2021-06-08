@@ -7,9 +7,18 @@ class AuthValidatorImpl : AuthValidator {
     private val namePatter = Pattern.compile("^[a-zA-Z]*\$")
     private val datePattern = Pattern.compile("^([12][90]\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))\$")
     private val passwordPattern = Pattern.compile("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}\$")
+    private val emailPattern = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+            "\\@" +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+            "(" +
+            "\\." +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+            ")+"
+    )
 
     override fun isEmailValid(email: String): Boolean {
-        return email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return email.isNotBlank() && emailPattern.matcher(email).matches()
     }
 
     override fun isPasswordValid(password: String): Boolean {

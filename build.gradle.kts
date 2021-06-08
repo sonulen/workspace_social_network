@@ -30,6 +30,10 @@ subprojects {
         jvmTarget = "1.8"
     }
 
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
+
     dependencies {
         detektPlugins(DetektDependency.DETEKT_FORMATTING)
     }
@@ -40,5 +44,7 @@ subprojects {
         jcenter()
         maven { url = uri("https://jitpack.io") }
     }
-    apply { from("$rootDir/gradle/version.gradle.kts") }
+    apply {
+        from("$rootDir/gradle/version.gradle.kts")
+    }
 }

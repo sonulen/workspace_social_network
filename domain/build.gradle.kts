@@ -19,7 +19,6 @@ android {
         val proguardFiles = rootProject.fileTree("proguard").files +
                 getDefaultProguardFile("proguard-android-optimize.txt")
 
-
         getByName(BuildTypes.DEBUG) {
             isDebuggable = true
 
@@ -47,6 +46,9 @@ android {
     }
 
     sourceSets.forEach { it.java.srcDir("src/${it.name}/kotlin") }
+    tasks.withType().configureEach {
+        kotlinOptions.freeCompilerArgs += "-Xopt-in=ExperimentalKotest"
+    }
 }
 
 dependencies {
@@ -67,4 +69,6 @@ dependencies {
     api(DomainDependency.LOGGER)
 
     kapt(DomainDependency.MOSHI_COMPILER)
+
+    testImplementation(project(":base-test"))
 }
