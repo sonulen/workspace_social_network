@@ -3,7 +3,6 @@ package com.redmadrobot.app.ui.workspace.profile
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
@@ -67,8 +66,8 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
                 isCancelable = false
             }.show(childFragmentManager, LoadingDialogFragment.TAG)
         } else {
-            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
-            fragment?.dismiss()
+//            val fragment = childFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG) as? DialogFragment
+//            fragment?.dismiss()
         }
     }
 
