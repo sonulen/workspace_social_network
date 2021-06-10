@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber", "UnusedPrivateMember")
 package com.redmadrobot.app.ui.loader
 
 import android.animation.ValueAnimator
@@ -10,6 +11,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
+import androidx.core.animation.doOnRepeat
 import com.redmadrobot.app.R
 
 class Loader @JvmOverloads constructor(
@@ -19,56 +21,96 @@ class Loader @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     // region Размеры
-    private val pulseSize = pxToDp(2f)
+    // Шаг пульсации
+    private val pulseStep = pxToDp(1f)
+    // Сколько пульсаций в одном направлении
+    private val pulseStepCount = 2
+    // Размер всей пульсации
+    private val pulseSize = pulseStep * pulseStepCount
+    // Где находится старт верхнего левого квадрата учитывая его пульсацию к 0;0
     private val start = pulseSize
+    // Длина одного квадрата
     private val side: Float = pxToDp(40f)
-    private val margin: Float = pxToDp(8f)
+    // Отступ между квадратами
+    private val margin: Float = pxToDp(4f)
+    // Скругление
     private val round: Float = pxToDp(10f)
+    // Величина всей вьюхи
     private val viewSize = (2 * side + margin + 2 * pulseSize).toInt()
     // endregion
 
     // region Цвета
-    private val lightGreyBlueColor = context.getColor(R.color.light_grey_blue)
+    private val lightGreyBlueColor: Int = context.getColor(R.color.light_grey_blue)
     private val greyColor = context.getColor(R.color.grey)
     private val middleGreyColor = context.getColor(R.color.middle_grey)
     private val darkGreyColor = context.getColor(R.color.dark_grey)
     // endregion
 
+    // Массив с квадратами
     private val squares = arrayOf(
-        Square().apply {
-            rect.set(start, start, start + side, start + side)
+        // Верхний левый
+        Square(
+            moveDirections = -pulseSize to -pulseSize,
+        ).apply {
+            startRect.set(start, start, start + side, start + side)
             paint.color = lightGreyBlueColor
         },
-        Square().apply {
-            rect.set(start + side + margin, start + 0f, start + 2 * side + margin, start + side)
+        // Верхний правый
+        Square(
+            moveDirections = pulseSize to -pulseSize
+        ).apply {
+            startRect.set(start + side + margin, start + 0f, start + 2 * side + margin, start + side)
             paint.color = greyColor
         },
-        Square().apply {
-            rect.set(start + 0f, start + side + margin, start + side, start + 2 * side + margin)
+        // Нижний левый
+        Square(
+            moveDirections = -pulseSize to pulseSize,
+        ).apply {
+            startRect.set(start + 0f, start + side + margin, start + side, start + 2 * side + margin)
             paint.color = darkGreyColor
         },
-        Square().apply {
-            rect.set(start + side + margin, start + side + margin, start + 2 * side + margin, start + 2 * side + margin)
+        // Нижний правый
+        Square(
+            moveDirections = pulseSize to pulseSize,
+        ).apply {
+            startRect.set(
+                start + side + margin,
+                start + side + margin,
+                start + 2 * side + margin,
+                start + 2 * side + margin)
             paint.color = middleGreyColor
         }
     )
 
-    private val valueAnimation = ValueAnimator.ofFloat(-pulseSize, pulseSize).apply {
+    // Анимация. Смысл его интерполируемой величины - процент от текущей пульсации
+    private val valueAnimation = ValueAnimator.ofFloat(0f, 100f).apply {
         interpolator = LinearInterpolator()
         repeatCount = Animation.INFINITE
         repeatMode = ValueAnimator.REVERSE
-        addUpdateListener { it -> onTeak(it) }
+        duration = 400
+        addUpdateListener { it ->
+            val value = it.animatedValue as? Float
+
+            value?.let {
+                onTeak(it)
+            }
+        }
         start()
+    }.doOnRepeat {
+        colorChange()
     }
 
-    private fun onTeak(valueAnimator: ValueAnimator) {
-        val value = valueAnimator.animatedValue as? Float
-
-        value?.let {
-            // TODO тут offsetTo должен быть
-            squares[0].rect.offset(-it, -it)
-            squares[3].rect.offset(it, it)
+    private fun colorChange() {
+        for (square in squares) {
+            square.paint.color = getNextColor(square.paint.color)
         }
+    }
+
+    private fun onTeak(percentOfPulse: Float) {
+        for (square in squares) {
+            square.updateRect(percentOfPulse)
+        }
+
         invalidate()
     }
 
@@ -78,17 +120,36 @@ class Loader @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         for (square in squares) {
-            canvas.drawRoundRect(square.rect, round, round, square.paint)
+            canvas.drawRoundRect(square.currentRect, round, round, square.paint)
         }
+    }
+
+    private fun getNextColor(currentColor: Int): Int = when (currentColor) {
+        lightGreyBlueColor -> darkGreyColor
+        greyColor -> lightGreyBlueColor
+        middleGreyColor -> greyColor
+        darkGreyColor -> middleGreyColor
+        else -> lightGreyBlueColor
     }
 
     private fun pxToDp(px: Float) = px * Resources.getSystem().displayMetrics.density
 
-    private class Square {
-        val rect = RectF()
-        val paint = Paint().apply {
+    private class Square(
+        private val moveDirections: Pair<Float, Float>,
+        // Начальное положение
+        val startRect: RectF = RectF(),
+    ) {
+        // Положение на текущий тик
+        var currentRect = RectF()
+        val paint: Paint = Paint().apply {
             isAntiAlias = true
             style = Paint.Style.FILL
+        }
+
+        fun updateRect(percent: Float) {
+            val (x, y) = moveDirections
+            currentRect.set(startRect)
+            currentRect.offset(x * 0.01f * percent, y * 0.01f * percent)
         }
     }
 }

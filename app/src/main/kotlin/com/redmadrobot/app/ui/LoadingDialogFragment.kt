@@ -13,13 +13,6 @@ class LoadingDialogFragment : DialogFragment() {
         val inflater: LayoutInflater = activity?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.loading_dialog_fragment, null)
 
-//        val spinner = view.findViewById<ImageView>(R.id.spinner)
-//        var rocketAnimation: AnimationDrawable
-//        spinner.apply {
-//            setBackgroundResource(R.drawable.amination_spin)
-//            rocketAnimation = background as AnimationDrawable
-//        }
-//        rocketAnimation.start()
         return AlertDialog.Builder(requireContext(), R.style.Widget_Workplaces_Dialog)
             .setView(view)
             .show()
