@@ -8,35 +8,38 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tool_bar"
         style="@style/Widget.MaterialComponents.Toolbar.Surface"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/Widget.Workplaces.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.Workplaces.TextView"
-            android:text="@string/feed_header_toolbar"
             android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.App.H3"
-            android:id="@+id/toolbar_title" />
+            android:text="@string/feed_header_toolbar"
+            android:textAppearance="@style/TextAppearance.App.H3" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool_bar">
 
         <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:itemSpacing="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
