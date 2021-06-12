@@ -13,4 +13,3 @@ fun NetworkEntityPostItem.toPost() = Post(
     lon = lon,
     text = text,
 )
-

@@ -59,7 +59,9 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun onRefresh(): Unit = refreshFeed()
+    fun onRefresh() {
+        refreshFeed()
+    }
 
     private fun refreshFeed() {
         userDataRepository.initFeed()

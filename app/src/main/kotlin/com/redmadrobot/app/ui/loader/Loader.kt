@@ -1,4 +1,8 @@
-@file:Suppress("MagicNumber", "UnusedPrivateMember")
+@file:Suppress(
+    "MagicNumber",
+    "UnusedPrivateMember"
+)
+
 package com.redmadrobot.app.ui.loader
 
 import android.animation.ValueAnimator
@@ -21,20 +25,28 @@ class Loader @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     // region Размеры
+
     // Шаг пульсации
     private val pulseStep = pxToDp(1f)
+
     // Сколько пульсаций в одном направлении
     private val pulseStepCount = 2
+
     // Размер всей пульсации
     private val pulseSize = pulseStep * pulseStepCount
+
     // Где находится старт верхнего левого квадрата учитывая его пульсацию к 0;0
     private val start = pulseSize
+
     // Длина одного квадрата
     private val side: Float = pxToDp(40f)
+
     // Отступ между квадратами
     private val margin: Float = pxToDp(4f)
+
     // Скругление
     private val round: Float = pxToDp(10f)
+
     // Величина всей вьюхи
     private val viewSize = (2 * side + margin + 2 * pulseSize).toInt()
     // endregion
@@ -77,7 +89,8 @@ class Loader @JvmOverloads constructor(
                 start + side + margin,
                 start + side + margin,
                 start + 2 * side + margin,
-                start + 2 * side + margin)
+                start + 2 * side + margin
+            )
             paint.color = middleGreyColor
         }
     )
@@ -88,11 +101,11 @@ class Loader @JvmOverloads constructor(
         repeatCount = Animation.INFINITE
         repeatMode = ValueAnimator.REVERSE
         duration = 400
-        addUpdateListener { it ->
+        addUpdateListener {
             val value = it.animatedValue as? Float
 
-            value?.let {
-                onTeak(it)
+            value?.let { percent ->
+                onTeak(percent)
             }
         }
         start()

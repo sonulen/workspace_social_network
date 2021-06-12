@@ -50,14 +50,10 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     override fun initFeed(): Flow<Unit> = flow {
-        when (mode) {
-            MODE.ERROR -> {
-                throw NetworkException.NoInternetAccess()
-            }
-
-            else -> { /* No-op */
-            }
+        if (mode == MODE.ERROR) {
+            throw NetworkException.NoInternetAccess()
         }
+
         if (userProfileDataStorage.isFeedEmpty) {
             generateFullList()
             mockFeed()
@@ -111,7 +107,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     private fun generateFullList() {
-        for (num: Int in (1..100)) {
+        for (num in 1..100) {
             feed.add(
                 Post(
                     mockUser.copy(id = Random.nextInt(0, 100).toString()),
