@@ -20,22 +20,22 @@ class PostView @JvmOverloads constructor(
 
     @TextProp // Use this annotation for text.
     fun setPostText(text: CharSequence?) {
-        binding.postText.text = text
+        binding.postText.text = text?.toString()
     }
 
     @TextProp
     fun setLocationText(text: CharSequence?) {
-        binding.postLocationText.text = text
+        binding.postLocationText.text = text?.toString()
     }
 
     @TextProp
     fun setAuthor(text: CharSequence?) {
-        binding.authorText.text = "@$text"
+        binding.authorText.text = text?.toString()
     }
 
     @TextProp
     fun setLikesCountText(text: CharSequence?) {
-        binding.likesCountText.text = "$text"
+        binding.likesCountText.text = text?.toString()
     }
 
     @ModelProp

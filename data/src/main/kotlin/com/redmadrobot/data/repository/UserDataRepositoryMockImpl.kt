@@ -32,12 +32,12 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     private val mockUser = UserProfileData(
-        "1",
-        "MockName",
-        "MockLastName",
-        "MockNickname",
-        "https://static.wikia.nocookie.net/nightinthewoods/images/0/0d/Old_cat_1_blink_00000.png/revision/latest?cb=20170810061444",
-        "2000-01-01",
+        id = "1",
+        firstName = "MockName",
+        lastName = "MockLastName",
+        nickname = "MockNickname",
+        avatarUrl = "https://static.wikia.nocookie.net/nightinthewoods/images/0/0d/Old_cat_1_blink_00000.png/revision/latest?cb=20170810061444",
+        birthDay = "2000-01-01",
     )
 
     var feed = mutableListOf<Post>()
@@ -116,7 +116,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
         for (num in 1..100) {
             feed.add(
                 Post(
-                    mockUser.copy(id = Random.nextInt(0, 100).toString()),
+                    author = mockUser.copy(id = Random.nextInt(0, 100).toString()),
                     id = num.toString(),
                     text = "It's post #$num",
                     likes = Random.nextInt(0, 100),
