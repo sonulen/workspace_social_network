@@ -9,6 +9,8 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.FeedFragmentBinding
 import com.redmadrobot.app.di.workspace.feed.FeedComponent
 import com.redmadrobot.app.ui.base.fragment.BaseFragment
+import com.redmadrobot.app.ui.workspace.EventHideSwipeRefreshLoader
+import com.redmadrobot.extensions.lifecycle.Event
 import com.redmadrobot.extensions.lifecycle.observe
 import com.redmadrobot.extensions.viewbinding.viewBinding
 import javax.inject.Inject
@@ -31,8 +33,31 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRefreshLayout()
         observe(viewModel.eventsQueue, ::onEvent)
         initEpoxyRecyclerView()
+    }
+
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        when (event) {
+            is EventHideSwipeRefreshLoader -> {
+                if (binding.swipeContainer.isRefreshing) {
+                    binding.swipeContainer.isRefreshing = false
+                }
+            }
+        }
+    }
+
+    private fun initRefreshLayout() {
+        with(binding) {
+            swipeContainer.setColorSchemeResources(
+                R.color.orange,
+            )
+            swipeContainer.setOnRefreshListener {
+                viewModel.onRefresh()
+            }
+        }
     }
 
     private fun initEpoxyRecyclerView() {

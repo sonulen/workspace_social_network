@@ -1,6 +1,7 @@
 package com.redmadrobot.app.ui.workspace
 
 import com.airbnb.epoxy.EpoxyController
+import com.redmadrobot.app.ui.workspace.postsView.ClosureListener
 import com.redmadrobot.app.ui.workspace.postsView.emptyView
 import com.redmadrobot.app.ui.workspace.postsView.errorView
 import com.redmadrobot.app.ui.workspace.postsView.postView
@@ -73,8 +74,8 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
             }
 
             STATE.CONTENT -> {
-                val explicitHandler = postLikeHandler
                 val df = DecimalFormat("#.##")
+                val explicitHandler = postLikeHandler
                 for (post in posts) {
                     postView {
                         id(post.id)
@@ -83,9 +84,9 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
                         author(post.author.nickname)
                         likesCountText(post.likes.toString())
                         likeState(post.liked)
-                        likeOnClickListener {
-                            explicitHandler.invoke(post.id, post.liked)
-                        }
+                        likeOnClickListener(
+                            ClosureListener(post.id, post.liked, explicitHandler)
+                        )
                     }
                 }
             }

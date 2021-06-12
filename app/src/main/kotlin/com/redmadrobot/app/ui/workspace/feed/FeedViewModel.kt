@@ -9,6 +9,7 @@ import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
 import com.redmadrobot.app.ui.base.viewmodel.ScreenState
+import com.redmadrobot.app.ui.workspace.EventHideSwipeRefreshLoader
 import com.redmadrobot.app.ui.workspace.PostsEpoxyController
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.domain.repository.UserDataRepository
@@ -25,26 +26,26 @@ class FeedViewModel @Inject constructor(
     private var state: FeedViewState by liveState.delegate()
 
     init {
+        // Загрузим или обновим ленту
         refreshFeed()
-
+        // Подпишимся на получение списка постов
         userDataRepository.getUserFeed()
             .onEach { feed ->
                 if (feed.isEmpty()) {
-                    controller.setEmptyView {
-                        eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!"))
-                    }
+                    controller.setEmptyView { eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!")) }
                 } else {
-                    controller.setPostsList(feed
-                    ) { postId: String, isLiked: Boolean ->
-                        userDataRepository.changeLikePost(postId, !isLiked)
-                            .catch { e ->
-                                processError(e)
-                            }
-                            .onEach { /* No-op */ }
-                            .launchIn(viewModelScope)
-                    }
+                    controller.setPostsList(feed, ::onPostLikeChange)
                 }
             }
+            .launchIn(viewModelScope)
+    }
+
+    private fun onPostLikeChange(postId: String, isLiked: Boolean) {
+        userDataRepository.changeLikePost(postId, !isLiked)
+            .catch { e ->
+                processError(e)
+            }
+            .onEach { /* No-op */ }
             .launchIn(viewModelScope)
     }
 
@@ -58,14 +59,16 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    private fun onRefresh(): Unit = refreshFeed()
+    fun onRefresh(): Unit = refreshFeed()
 
     private fun refreshFeed() {
         userDataRepository.initFeed()
             .catch { e ->
                 processError(e)
             }
-            .onEach { /* No-op */ }
+            .onEach {
+                eventsQueue.offerEvent(EventHideSwipeRefreshLoader())
+            }
             .launchIn(viewModelScope)
     }
 

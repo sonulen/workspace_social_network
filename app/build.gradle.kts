@@ -167,4 +167,6 @@ dependencies {
     kapt(AppDependency.EPOXY_PROCESSOR)
 
     testImplementation(project(":base-test"))
+
+    implementation(AppDependency.SWIPE_REFRESH_LAYOUT)
 }

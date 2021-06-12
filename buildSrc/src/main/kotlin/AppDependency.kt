@@ -13,6 +13,7 @@ internal object AppVersions {
     const val OK_HTTP_LOGGING = "4.9.1"
     const val MAP_MEMORY = "2.0"
     const val EPOXY = "4.6.1"
+    const val SWIPE_REFRESH_LAYOUT = "1.0.0"
 }
 
 object AppDependency {
@@ -39,11 +40,15 @@ object AppDependency {
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${CoreVersions.DAGGER}"
     const val OK_HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${AppVersions.OK_HTTP_LOGGING}"
 
-    // MapMemmory
+    // MapMemory
     const val MAPMEMORY = "com.redmadrobot.mapmemory:mapmemory:${AppVersions.MAP_MEMORY}"
     const val MAPMEMORY_COROUTINES = "com.redmadrobot.mapmemory:mapmemory-coroutines:${AppVersions.MAP_MEMORY}"
 
     // Epoxy
     const val EPOXY = "com.airbnb.android:epoxy:${AppVersions.EPOXY}"
     const val EPOXY_PROCESSOR = "com.airbnb.android:epoxy-processor:${AppVersions.EPOXY}"
+
+    // Swipe refresh layout
+    const val SWIPE_REFRESH_LAYOUT =
+        "androidx.swiperefreshlayout:swiperefreshlayout:${AppVersions.SWIPE_REFRESH_LAYOUT}"
 }

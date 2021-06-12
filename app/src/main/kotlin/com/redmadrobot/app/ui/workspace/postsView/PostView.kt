@@ -3,7 +3,6 @@ package com.redmadrobot.app.ui.workspace.postsView
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
@@ -47,8 +46,8 @@ class PostView @JvmOverloads constructor(
         )
     }
 
-    @CallbackProp
-    fun setLikeOnClickListener(listener: (() -> Unit)?) {
+    @ModelProp
+    fun setLikeOnClickListener(listener: ClosureListener?) {
         binding.likeButton.setOnClickListener { _ ->
             listener?.invoke()
         }
