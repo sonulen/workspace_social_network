@@ -90,10 +90,16 @@ class UserDataRepositoryMockImpl @Inject constructor(
     override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
 
     override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
-        feed.find { post -> post.id == postId }?.let {
-            it.liked = isLike
-            it.likes += if (isLike) 1 else -1
+        val post = feed.find { post -> post.id == postId }
+
+        if (post != null) {
+            val postIndex = feed.indexOf(post)
+            feed[postIndex] = post.copy(
+                liked = isLike,
+                likes = post.likes + if (isLike) 1 else -1
+            )
         }
+
         mockFeed()
         emit(Unit)
     }
