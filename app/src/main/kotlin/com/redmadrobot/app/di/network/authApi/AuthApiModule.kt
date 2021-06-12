@@ -6,6 +6,7 @@ import com.redmadrobot.data.network.NetworkRouter
 import com.redmadrobot.data.network.auth.AuthApi
 import dagger.Module
 import dagger.Provides
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,10 +21,12 @@ object AuthApiModule {
     fun provideUnauthorizedOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         errorInterceptor: Interceptor,
+        certificatePinner: CertificatePinner,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(errorInterceptor)
+            .certificatePinner(certificatePinner)
             .callTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)

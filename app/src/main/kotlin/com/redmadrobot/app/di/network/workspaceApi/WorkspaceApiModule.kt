@@ -9,6 +9,7 @@ import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,12 +30,14 @@ object WorkspaceApiModule {
         errorInterceptor: Interceptor,
         authInterceptor: AuthInterceptor,
         authenticator: UserAuthenticator,
+        certificatePinner: CertificatePinner,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(errorInterceptor)
             .authenticator(authenticator)
+            .certificatePinner(certificatePinner)
             .callTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)

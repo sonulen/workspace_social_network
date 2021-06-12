@@ -24,16 +24,13 @@ class AuthRepositoryImpl @Inject constructor(
      * /see [AuthRepository.logout]
      */
     override fun logout(): Flow<Unit> = flow {
-        try {
-            api.logout(
-                AuthRepository.HEADER_TOKEN_PREFIX +
-                    requireNotNull(session.getAccessToken()) { "Access token required" }
-            )
-        } finally {
-            session.clear()
-            memory.clear()
-            userProfileDataStorage.clear()
-        }
+        session.clear()
+        memory.clear()
+        userProfileDataStorage.clear()
+        api.logout(
+            AuthRepository.HEADER_TOKEN_PREFIX +
+                requireNotNull(session.getAccessToken()) { "Access token required" }
+        )
         emit(Unit)
     }
 

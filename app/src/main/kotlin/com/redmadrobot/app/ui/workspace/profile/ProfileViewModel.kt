@@ -65,11 +65,9 @@ class ProfileViewModel @Inject constructor(
 
     fun onLogoutClicked() {
         authRepository.logout()
-            .onStart {
-                state = state.copy(screenState = ScreenState.LOADING)
-            }
             .catch { e ->
                 processError(e)
+                eventsQueue.offerEvent(EventNavigateTo(ProfileFragmentDirections.toAuthGraph()))
             }
             .onEach {
                 state = state.copy(screenState = ScreenState.CONTENT)
