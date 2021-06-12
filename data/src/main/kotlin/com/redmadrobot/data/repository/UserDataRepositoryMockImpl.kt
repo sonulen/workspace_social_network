@@ -15,6 +15,7 @@ import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import kotlin.random.Random
@@ -39,7 +40,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
         "2000-01-01",
     )
 
-    val feed = mutableListOf<Post>()
+    var feed = mutableListOf<Post>()
 
     override fun initProfileData(): Flow<Unit> = flow {
         if (userProfileDataStorage.isProfileEmpty) {
@@ -50,19 +51,18 @@ class UserDataRepositoryMockImpl @Inject constructor(
 
     override fun initFeed(): Flow<Unit> = flow {
         when (mode) {
-            MODE.EMPTY -> {
-            }
-
-            MODE.FULL -> {
-                generateFullList()
-            }
-
             MODE.ERROR -> {
                 throw NetworkException.NoInternetAccess()
             }
+
+            else -> { /* No-op */
+            }
         }
         if (userProfileDataStorage.isFeedEmpty) {
+            generateFullList()
             mockFeed()
+        } else {
+            feed = userProfileDataStorage.userFeed.first().toMutableList()
         }
         emit(Unit)
     }

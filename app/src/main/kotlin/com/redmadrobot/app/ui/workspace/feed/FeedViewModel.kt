@@ -15,7 +15,6 @@ import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class FeedViewModel @Inject constructor(
@@ -65,12 +64,6 @@ class FeedViewModel @Inject constructor(
         userDataRepository.initFeed()
             .catch { e ->
                 processError(e)
-            }
-            .onStart {
-                controller.setEmptyView {
-                    eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!"))
-                }
-                state = state.copy(screenState = ScreenState.LOADING)
             }
             .onEach { /* No-op */ }
             .launchIn(viewModelScope)

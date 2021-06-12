@@ -16,7 +16,7 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
         CONTENT
     }
 
-    private var posts: List<Post> = emptyList()
+    private var posts = mutableListOf<Post>()
     private var state = STATE.EMPTY
     private var emptyHandler: () -> Unit = {}
     private var errorHandler: () -> Unit = {}
@@ -39,13 +39,12 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
     fun setPostsList(posts: List<Post>, handler: (String, Boolean) -> Unit) {
         reset()
         state = STATE.CONTENT
-        this.posts = posts
+        this.posts = posts.toMutableList()
         postLikeHandler = handler
         requestModelBuild()
     }
 
     private fun reset() {
-        posts = emptyList()
         emptyHandler = {}
         errorHandler = {}
         postLikeHandler = { _, _ -> }

@@ -53,9 +53,6 @@ class UserDataRepositoryImpl @Inject constructor(
         emit(Unit)
     }
 
-    override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
-    override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
-
     override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
         if (isLike) {
             api.feedLike(postId)
@@ -75,4 +72,7 @@ class UserDataRepositoryImpl @Inject constructor(
         val networkEntityPosts = api.feedGet()
         userProfileDataStorage.updateFeed(networkEntityPosts.toFeed())
     }
+
+    override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
+    override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
 }

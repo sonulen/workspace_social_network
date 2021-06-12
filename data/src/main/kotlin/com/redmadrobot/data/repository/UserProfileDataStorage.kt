@@ -33,7 +33,7 @@ class UserProfileDataStorage @Inject constructor(
     }
 
     suspend fun updateFeed(posts: Feed) {
-        isFeedEmpty = false
+        isFeedEmpty = posts.isEmpty()
         _userFeed.emit(posts)
     }
 
