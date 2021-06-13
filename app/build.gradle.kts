@@ -61,17 +61,17 @@ android {
         }
 
         register(BuildTypes.RELEASE) {
-            val releaseStoreFile = file("../cert/release.keystore")
+            val releaseStoreFile = file("../cert/release.jks")
             val releasePropsFile = file("../cert/release.properties")
             val releaseProps = Properties()
             if (file(releasePropsFile).exists()) {
                 releaseProps.load(releasePropsFile.inputStream())
-            }
 
-            storeFile = releaseStoreFile
-            keyAlias = releaseProps.getProperty(SigningProperties.ALIAS_PROP)
-            keyPassword = releaseProps.getProperty(SigningProperties.KEY_PASSWORD_PROP)
-            storePassword = releaseProps.getProperty(SigningProperties.STORE_PASSWORD_PROP)
+                storeFile = releaseStoreFile
+                keyAlias = releaseProps.getProperty(SigningProperties.ALIAS_PROP)
+                keyPassword = releaseProps.getProperty(SigningProperties.KEY_PASSWORD_PROP)
+                storePassword = releaseProps.getProperty(SigningProperties.STORE_PASSWORD_PROP)
+            }
         }
     }
 
