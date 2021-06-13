@@ -171,4 +171,5 @@ dependencies {
     implementation(AppDependency.SWIPE_REFRESH_LAYOUT)
 
     implementation(AppDependency.SECURITY_CRYPTO)
+    implementation(AppDependency.ROOT_BEER)
 }

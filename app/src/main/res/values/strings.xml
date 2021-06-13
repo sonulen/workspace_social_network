@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">tolmachev Social Network</string>
 
+    <!--   region MainActivity  -->
+    <string name="root_env_message">Обнаружен root. Ваши данные из приложения могут украсть.</string>
+    <string name="debug_mode_message">Обнаружен debug mode. Ваши данные из приложения могут украсть.</string>
+    <!--    endregion-->
+
     <!--   region Экран Логина    -->
     <string name="hello_message">Workplaces</string>
     <string name="hello_message_second">Найди своё место</string>

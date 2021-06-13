@@ -15,6 +15,7 @@ internal object AppVersions {
     const val EPOXY = "4.6.1"
     const val SWIPE_REFRESH_LAYOUT = "1.0.0"
     const val SECURITY_CRYPTO = "1.0.0"
+    const val ROOT_BEER = "0.1.0"
 }
 
 object AppDependency {
@@ -55,4 +56,5 @@ object AppDependency {
 
     // Security
     const val SECURITY_CRYPTO = "androidx.security:security-crypto:${AppVersions.SECURITY_CRYPTO}"
+    const val ROOT_BEER = "com.scottyab:rootbeer-lib:${AppVersions.ROOT_BEER}"
 }
