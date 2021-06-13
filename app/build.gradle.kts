@@ -169,4 +169,6 @@ dependencies {
     testImplementation(project(":base-test"))
 
     implementation(AppDependency.SWIPE_REFRESH_LAYOUT)
+
+    implementation(AppDependency.SECURITY_CRYPTO)
 }

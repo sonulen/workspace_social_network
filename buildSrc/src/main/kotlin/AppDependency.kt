@@ -14,6 +14,7 @@ internal object AppVersions {
     const val MAP_MEMORY = "2.0"
     const val EPOXY = "4.6.1"
     const val SWIPE_REFRESH_LAYOUT = "1.0.0"
+    const val SECURITY_CRYPTO = "1.0.0"
 }
 
 object AppDependency {
@@ -51,4 +52,7 @@ object AppDependency {
     // Swipe refresh layout
     const val SWIPE_REFRESH_LAYOUT =
         "androidx.swiperefreshlayout:swiperefreshlayout:${AppVersions.SWIPE_REFRESH_LAYOUT}"
+
+    // Security
+    const val SECURITY_CRYPTO = "androidx.security:security-crypto:${AppVersions.SECURITY_CRYPTO}"
 }
