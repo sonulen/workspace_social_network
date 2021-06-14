@@ -42,6 +42,7 @@ object NetworkModule {
 
     @Provides
     fun provideCertificatePinner(): CertificatePinner = CertificatePinner.Builder().add(
-        "interns2021.redmadrobot.com", "sha256/MAVq5hbYTBXZBS28Tj4dmgZsA8zFN5xSyDGpkpft13s="
+        "interns2021.redmadrobot.com",
+        "sha256/MAVq5hbYTBXZBS28Tj4dmgZsA8zFN5xSyDGpkpft13s="
     ).build()
 }

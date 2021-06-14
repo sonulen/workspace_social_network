@@ -39,14 +39,10 @@ class MainViewModel @Inject constructor(
 
     private fun checkEnvironment() {
         if (rootBeer.isRooted) {
-            eventsQueue.offerEvent(EventError(
-                context.getString(R.string.root_env_message)
-            ))
+            eventsQueue.offerEvent(EventError(context.getString(R.string.root_env_message)))
         }
         if (BuildConfig.DEBUG || Debug.isDebuggerConnected()) {
-            eventsQueue.offerEvent(EventError(
-                context.getString(R.string.debug_mode_message)
-            ))
+            eventsQueue.offerEvent(EventError(context.getString(R.string.debug_mode_message)))
         }
     }
 
