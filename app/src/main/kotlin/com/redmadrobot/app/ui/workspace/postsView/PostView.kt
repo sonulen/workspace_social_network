@@ -18,7 +18,7 @@ class PostView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private var binding = inflateViewBinding<PostViewBinding>()
 
-    @TextProp // Use this annotation for text.
+    @TextProp
     fun setPostText(text: CharSequence?) {
         binding.postText.text = text?.toString()
     }

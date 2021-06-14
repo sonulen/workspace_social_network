@@ -6,7 +6,6 @@ import com.redmadrobot.app.ui.workspace.postsView.emptyView
 import com.redmadrobot.app.ui.workspace.postsView.errorView
 import com.redmadrobot.app.ui.workspace.postsView.postView
 import com.redmadrobot.domain.entity.repository.Post
-import java.text.DecimalFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -74,15 +73,14 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
             }
 
             STATE.CONTENT -> {
-                val df = DecimalFormat("#.##")
                 val explicitHandler = postLikeHandler
                 for (post in posts) {
                     postView {
                         id(post.id)
                         postText(post.text)
-                        locationText("Lat: " + df.format(post.lat) + " Lon: " + df.format(post.lon))
                         author(post.author.nickname)
                         likesCountText(post.likes.toString())
+                        locationText(post.location)
                         likeState(post.liked)
                         likeOnClickListener(
                             ClosureListener(post.id, post.liked, explicitHandler)

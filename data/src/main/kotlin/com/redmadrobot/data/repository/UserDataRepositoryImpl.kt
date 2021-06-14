@@ -1,5 +1,6 @@
 package com.redmadrobot.data.repository
 
+import android.location.Geocoder
 import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.data.util.toFeed
 import com.redmadrobot.data.util.toUserProfileData
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class UserDataRepositoryImpl @Inject constructor(
     private val api: WorkspaceApi,
     private val userProfileDataStorage: UserProfileDataStorage,
+    private val geocoder: Geocoder,
 ) : UserDataRepository {
 
     override fun initProfileData(): Flow<Unit> = flow {
@@ -70,7 +72,7 @@ class UserDataRepositoryImpl @Inject constructor(
 
     private suspend fun requestFeed() {
         val networkEntityPosts = api.feedGet()
-        userProfileDataStorage.updateFeed(networkEntityPosts.toFeed())
+        userProfileDataStorage.updateFeed(networkEntityPosts.toFeed(geocoder))
     }
 
     override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData

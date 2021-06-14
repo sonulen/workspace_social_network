@@ -6,6 +6,8 @@
 
 package com.redmadrobot.data.repository
 
+import android.location.Address
+import android.location.Geocoder
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.data.util.toUserProfileData
@@ -24,6 +26,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
     private val api: WorkspaceApi,
     private val userProfileDataStorage: UserProfileDataStorage,
     private val mode: MODE = MODE.FULL,
+    private val geocoder: Geocoder,
 ) : UserDataRepository {
     enum class MODE {
         EMPTY,
@@ -113,7 +116,15 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     private fun generateFullList() {
-        for (num in 1..100) {
+        for (num in 1..20) {
+            val lat = Random.nextDouble(0.0, 90.0)
+            val lon = Random.nextDouble(-180.0, 180.0)
+            val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+            var location = "Там далеко-далеко"
+            if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
+                location = addresses[0].locality
+            }
+
             feed.add(
                 Post(
                     author = mockUser.copy(id = Random.nextInt(0, 100).toString()),
@@ -121,8 +132,9 @@ class UserDataRepositoryMockImpl @Inject constructor(
                     text = "It's post #$num",
                     likes = Random.nextInt(0, 100),
                     liked = Random.nextBoolean(),
-                    lat = Random.nextDouble(0.0, 90.0),
-                    lon = Random.nextDouble(-180.0, 180.0)
+                    lat = lat,
+                    lon = lon,
+                    location = location
                 )
             )
         }

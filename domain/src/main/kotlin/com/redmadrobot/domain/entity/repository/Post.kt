@@ -7,6 +7,7 @@ data class Post(
     val lat: Double,
     val likes: Int,
     val liked: Boolean,
+    val location: String,
     val lon: Double,
     val text: String,
 )
