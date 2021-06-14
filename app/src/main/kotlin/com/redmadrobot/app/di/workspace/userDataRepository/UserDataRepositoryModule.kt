@@ -17,7 +17,11 @@ object UserDataRepositoryModule {
         api: WorkspaceApi,
         userProfileDataStorage: UserProfileDataStorage,
         geocoder: Geocoder,
-    ): UserDataRepository = UserDataRepositoryImpl(api, userProfileDataStorage, geocoder)
+    ): UserDataRepository = UserDataRepositoryImpl(
+        api = api,
+        userProfileDataStorage = userProfileDataStorage,
+        geocoder = geocoder
+    )
 
     @Provides
     @Mock
@@ -26,5 +30,10 @@ object UserDataRepositoryModule {
         userProfileDataStorage: UserProfileDataStorage,
         geocoder: Geocoder,
     ): UserDataRepository =
-        UserDataRepositoryMockImpl(api, userProfileDataStorage, UserDataRepositoryMockImpl.MODE.FULL, geocoder)
+        UserDataRepositoryMockImpl(
+            api = api,
+            userProfileDataStorage = userProfileDataStorage,
+            mode = UserDataRepositoryMockImpl.MODE.FULL,
+            geocoder = geocoder
+        )
 }
