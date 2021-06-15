@@ -6,7 +6,6 @@ import com.redmadrobot.app.ui.workspace.postsView.emptyView
 import com.redmadrobot.app.ui.workspace.postsView.errorView
 import com.redmadrobot.app.ui.workspace.postsView.postView
 import com.redmadrobot.domain.entity.repository.Post
-import java.util.*
 import javax.inject.Inject
 
 class PostsEpoxyController @Inject constructor() : EpoxyController() {
@@ -55,7 +54,7 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
             STATE.EMPTY -> {
                 val explicitHandler = emptyHandler
                 emptyView {
-                    id(UUID.randomUUID().toString())
+                    id("empty_view")
                     findFriendOnClickListener {
                         explicitHandler.invoke()
                     }
@@ -65,7 +64,7 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
             STATE.ERROR -> {
                 val explicitHandler = errorHandler
                 errorView {
-                    id(UUID.randomUUID().toString())
+                    id("error_view")
                     refreshOnClickListener {
                         explicitHandler.invoke()
                     }

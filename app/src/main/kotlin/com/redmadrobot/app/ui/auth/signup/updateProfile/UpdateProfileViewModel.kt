@@ -25,7 +25,7 @@ class UpdateProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val validator: AuthValidator,
 ) : BaseViewModel() {
-    private val liveState = MutableLiveData<UpdateProfileViewState>(UpdateProfileViewState())
+    private val liveState = MutableLiveData(UpdateProfileViewState())
     private var state: UpdateProfileViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }

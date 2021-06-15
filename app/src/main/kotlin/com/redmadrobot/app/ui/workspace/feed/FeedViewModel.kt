@@ -22,7 +22,7 @@ class FeedViewModel @Inject constructor(
     @Mock private val userDataRepository: UserDataRepository,
     private val controller: PostsEpoxyController,
 ) : BaseViewModel() {
-    private val liveState = MutableLiveData<FeedViewState>(FeedViewState())
+    private val liveState = MutableLiveData(FeedViewState())
     private var state: FeedViewState by liveState.delegate()
 
     init {

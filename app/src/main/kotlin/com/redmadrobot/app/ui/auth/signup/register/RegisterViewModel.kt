@@ -12,7 +12,7 @@ import com.redmadrobot.extensions.lifecycle.mapDistinct
 import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(private val validator: AuthValidator) : BaseViewModel() {
-    private val liveState = MutableLiveData<RegisterViewState>(RegisterViewState())
+    private val liveState = MutableLiveData(RegisterViewState())
     private var state: RegisterViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }

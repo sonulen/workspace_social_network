@@ -21,7 +21,7 @@ class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userDataRepository: UserDataRepository,
 ) : BaseViewModel() {
-    private val liveState = MutableLiveData<ProfileViewState>(ProfileViewState())
+    private val liveState = MutableLiveData(ProfileViewState())
     private var state: ProfileViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
@@ -35,7 +35,6 @@ class ProfileViewModel @Inject constructor(
             .catch { e ->
                 processError(e)
             }
-            .onEach { /* No-op */ }
             .launchIn(viewModelScope)
 
         userDataRepository.getUserProfileDataFlow()

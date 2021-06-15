@@ -25,7 +25,7 @@ class ProfileEditViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val validator: AuthValidator,
 ) : BaseViewModel() {
-    private val liveState = MutableLiveData<ProfileEditViewState>(ProfileEditViewState())
+    private val liveState = MutableLiveData(ProfileEditViewState())
     private var state: ProfileEditViewState by liveState.delegate()
 
     val screenState = liveState.mapDistinct { it.screenState }
