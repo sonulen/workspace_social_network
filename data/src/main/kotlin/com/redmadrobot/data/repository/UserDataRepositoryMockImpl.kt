@@ -56,8 +56,11 @@ class UserDataRepositoryMockImpl @Inject constructor(
             throw NetworkException.NoInternetAccess()
         }
 
-        if (userProfileDataStorage.isFeedEmpty) {
+        if (mode == MODE.FULL) {
             generateFullList()
+        }
+
+        if (userProfileDataStorage.isFeedEmpty) {
             mockFeed()
         } else {
             feed = userProfileDataStorage.userFeed.first().toMutableList()

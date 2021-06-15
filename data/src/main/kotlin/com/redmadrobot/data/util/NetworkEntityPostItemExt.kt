@@ -7,9 +7,10 @@ import com.redmadrobot.domain.entity.repository.Post
 
 fun NetworkEntityPostItem.toPost(geocoder: Geocoder): Post {
     val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
-    var location = "Там далеко-далеко"
-    if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
-        location = addresses[0].locality
+    val location = if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
+        addresses[0].locality
+    } else {
+        "Там далеко-далеко"
     }
 
     return Post(

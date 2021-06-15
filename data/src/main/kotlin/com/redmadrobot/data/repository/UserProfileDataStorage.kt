@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 class UserProfileDataStorage @Inject constructor(
-    val memory: MapMemory,
+    private val memory: MapMemory,
 ) {
     private val _userProfileData by memory.sharedFlow<UserProfileData>(
         replay = 1,
