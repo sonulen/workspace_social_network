@@ -20,29 +20,28 @@ class PostView @JvmOverloads constructor(
 
     @TextProp
     fun setPostText(text: CharSequence?) {
-        binding.postText.text = text?.toString()
+        binding.postText.text = text
     }
 
     @TextProp
     fun setLocationText(text: CharSequence?) {
-        binding.postLocationText.text = text?.toString()
+        binding.postLocationText.text = text
     }
 
     @TextProp
     fun setAuthor(text: CharSequence?) {
-        binding.authorText.text = text?.toString()
+        binding.authorText.text = text
     }
 
     @TextProp
     fun setLikesCountText(text: CharSequence?) {
-        binding.likesCountText.text = text?.toString()
+        binding.likesCountText.text = text
     }
 
     @ModelProp
     fun setLikeState(isLiked: Boolean) {
         binding.likeButton.setImageResource(
-            if (isLiked) R.drawable.icon_like_enable
-            else R.drawable.icon_like_disable
+            if (isLiked) R.drawable.icon_like_enable else R.drawable.icon_like_disable
         )
     }
 
