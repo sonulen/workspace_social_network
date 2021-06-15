@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/nickname_stub"
+            tools:text="[Nickname]"
             app:titleTextAppearance="@style/TextAppearance.App.BodyL" />
 
         <Button
@@ -76,7 +76,7 @@
                 style="@style/Widget.Workplaces.TextView"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
-                android:text="@string/profile_name_surname"
+                tools:text="[Имя Фамилия]"
                 android:textAppearance="@style/TextAppearance.App.BodyL"
                 app:layout_constraintStart_toEndOf="@id/profile_image"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +85,7 @@
                 android:id="@+id/age_text_view"
                 style="@style/Widget.Workplaces.TextView"
                 android:layout_marginLeft="16dp"
-                android:text="@string/profile_age"
+                tools:text="[Возраст]"
                 android:textAppearance="@style/TextAppearance.App.BodyL"
                 app:layout_constraintStart_toEndOf="@id/profile_image"
                 app:layout_constraintTop_toBottomOf="@id/name_text_view" />

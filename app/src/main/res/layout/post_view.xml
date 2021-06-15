@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textAppearance="@style/TextAppearance.App.H2"
+                tools:text="[Post text stub]"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:textAppearance="@style/TextAppearance.App.BodyS"
+                tools:text="[Post location text stub]"
                 app:layout_constraintBottom_toBottomOf="@+id/location_icon"
                 app:layout_constraintStart_toEndOf="@+id/location_icon"
                 app:layout_constraintTop_toTopOf="@+id/location_icon" />
@@ -70,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textAppearance="@style/TextAppearance.App.BodyS"
+                tools:text="[Author text]"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/location_text" />
@@ -81,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:textAppearance="@style/TextAppearance.App.BodyS"
+                tools:text="[123]"
                 app:layout_constraintBottom_toBottomOf="@id/author_text"
                 app:layout_constraintEnd_toStartOf="@id/like_button"
                 app:layout_constraintTop_toTopOf="@+id/author_text" />

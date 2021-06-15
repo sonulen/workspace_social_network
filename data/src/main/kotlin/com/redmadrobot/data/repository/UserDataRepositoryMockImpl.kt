@@ -118,13 +118,14 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     private fun generateFullList() {
-        for (num in 1..20) {
+        repeat(20) { num ->
             val lat = Random.nextDouble(0.0, 90.0)
             val lon = Random.nextDouble(-180.0, 180.0)
             val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
-            var location = "Там далеко-далеко"
-            if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
-                location = addresses[0].locality
+            val location = if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
+                addresses[0].locality
+            } else {
+                "Там далеко-далеко"
             }
 
             feed.add(
