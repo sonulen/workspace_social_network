@@ -1,6 +1,6 @@
 package com.redmadrobot.domain.repository
 
-import com.redmadrobot.domain.entity.repository.Feed
+import com.redmadrobot.domain.entity.repository.Post
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
@@ -19,6 +19,6 @@ interface UserDataRepository {
     ): Flow<Unit>
 
     fun getUserProfileDataFlow(): SharedFlow<UserProfileData>
-    fun getUserFeed(): SharedFlow<Feed>
+    fun getUserFeed(): SharedFlow<List<Post>>
     fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit>
 }

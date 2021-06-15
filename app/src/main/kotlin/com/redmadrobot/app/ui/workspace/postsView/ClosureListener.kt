@@ -5,7 +5,6 @@ class ClosureListener constructor(
     val postLikeState: Boolean,
     val listener: (String, Boolean) -> Unit,
 ) {
-
     override fun equals(other: Any?): Boolean {
         if (other is ClosureListener) {
             return postId == other.postId && postLikeState == other.postLikeState

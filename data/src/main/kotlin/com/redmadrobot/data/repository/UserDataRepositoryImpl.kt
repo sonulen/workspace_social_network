@@ -2,9 +2,9 @@ package com.redmadrobot.data.repository
 
 import android.location.Geocoder
 import com.redmadrobot.data.network.workspace.WorkspaceApi
-import com.redmadrobot.data.util.toFeed
+import com.redmadrobot.data.util.toPostList
 import com.redmadrobot.data.util.toUserProfileData
-import com.redmadrobot.domain.entity.repository.Feed
+import com.redmadrobot.domain.entity.repository.Post
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
@@ -72,9 +72,9 @@ class UserDataRepositoryImpl @Inject constructor(
 
     private suspend fun requestFeed() {
         val networkEntityPosts = api.feedGet()
-        userProfileDataStorage.updateFeed(networkEntityPosts.toFeed(geocoder))
+        userProfileDataStorage.updateFeed(networkEntityPosts.toPostList(geocoder))
     }
 
     override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
-    override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
+    override fun getUserFeed(): SharedFlow<List<Post>> = userProfileDataStorage.userFeed
 }

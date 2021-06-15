@@ -11,7 +11,6 @@ import android.location.Geocoder
 import com.redmadrobot.data.network.errors.NetworkException
 import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.data.util.toUserProfileData
-import com.redmadrobot.domain.entity.repository.Feed
 import com.redmadrobot.domain.entity.repository.Post
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.UserDataRepository
@@ -90,7 +89,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
-    override fun getUserFeed(): SharedFlow<Feed> = userProfileDataStorage.userFeed
+    override fun getUserFeed(): SharedFlow<List<Post>> = userProfileDataStorage.userFeed
 
     override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
         val post = feed.find { post -> post.id == postId }
