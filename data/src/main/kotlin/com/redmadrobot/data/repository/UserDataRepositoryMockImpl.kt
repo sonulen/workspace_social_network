@@ -15,8 +15,6 @@ import com.redmadrobot.domain.entity.repository.Post
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import kotlin.random.Random
@@ -45,9 +43,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
     var feed = mutableListOf<Post>()
 
     override fun initProfileData(): Flow<Unit> = flow {
-        if (userProfileDataStorage.isProfileEmpty) {
-            mockUserProfileData()
-        }
+        mockUserProfileData()
         emit(Unit)
     }
 
@@ -59,12 +55,7 @@ class UserDataRepositoryMockImpl @Inject constructor(
         if (mode == MODE.FULL) {
             generateFullList()
         }
-
-        if (userProfileDataStorage.isFeedEmpty) {
-            mockFeed()
-        } else {
-            feed = userProfileDataStorage.userFeed.first().toMutableList()
-        }
+        mockFeed()
         emit(Unit)
     }
 
@@ -91,21 +82,11 @@ class UserDataRepositoryMockImpl @Inject constructor(
         emit(Unit)
     }
 
-    override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
-    override fun getUserFeed(): SharedFlow<List<Post>> = userProfileDataStorage.userFeed
+    override fun getUserProfileDataFlow(): Flow<UserProfileData> = userProfileDataStorage.userProfileData
+    override fun getUserFeed(): Flow<List<Post>> = userProfileDataStorage.userFeed
 
     override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
-        val post = feed.find { post -> post.id == postId }
-
-        if (post != null) {
-            val postIndex = feed.indexOf(post)
-            feed[postIndex] = post.copy(
-                liked = isLike,
-                likes = post.likes + if (isLike) 1 else -1
-            )
-        }
-
-        mockFeed()
+        userProfileDataStorage.changeLikePost(postId, isLike)
         emit(Unit)
     }
 

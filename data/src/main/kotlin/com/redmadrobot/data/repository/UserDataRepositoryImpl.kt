@@ -8,7 +8,6 @@ import com.redmadrobot.domain.entity.repository.Post
 import com.redmadrobot.domain.entity.repository.UserProfileData
 import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -19,16 +18,12 @@ class UserDataRepositoryImpl @Inject constructor(
 ) : UserDataRepository {
 
     override fun initProfileData(): Flow<Unit> = flow {
-        if (userProfileDataStorage.isProfileEmpty) {
-            requestUserProfileData()
-        }
+        requestUserProfileData()
         emit(Unit)
     }
 
     override fun initFeed(): Flow<Unit> = flow {
-        if (userProfileDataStorage.isFeedEmpty) {
-            requestFeed()
-        }
+        requestFeed()
         emit(Unit)
     }
 
@@ -56,12 +51,14 @@ class UserDataRepositoryImpl @Inject constructor(
     }
 
     override fun changeLikePost(postId: String, isLike: Boolean): Flow<Unit> = flow {
-        if (isLike) {
-            api.feedLike(postId)
+        val isSuccessful = if (isLike) {
+            api.feedLike(postId).isSuccessful
         } else {
-            api.feedDeleteLike(postId)
+            api.feedDeleteLike(postId).isSuccessful
         }
-        requestFeed()
+        if (isSuccessful) {
+            userProfileDataStorage.changeLikePost(postId, isLike)
+        }
         emit(Unit)
     }
 
@@ -75,6 +72,6 @@ class UserDataRepositoryImpl @Inject constructor(
         userProfileDataStorage.updateFeed(networkEntityPosts.toPostList(geocoder))
     }
 
-    override fun getUserProfileDataFlow(): SharedFlow<UserProfileData> = userProfileDataStorage.userProfileData
-    override fun getUserFeed(): SharedFlow<List<Post>> = userProfileDataStorage.userFeed
+    override fun getUserProfileDataFlow(): Flow<UserProfileData> = userProfileDataStorage.userProfileData
+    override fun getUserFeed(): Flow<List<Post>> = userProfileDataStorage.userFeed
 }
