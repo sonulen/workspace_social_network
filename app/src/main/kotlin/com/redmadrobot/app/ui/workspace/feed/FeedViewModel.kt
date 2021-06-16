@@ -16,6 +16,7 @@ import com.redmadrobot.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class FeedViewModel @Inject constructor(
@@ -26,18 +27,27 @@ class FeedViewModel @Inject constructor(
     private var state: FeedViewState by liveState.delegate()
 
     init {
+        controller.setListeners(
+            emptyHandler = { eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!")) },
+            errorHandler = { onRefresh() },
+            postLikeHandler = ::onPostLikeChange
+        )
         // Загрузим или обновим ленту
         refreshFeed()
         // Подпишимся на получение списка постов
         userDataRepository.getUserFeed()
             .onEach { feed ->
                 if (feed.isEmpty()) {
-                    controller.setEmptyView { eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!")) }
+                    controller.setEmptyView()
                 } else {
-                    controller.setPostsList(feed, ::onPostLikeChange)
+                    controller.setPostsList(feed)
                 }
             }
             .launchIn(viewModelScope)
+    }
+
+    override fun onCleared() {
+        controller.resetHandlers()
     }
 
     private fun onPostLikeChange(postId: String, isLiked: Boolean) {
@@ -45,15 +55,12 @@ class FeedViewModel @Inject constructor(
             .catch { e ->
                 processError(e)
             }
-            .onEach { /* No-op */ }
             .launchIn(viewModelScope)
     }
 
     private fun processError(e: Throwable) {
         state = state.copy(screenState = ScreenState.ERROR)
-        controller.setErrorView {
-            onRefresh()
-        }
+        controller.setErrorView()
         if (e is NetworkException) {
             eventsQueue.offerEvent(EventError(e.message))
         }
@@ -65,6 +72,9 @@ class FeedViewModel @Inject constructor(
 
     private fun refreshFeed() {
         userDataRepository.initFeed()
+            .onStart {
+                state = state.copy(screenState = ScreenState.LOADING)
+            }
             .catch { e ->
                 processError(e)
             }

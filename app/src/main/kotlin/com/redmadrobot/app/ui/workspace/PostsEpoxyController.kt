@@ -15,38 +15,42 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
         CONTENT
     }
 
-    private var posts = mutableListOf<Post>()
+    private var posts = listOf<Post>()
     private var state = STATE.EMPTY
     private var emptyHandler: () -> Unit = {}
     private var errorHandler: () -> Unit = {}
     private var postLikeHandler: (String, Boolean) -> Unit = { _, _ -> }
 
-    fun setEmptyView(handler: () -> Unit) {
-        reset()
-        state = STATE.EMPTY
-        emptyHandler = handler
-        requestModelBuild()
+    fun setListeners(
+        emptyHandler: () -> Unit,
+        errorHandler: () -> Unit,
+        postLikeHandler: (String, Boolean) -> Unit,
+    ) {
+        this.emptyHandler = emptyHandler
+        this.errorHandler = errorHandler
+        this.postLikeHandler = postLikeHandler
     }
 
-    fun setErrorView(handler: () -> Unit) {
-        reset()
-        state = STATE.ERROR
-        errorHandler = handler
-        requestModelBuild()
-    }
-
-    fun setPostsList(posts: List<Post>, handler: (String, Boolean) -> Unit) {
-        reset()
-        state = STATE.CONTENT
-        this.posts = posts.toMutableList()
-        postLikeHandler = handler
-        requestModelBuild()
-    }
-
-    private fun reset() {
+    fun resetHandlers() {
         emptyHandler = {}
         errorHandler = {}
         postLikeHandler = { _, _ -> }
+    }
+
+    fun setEmptyView() {
+        state = STATE.EMPTY
+        requestModelBuild()
+    }
+
+    fun setErrorView() {
+        state = STATE.ERROR
+        requestModelBuild()
+    }
+
+    fun setPostsList(posts: List<Post>) {
+        state = STATE.CONTENT
+        this.posts = posts.toMutableList()
+        requestModelBuild()
     }
 
     override fun buildModels() {
