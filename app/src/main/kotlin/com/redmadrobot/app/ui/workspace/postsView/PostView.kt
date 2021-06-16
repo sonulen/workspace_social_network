@@ -46,9 +46,11 @@ class PostView @JvmOverloads constructor(
     }
 
     @ModelProp
-    fun setLikeOnClickListener(listener: ClosureListener<Pair<String, Boolean>>?) {
+    fun setLikeOnClickListener(closure: ClosureListener<Pair<String, Boolean>>?) {
         binding.likeButton.setOnClickListener { _ ->
-            listener?.listener?.invoke(listener.data)
+            closure?.run {
+                listener.invoke(data)
+            }
         }
     }
 }
