@@ -99,28 +99,30 @@ class UserDataRepositoryMockImpl @Inject constructor(
     }
 
     private fun generateFullList() {
-        repeat(20) { num ->
-            val lat = Random.nextDouble(0.0, 90.0)
-            val lon = Random.nextDouble(-180.0, 180.0)
-            val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
-            val location = if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
-                addresses[0].locality
-            } else {
-                "Там далеко-далеко"
-            }
+        if (feed.isEmpty()) {
+            repeat(20) { num ->
+                val lat = Random.nextDouble(0.0, 90.0)
+                val lon = Random.nextDouble(-180.0, 180.0)
+                val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+                val location = if (addresses.isNotEmpty() && !addresses[0].locality.isNullOrEmpty()) {
+                    addresses[0].locality
+                } else {
+                    "Там далеко-далеко"
+                }
 
-            feed.add(
-                Post(
-                    author = mockUser.copy(id = Random.nextInt(0, 100).toString()),
-                    id = num.toString(),
-                    text = "It's post #$num",
-                    likes = Random.nextInt(0, 100),
-                    liked = Random.nextBoolean(),
-                    lat = lat,
-                    lon = lon,
-                    location = location
+                feed.add(
+                    Post(
+                        author = mockUser.copy(id = Random.nextInt(0, 100).toString()),
+                        id = num.toString(),
+                        text = "It's post #$num",
+                        likes = Random.nextInt(0, 100),
+                        liked = Random.nextBoolean(),
+                        lat = lat,
+                        lon = lon,
+                        location = location
+                    )
                 )
-            )
+            }
         }
     }
 }
