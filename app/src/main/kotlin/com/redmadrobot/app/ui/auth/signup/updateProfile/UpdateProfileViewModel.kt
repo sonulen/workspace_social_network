@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.R
 import com.redmadrobot.app.ui.base.delegate
+import com.redmadrobot.app.ui.base.events.ErrorMessage
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.events.EventShowDatePickerDialog
@@ -113,7 +114,7 @@ class UpdateProfileViewModel @Inject constructor(
     private fun processError(e: Throwable) {
         state = state.copy(screenState = ScreenState.ERROR)
         if (e is NetworkException) {
-            eventsQueue.offerEvent(EventError(e.message))
+            eventsQueue.offerEvent(EventError(ErrorMessage.Text(e.message)))
         }
     }
 

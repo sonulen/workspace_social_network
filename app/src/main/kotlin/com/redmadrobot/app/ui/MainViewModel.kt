@@ -1,11 +1,11 @@
 package com.redmadrobot.app.ui
 
-import android.content.Context
 import android.os.Debug
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.app.BuildConfig
 import com.redmadrobot.app.R
 import com.redmadrobot.app.RootGraphDirections
+import com.redmadrobot.app.ui.base.events.ErrorMessage
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
@@ -21,7 +21,6 @@ class MainViewModel @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val deauthorizationRepository: DeauthorizationRepository,
     private val rootBeer: RootBeer,
-    private val context: Context,
 ) : BaseViewModel() {
 
     init {
@@ -30,7 +29,7 @@ class MainViewModel @Inject constructor(
         deauthorizationRepository.getDeauthorizationEventStream()
             .onEach {
                 if (it is Logout) {
-                    eventsQueue.offerEvent(EventError(it.message))
+                    eventsQueue.offerEvent(EventError(ErrorMessage.Text(it.message)))
                     eventsQueue.offerEvent(EventNavigateTo(RootGraphDirections.toAuthGraph()))
                 }
             }
@@ -39,10 +38,10 @@ class MainViewModel @Inject constructor(
 
     private fun checkEnvironment() {
         if (rootBeer.isRooted) {
-            eventsQueue.offerEvent(EventError(context.getString(R.string.root_env_message)))
+            eventsQueue.offerEvent(EventError(ErrorMessage.Id(R.string.root_env_message)))
         }
         if (BuildConfig.DEBUG || Debug.isDebuggerConnected()) {
-            eventsQueue.offerEvent(EventError(context.getString(R.string.debug_mode_message)))
+            eventsQueue.offerEvent(EventError(ErrorMessage.Id(R.string.debug_mode_message)))
         }
     }
 
