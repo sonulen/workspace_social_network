@@ -1,5 +1,6 @@
 package com.redmadrobot.app.di.network.authApi
 
+import com.redmadrobot.app.BuildConfig
 import com.redmadrobot.app.di.network.NetworkModule
 import com.redmadrobot.app.di.qualifiers.UnauthorizedZone
 import com.redmadrobot.data.network.NetworkRouter
@@ -23,15 +24,18 @@ object AuthApiModule {
         errorInterceptor: Interceptor,
         certificatePinner: CertificatePinner,
     ): OkHttpClient {
-        return OkHttpClient.Builder()
+        val builder = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(errorInterceptor)
-            .certificatePinner(certificatePinner)
             .callTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-            .build()
+
+        if (!BuildConfig.DEBUG) {
+            builder.certificatePinner(certificatePinner)
+        }
+        return builder.build()
     }
 
     @Provides
