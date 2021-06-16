@@ -1,3 +1,5 @@
+@file:Suppress("UseEmptyCounterpart")
+
 package com.redmadrobot.app.ui.workspace
 
 import com.airbnb.epoxy.EpoxyController
