@@ -19,12 +19,12 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
     private var state = STATE.EMPTY
     private var emptyHandler: () -> Unit = {}
     private var errorHandler: () -> Unit = {}
-    private var postLikeHandler: (String, Boolean) -> Unit = { _, _ -> }
+    private var postLikeHandler: (Pair<String, Boolean>) -> Unit = { _ -> }
 
     fun setListeners(
         emptyHandler: () -> Unit,
         errorHandler: () -> Unit,
-        postLikeHandler: (String, Boolean) -> Unit,
+        postLikeHandler: (Pair<String, Boolean>) -> Unit,
     ) {
         this.emptyHandler = emptyHandler
         this.errorHandler = errorHandler
@@ -34,7 +34,7 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
     fun resetHandlers() {
         emptyHandler = {}
         errorHandler = {}
-        postLikeHandler = { _, _ -> }
+        postLikeHandler = { _ -> }
     }
 
     fun setEmptyView() {
@@ -86,7 +86,7 @@ class PostsEpoxyController @Inject constructor() : EpoxyController() {
                         locationText(post.location)
                         likeState(post.liked)
                         likeOnClickListener(
-                            ClosureListener(post.id, post.liked, explicitHandler)
+                            ClosureListener(post.id to post.liked, explicitHandler)
                         )
                     }
                 }

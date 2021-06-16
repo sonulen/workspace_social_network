@@ -30,7 +30,9 @@ class FeedViewModel @Inject constructor(
         controller.setListeners(
             emptyHandler = { eventsQueue.offerEvent(EventMessage("Извини, но все разошлись!")) },
             errorHandler = { onRefresh() },
-            postLikeHandler = ::onPostLikeChange
+            postLikeHandler = {
+                onPostLikeChange(it.first, it.second)
+            }
         )
         // Загрузим или обновим ленту
         refreshFeed()
