@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.redmadrobot.app.App
 import com.redmadrobot.app.di.AppProvider
+import com.redmadrobot.app.ui.base.events.ErrorMessage
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
@@ -33,9 +34,18 @@ open class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayou
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showError(errorMessage: String) {
+    private fun showError(errorMessage: ErrorMessage) {
         val contentView = requireActivity().findViewById<View>(android.R.id.content)
-        Snackbar.make(contentView, errorMessage, Snackbar.LENGTH_SHORT).show()
+
+        when (errorMessage) {
+            is ErrorMessage.Text -> {
+                Snackbar.make(contentView, errorMessage.message, Snackbar.LENGTH_SHORT).show()
+            }
+
+            is ErrorMessage.Id -> {
+                Snackbar.make(contentView, getString(errorMessage.messageId), Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     protected fun navigateTo(direction: NavDirections) {

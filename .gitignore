@@ -144,8 +144,9 @@ freeline_project_description.json
 
 .mainframer/
 
-/cert/release.keystore
-/cert/release.properties
+/cert/*
+!/cert/debug.keystore
+!/cert/debug.properties
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar

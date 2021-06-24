@@ -1,5 +1,6 @@
 package com.redmadrobot.app.di.network.workspaceApi
 
+import com.redmadrobot.app.BuildConfig
 import com.redmadrobot.app.di.network.NetworkModule
 import com.redmadrobot.app.di.qualifiers.AuthorizedZone
 import com.redmadrobot.data.network.AuthInterceptor
@@ -9,6 +10,7 @@ import com.redmadrobot.data.network.workspace.WorkspaceApi
 import com.redmadrobot.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,8 +31,9 @@ object WorkspaceApiModule {
         errorInterceptor: Interceptor,
         authInterceptor: AuthInterceptor,
         authenticator: UserAuthenticator,
+        certificatePinner: CertificatePinner,
     ): OkHttpClient {
-        return OkHttpClient.Builder()
+        val builder = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(errorInterceptor)
@@ -39,7 +42,11 @@ object WorkspaceApiModule {
             .connectTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(NetworkModule.HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-            .build()
+
+        if (!BuildConfig.DEBUG) {
+            builder.certificatePinner(certificatePinner)
+        }
+        return builder.build()
     }
 
     @Provides

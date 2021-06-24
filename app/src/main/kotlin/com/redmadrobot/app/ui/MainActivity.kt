@@ -15,6 +15,7 @@ import com.redmadrobot.app.R
 import com.redmadrobot.app.databinding.ActivityMainBinding
 import com.redmadrobot.app.di.AppComponent
 import com.redmadrobot.app.ui.base.activity.BaseActivity
+import com.redmadrobot.app.ui.base.events.ErrorMessage
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.events.EventNavigateTo
@@ -61,9 +62,18 @@ class MainActivity : BaseActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showError(errorMessage: String) {
+    private fun showError(errorMessage: ErrorMessage) {
         val contentView = this.findViewById<View>(android.R.id.content)
-        Snackbar.make(contentView, errorMessage, Snackbar.LENGTH_SHORT).show()
+
+        when (errorMessage) {
+            is ErrorMessage.Text -> {
+                Snackbar.make(contentView, errorMessage.message, Snackbar.LENGTH_SHORT).show()
+            }
+
+            is ErrorMessage.Id -> {
+                Snackbar.make(contentView, getString(errorMessage.messageId), Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun navigateTo(direction: NavDirections) {

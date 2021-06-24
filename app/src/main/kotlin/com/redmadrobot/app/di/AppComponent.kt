@@ -26,6 +26,7 @@ import javax.inject.Singleton
     ],
     modules = [
         MainViewModelModule::class,
+        RootBeerModule::class,
     ]
 )
 interface AppComponent : AppProvider {

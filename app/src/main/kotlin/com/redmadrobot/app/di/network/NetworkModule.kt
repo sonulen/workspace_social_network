@@ -6,6 +6,7 @@ import com.redmadrobot.data.network.errors.NetworkErrorInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -38,4 +39,10 @@ object NetworkModule {
         errorHandler: NetworkErrorHandler,
         connectivityManager: ConnectivityManager,
     ): Interceptor = NetworkErrorInterceptor(errorHandler, connectivityManager)
+
+    @Provides
+    fun provideCertificatePinner(): CertificatePinner = CertificatePinner.Builder().add(
+        "interns2021.redmadrobot.com",
+        "sha256/MAVq5hbYTBXZBS28Tj4dmgZsA8zFN5xSyDGpkpft13s="
+    ).build()
 }

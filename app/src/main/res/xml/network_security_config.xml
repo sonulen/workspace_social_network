@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <!-- Выключение доверия пользовательским сертификатам по умолчанию < 23 Api -->
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <debug-overrides cleartextTrafficPermitted="true">
+        <!-- При debug включим доверие пользовательским сертификатам и HTTP -->
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+    <domain-config>
+        <domain includeSubdomains="false">interns2021.redmadrobot.com</domain>
+        <pin-set expiration="2021-09-04">
+            <pin digest="SHA-256">MAVq5hbYTBXZBS28Tj4dmgZsA8zFN5xSyDGpkpft13s=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

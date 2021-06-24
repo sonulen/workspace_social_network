@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.airbnb.epoxy.EpoxyController
 import com.redmadrobot.app.di.qualifiers.Mock
 import com.redmadrobot.app.ui.base.delegate
+import com.redmadrobot.app.ui.base.events.ErrorMessage
 import com.redmadrobot.app.ui.base.events.EventError
 import com.redmadrobot.app.ui.base.events.EventMessage
 import com.redmadrobot.app.ui.base.viewmodel.BaseViewModel
@@ -64,7 +65,7 @@ class FeedViewModel @Inject constructor(
         state = state.copy(screenState = ScreenState.ERROR)
         controller.setErrorView()
         if (e is NetworkException) {
-            eventsQueue.offerEvent(EventError(e.message))
+            eventsQueue.offerEvent(EventError(ErrorMessage.Text(e.message)))
         }
     }
 
